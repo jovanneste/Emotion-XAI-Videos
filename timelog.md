@@ -12,4 +12,7 @@
 
 * *1 hour* Read the project guidance notes
 * *0.5 hour* Created GitLab repository
- 
+
+### 4 Oct 2022
+
+* *2 hours* Read through Master dissertation provided by supervisor 
