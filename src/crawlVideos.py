@@ -5,11 +5,11 @@ import csv
 
 url = "https://archive.org/details/classic_tv_commercials?query=tv+commercials&and%5B%5D=mediatype%3A%22movies%22&sort=&page="
 
-
-video_links = []
+#no duplicates
+video_links = set()
 count = 0
 
-for pagenumber in range(1,2):
+for pagenumber in range(1,100):
 	print("Crawling page " + str(pagenumber) + "...")
 	url = url + str(pagenumber)
 	r = requests.get(url)
@@ -20,12 +20,14 @@ for pagenumber in range(1,2):
 		for C234 in itemai.find_all('div', class_="C234"):
 			for item in C234.find_all('div', class_="item-ttl"):
 				for atag in item.find_all('a'):
-					video_links.append(atag["href"])
+					video_links.add(atag["href"])
 					count +=1
+					print(count)
 
-print(count)
+print("Total videos: " + str(count))
 
 print("Writing links to csv...")
-with open('videolinks.csv', 'wb') as f:
-	writer = csv.writer(myfile, quoting=csv.QUOTE_ALL)
-	writer.writerow(video_links)
+with open('videolinks.csv','w') as f:
+    for line in video_links:
+        f.write(line)
+        f.write('\n')

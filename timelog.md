@@ -25,3 +25,4 @@
 ### 6 Oct 2022
 
 * *1 hour* Research into BeautifulSoup to crawl videos 
+* *3 hours* Create crawler to crawl over classic tv commercial website 
