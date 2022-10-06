@@ -16,3 +16,12 @@
 ### 4 Oct 2022
 
 * *2 hours* Read through Master dissertation provided by supervisor 
+
+### 5 Oct 2022
+
+* *1 hour* Read through some articles referenced in Master dissertation 
+* *0.5 hour* Set up GitHub Wiki for project meetings
+
+### 6 Oct 2022
+
+* *1 hour* Research into BeautifulSoup to crawl videos 
