@@ -25,4 +25,17 @@
 ### 6 Oct 2022
 
 * *1 hour* Research into BeautifulSoup to crawl videos 
-* *3 hours* Create crawler to crawl over classic tv commercial website 
+* *3 hours* Create basaic crawler to crawl over classic tv commercial website 
+
+### 7 Oct 2022
+
+* *2 hours* Fit crawler to website provided by supervisor 
+
+### 8 Oct 2022 
+
+### 9 Oct 2022
+
+### 10 Oct 2022
+
+* *2 hours* Finished web crawler 
+* *1 hour* Research into how to download the videos from their links 
