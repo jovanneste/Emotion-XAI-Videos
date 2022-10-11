@@ -39,3 +39,7 @@
 
 * *2 hours* Finished web crawler 
 * *1 hour* Research into how to download the videos from their links 
+
+### 11 Oct 2022
+
+* *3 hours* Annotate reseach papers in Zotero 
