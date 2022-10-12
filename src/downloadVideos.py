@@ -5,8 +5,7 @@ import csv
 
 
 MAX_AD_SIZE = 100
-allcount = 0
-failedcount = 0 
+
 with open('../data/videolinks.csv','r') as f:
 	reader_obj = csv.reader(f)
 	for row in reader_obj:
@@ -28,12 +27,8 @@ with open('../data/videolinks.csv','r') as f:
 						print("SUCCESS")
 					else:
 						print("FAILED - video too large")
-						failedcount+=1
 
 				except:
 					print("FAILED - malformed html")
-					failedcount+=1
 		
-			
-print(allcount)
-print(failedcount)
+		
