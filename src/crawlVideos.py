@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import os 
 
 def main(a,b):
 	#used curl initially 
@@ -18,7 +19,7 @@ def main(a,b):
 			soup = BeautifulSoup(r.content, 'html.parser')
 			
 		except requests.RequestException as e:
-			print("FUCKKK!!!")
+			print(str(e))
 
 		divs = soup.find('div', class_ = "results")
 		print(len(divs))
@@ -33,7 +34,7 @@ def main(a,b):
 	print("Total videos: " + str(count))
 
 	print("Writing links to csv...")
-	with open('videolinks.csv','a') as f:
+	with open('../data/videolinks.csv','a') as f:
 	    for line in video_links:
 	        f.write(line)
 	        f.write('\n')
@@ -41,6 +42,6 @@ def main(a,b):
 
 
 if __name__ == '__main__':
-	for i in range(1,9,2):
+	for i in range(1,2,2):
 		main(i,i+2)
 
