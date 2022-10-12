@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import os 
+import urllib.request
 
 def main(a,b):
 	#used curl initially 
@@ -36,7 +37,7 @@ def main(a,b):
 	print("Writing links to csv...")
 	with open('../data/videolinks.csv','a') as f:
 	    for line in video_links:
-	        f.write(line)
+	        f.write('https://archive.org'+str(line))
 	        f.write('\n')
 
 
@@ -44,4 +45,8 @@ def main(a,b):
 if __name__ == '__main__':
 	for i in range(1,2,2):
 		main(i,i+2)
+	#v = 'https://archive.org'+str(v)
+	#v = 'https://ia903108.us.archive.org/1/items/commercials_clothing/commercials_clothing.mp4'
+	#urllib.request.urlretrieve(v, 'video_name.mp4')
+
 
