@@ -5,11 +5,10 @@ import csv
 
 
 MAX_AD_SIZE = 100
-
+count = 0
 with open('../data/videolinks.csv','r') as f:
 	reader_obj = csv.reader(f)
 	for row in reader_obj:
-		allcount+=1
 		videoName = '../data/adVideos/' + str(row[0])[9:] + '.mp4'
 		print("Video: " + videoName)
 		url = "https://archive.org" + str(row[0])
@@ -25,10 +24,14 @@ with open('../data/videolinks.csv','r') as f:
 						l = 'https://archive.org' + str(link['href'])
 						urllib.request.urlretrieve(l, videoName)
 						print("SUCCESS")
+						count += 1
+						break;
 					else:
 						print("FAILED - video too large")
 
 				except:
 					print("FAILED - malformed html")
+					break;
 		
 		
+print("Videos downloaded: " + str(count))
