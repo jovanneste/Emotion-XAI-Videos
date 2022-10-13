@@ -43,3 +43,9 @@
 ### 11 Oct 2022
 
 * *3 hours* Annotate reseach papers in Zotero 
+
+### 12 Oct 2022
+
+### 13 Oct 2022
+
+* *1 hour* Bug fixes in crawlers
