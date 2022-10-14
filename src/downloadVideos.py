@@ -4,16 +4,18 @@ import urllib.request
 import csv
 
 
-MAX_AD_SIZE = 100
-count = 0
+MAX_AD_SIZE = 30
+count = 1
 with open('../data/videolinks.csv','r') as f:
 	reader_obj = csv.reader(f)
 	for row in reader_obj:
-		videoName = '../data/adVideos/' + str(row[0])[9:] + '.mp4'
+		print("Video: " + str(count))
+
+		videoName = '../data/videos/' + str(count) + '.mp4'
 		print("Video: " + videoName)
 		url = "https://archive.org" + str(row[0])
 
-		r = requests.get(url, timeout = 10)
+		r = requests.get(url, timeout = 30)
 		soup = BeautifulSoup(r.content, 'html.parser')
 					
 		links = soup.find_all('a', class_='stealth')
