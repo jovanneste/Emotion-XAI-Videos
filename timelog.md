@@ -35,6 +35,8 @@
 
 ### 9 Oct 2022
 
+## Week 2
+
 ### 10 Oct 2022
 
 * *2 hours* Finished web crawler 
@@ -49,3 +51,8 @@
 ### 13 Oct 2022
 
 * *1 hour* Bug fixes in crawlers
+* *3 hours* Find trade off between max ad size and number of ads (storage space full)
+
+### 14 Oct 2022
+
+* *0.5 hour* Gave videos id's rather than title as before
