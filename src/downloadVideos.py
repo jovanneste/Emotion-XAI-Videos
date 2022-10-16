@@ -5,10 +5,11 @@ import csv
 
 
 MAX_AD_SIZE = 30
-count = 1
+count = 2700
 with open('../data/videolinks.csv','r') as f:
 	reader_obj = csv.reader(f)
 	for row in reader_obj:
+		print(str(row[0]))
 		print("Video: " + str(count))
 
 		videoName = '../data/videos/' + str(count) + '.mp4'
