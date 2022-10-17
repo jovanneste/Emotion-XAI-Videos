@@ -5,7 +5,7 @@ import csv
 
 
 MAX_AD_SIZE = 30
-count = 2700
+count = 4311
 with open('../data/videolinks.csv','r') as f:
 	reader_obj = csv.reader(f)
 	for row in reader_obj:
