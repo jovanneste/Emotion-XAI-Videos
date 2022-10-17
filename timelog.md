@@ -56,3 +56,18 @@
 ### 14 Oct 2022
 
 * *0.5 hour* Gave videos id's rather than title as before
+
+### 15 Oct 2022
+
+* *5 hours* Downloaded videos - script was buggy so had to run it several times 
+
+### 16 Oct 2022
+
+* *2 hours* Work on video annotation script 
+* *0.5 hour* Research into OOD data and clustering 
+
+## Week 2
+
+### 17 Oct 2022
+
+
