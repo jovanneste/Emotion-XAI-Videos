@@ -27,4 +27,5 @@ for i in range(NUM_OF_VIDEOS):
 	annotations.append([str(video_id[:len(video_id)-4]), exciting, funny])
 	
 df = pd.DataFrame(annotations, columns = ['id', 'Exciting', 'Funny'])
-print(df)
+df.to_csv("../data/annotatedVideos.csv", sep='\t')
+print(df.head())
