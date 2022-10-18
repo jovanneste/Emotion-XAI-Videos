@@ -70,4 +70,8 @@
 
 ### 17 Oct 2022
 
+* *2 hours* Annotated 100 of the downloaded advertising videos 
 
+### 18 Oct 2022
+
+* *0.5 hour* Project meeting preperation

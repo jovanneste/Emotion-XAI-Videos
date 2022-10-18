@@ -7,7 +7,7 @@ import pandas as pd
 videos=[]
 annotations=[]
 
-NUM_OF_VIDEOS = 1
+NUM_OF_VIDEOS = 100
 
 
 for filename in os.listdir("../data/videos"):
@@ -22,6 +22,7 @@ for i in range(NUM_OF_VIDEOS):
 
 	opener = "open" if sys.platform == "darwin" else "xdg-open"
 	subprocess.call([opener, video])
+	print("Video: ", i)
 	exciting = input("Exciting (0/1): ")
 	funny = input("Funny (0/1): ")
 	annotations.append([str(video_id[:len(video_id)-4]), exciting, funny])
