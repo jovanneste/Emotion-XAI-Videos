@@ -75,3 +75,7 @@
 ### 18 Oct 2022
 
 * *0.5 hour* Project meeting preperation
+
+### 19 Oct 2022
+
+* *0.5 hour* Project meeting 
