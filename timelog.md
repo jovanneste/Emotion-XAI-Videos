@@ -79,3 +79,13 @@
 ### 19 Oct 2022
 
 * *0.5 hour* Project meeting 
+
+### 20 Oct 2022
+
+### 21 Oct 2022
+
+* *1 hour* Active learning and bootstrapping research
+
+### 22 Oct 2022
+
+* *2 hours* Look through masters dissertation source code
