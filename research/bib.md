@@ -2,3 +2,5 @@ Jin Wang - Classifying Emotion Types in Advertisement Videos by a Deep Learning 
 
 
 https://openaccess.thecvf.com/content_cvpr_2017/papers/Hussain_Automatic_Understanding_of_CVPR_2017_paper.pdf
+
+ALEX: Active Learning based Enhancement of a Model’s EXplainability. Mondal and Ganguly. 2020. 

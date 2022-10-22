@@ -89,3 +89,4 @@
 ### 22 Oct 2022
 
 * *2 hours* Look through masters dissertation source code
+* *2 hours* Read through ALEX paper on activated learning
