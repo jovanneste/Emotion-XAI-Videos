@@ -90,3 +90,8 @@
 
 * *2 hours* Look through masters dissertation source code
 * *2 hours* Read through ALEX paper on activated learning
+
+### 23 Oct 2022
+
+* *4 hours* Prepare slides on AL and bootsrapping for meeting 
+* *0.5 hour* Reach out to Jin for more info on source code
