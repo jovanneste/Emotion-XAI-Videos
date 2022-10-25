@@ -95,3 +95,14 @@
 
 * *4 hours* Prepare slides on AL and bootsrapping for meeting 
 * *0.5 hour* Reach out to Jin for more info on source code
+
+## Week 3
+
+### 24 Oct 2022
+
+* *4 hours* Try and get Jin's code to work - NOT GOING TO WORK
+
+### 25 Oct 2022
+
+* *2 hours* Project meeting preperation
+* *0.5 hour* Looked into who feasible it would be to redo Jin's project first 
