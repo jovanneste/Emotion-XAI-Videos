@@ -106,3 +106,8 @@
 
 * *2 hours* Project meeting preperation
 * *0.5 hour* Looked into who feasible it would be to redo Jin's project first 
+
+### 26 Oct 2022
+
+* *0.5 hour* Meeting with supervisor 
+* *0.5 hour* Write up projet meeting minutes 
