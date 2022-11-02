@@ -10,3 +10,11 @@ Updated after each supervisor meeting
 - See what results I can and cannot reproduce
 - Play with parameters 
 - Report on what I learned from paper and what parts of the project I could reproduce myself with the code
+
+### 26/10/2022
+
+- Download Pitts dataset 
+- See what results I can and cannot reproduce
+- Play with parameters 
+- Research AL query based frameworks
+- Read Active Learning Literature Survey 
