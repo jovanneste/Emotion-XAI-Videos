@@ -77,6 +77,7 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
     )
     model.save('../../data/predict_model')
     y_score = model.predict(x_test)
+    print(y_score)
 
     if Label == 'Excitement':
         exciteRecall,excitePrecision,exciteF1 = get_result(y_score,y_test)
