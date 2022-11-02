@@ -18,3 +18,9 @@ Updated after each supervisor meeting
 - Play with parameters 
 - Research AL query based frameworks
 - Read Active Learning Literature Survey 
+
+### 02/11/2022
+
+- Find an optimal parameter configuration 
+- Test on my annotated data
+- Start implementing uncertainty sampling
