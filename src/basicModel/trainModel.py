@@ -5,6 +5,7 @@ import pandas as pd
 from pathlib import Path
 import io
 import os
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 import random
 import torch
 import numpy as np
@@ -29,10 +30,9 @@ from scenedetect import detect, ContentDetector
 
 ### This file is for training the model and get test result ###
 
-#export KMP_DUPLICATE_LIB_OK=True
 
 # train variables
-EPOCHS = 20
+EPOCHS = 50
 BATCH_SIZE = 4
 NUM_FEATURES = 512
 
@@ -60,7 +60,7 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
         _,train_value = np.hsplit(train_value,2)
         Target_nums = 1
 
-    print("n: ", n)
+    print("n:", n)
 
     x_train, x_test, y_train, y_test = train_test_split(
         train_data,train_value[VID_START:VID_END],test_size=TEST_SPLIT
@@ -77,7 +77,7 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
     )
     model.save('../../data/predict_model')
     y_score = model.predict(x_test)
-    print(y_score)
+
 
     if Label == 'Excitement':
         exciteRecall,excitePrecision,exciteF1 = get_result(y_score,y_test)
@@ -99,6 +99,7 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
 
 # calculate result
 def get_result(y_score,y_test):
+    accuracy = 0
     exciteTT = 0
     exciteTF = 0
     exciteFT = 0
@@ -110,15 +111,20 @@ def get_result(y_score,y_test):
         else:
             y_score[x] = 0
 
+
     for x in range(y_test.shape[0]):
+
         if y_test[x] == 1 and y_score[x] == 1:
             exciteTT=exciteTT+1
+            accuracy +=1 
         if y_test[x] == 1 and y_score[x] == 0:
             exciteTF=exciteTF+1
         if y_test[x] == 0 and y_score[x] == 1:
             exciteFT=exciteFT+1
         if y_test[x] == 0 and y_score[x] == 0:
             exciteFF=exciteFF+1
+            accuracy +=1 
+    print("Accuracy ", accuracy/y_test.shape[0])
 
     # avoid divide by 0
     if (exciteTF+exciteTT == 0 or exciteFT+exciteTT == 0):
@@ -136,8 +142,6 @@ def load_sample(SampleType,SampleNumbers,SampleRate,SampleContext,vae=False):
     # read video list
     folder_path = "../../data/basicModelVideos/"
     data_path = "../../data/basicDatas/"
-    if vae:
-       data_path = "./datas_vae/"
     pd_reader = pd.read_csv("../../data/basicModelVideos/video_list.csv",header=None)
 
     VIDEO_NUMS = pd_reader.shape[0]
@@ -193,11 +197,14 @@ def load_sample(SampleType,SampleNumbers,SampleRate,SampleContext,vae=False):
 
         #scene_detect sampling
         if SampleType == 'SCENE_DETECT':
+
             scene_place = []
             scene_list = detect(video_path, ContentDetector())
             for i, scene in enumerate(scene_list):
                 scene_place.append(scene[0].get_frames())
+           
             for k in scene_place:
+    
                 clip_samples = np.zeros((1,512))
                 n = k-SampleContext
                 j = k
@@ -215,6 +222,7 @@ def load_sample(SampleType,SampleNumbers,SampleRate,SampleContext,vae=False):
                     n = n+1
                 aver_sample = clip_samples/(2*SampleContext+1)
                 video_samples.append(aver_sample)
+        
 
         avg_sampled_frames = avg_sampled_frames+np.shape(video_samples)[0]
         train_data.append(video_samples)
@@ -275,15 +283,15 @@ def NormalizeData(data):
 # results format: [avg_frames,exciteRecall,excitePrecision,exciteF1,funnyRecall,funnyPrecision,funnyF1]
 
 # train variables, all possible value listed above
-num = 50
-rate = 600
+num = 20
+rate = 300
 context = 3
-type = 'SVM'
+type = 'LSTM'
 sample_type = 'FIXED'
 label = 'Combined'
 vae = False
 
-train_data, avg_frames, n = load_sample(sample_type,num,600,context,vae=vae)
+train_data, avg_frames, n = load_sample(sample_type,num,rate,context,vae=vae)
 result = run_model(train_data, avg_frames, n, type, Label=label)
 resultString1 = 'SampleType: ' + sample_type + '\tSample rate: ' + str(rate) + '\tSample Context: ' + str(context) + '\tModel Type: ' + type
 resultString4 = 'Avg samples: ' + str(result[0]) + '\tLabel: ' + label + '\tVAE:' + str(vae)

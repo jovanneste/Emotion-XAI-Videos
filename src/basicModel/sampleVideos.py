@@ -22,7 +22,7 @@ from keras_preprocessing import sequence
 # read video list
 
 folder_path = "../../data/basicModelVideos/"
-data_path = "../..data/basicDatas/"
+data_path = "../../data/basicDatas/"
 
 pd_reader = pd.read_csv("../../data/basicModelVideos/video_list.csv",header=None)
 pd_reader_exciting = pd.read_json("../../data/video_Exciting_clean.json",orient='index')
@@ -43,11 +43,26 @@ sample_sum = 0
 
 print(pd_reader.shape[0])
 
-for x in range(5):
+for x in range(680):
     print(x)
     data_file_path = data_path+str(x)+'.pickle'
     if os.path.exists(data_file_path):
         print("Exists")
+        video_tail = pd_reader.loc[x][0]
+        video_tail = str(video_tail).replace("'",'')
+  
+        exciting_value = pd_reader_exciting.loc[video_tail][0]
+        funny_value = pd_reader_funny.loc[video_tail][0]
+    
+        if exciting_value > 0.5:
+            exciting_value = 1
+        else:
+            exciting_value = 0
+        if funny_value > 0.5:
+            funny_value = 1
+        else:
+            funny_value = 0
+        Y_list.append([exciting_value,funny_value])
         continue
 
     video_tail = pd_reader.loc[x][0]
@@ -114,19 +129,19 @@ for x in range(5):
     print("video No:" + str(x) +" Completed.")
     video.release()
 
-samples = sequence.pad_sequences(samples,padding='post',dtype='float')
-samples = np.array(samples,dtype=object)
+#samples = sequence.pad_sequences(samples,padding='post',dtype='float')
+#samples = np.array(samples,dtype=object)
 Y_list = np.array(Y_list)
 
 
-print(samples[0:1])
-print(Y_list[0:1])
+#print(samples[0:1])
+print(Y_list[0:10])
 
-print(samples.shape)
+#print(samples.shape)
 print(Y_list.shape)
 
-with open('../../data/train_data_encoded_CLIP_ALL.pickle','wb') as handle:
-    pickle.dump(samples,handle)
+#with open('../../data/train_data_encoded_CLIP_ALL.pickle','wb') as handle:
+#    pickle.dump(samples,handle)
 
 with open('../../data/train_value_CLIP_ALL.pickle','wb') as handle:
     pickle.dump(Y_list,handle)
