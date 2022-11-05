@@ -37,7 +37,7 @@ BATCH_SIZE = 4
 NUM_FEATURES = 512
 
 VID_START = 5
-VID_END = 100
+VID_END = 300
 TEST_SPLIT = 0.8
 
 print("Training model on " + str((VID_END-VID_START)*TEST_SPLIT) + " videos...")
@@ -283,10 +283,10 @@ def NormalizeData(data):
 # results format: [avg_frames,exciteRecall,excitePrecision,exciteF1,funnyRecall,funnyPrecision,funnyF1]
 
 # train variables, all possible value listed above
-num = 20
+num = 10
 rate = 300
 context = 3
-type = 'LSTM'
+type = 'SVM'
 sample_type = 'FIXED'
 label = 'Combined'
 vae = False
