@@ -10,14 +10,13 @@ from PIL import Image
 import tensorflow as tf
 from tensorflow import keras
 
-global pretrained_model 
+global pretrained_model
 pretrained_model = keras.models.load_model('../data/predict_model')
 
 SAMPLE_FRAMES = 10
 FrameSize = 216
 
 df = pd.read_csv('../data/annotatedVideos.csv', delim_whitespace=True)
-
 
 def load_sample(video_path):
     # read video
@@ -73,20 +72,16 @@ def load_sample(video_path):
     return video_samples
 
 
+def round(n):
+    if n < 0.5:
+        return 0
+    else:
+        return 1
+
 def predict(data):
     y_score = pretrained_model.predict(data)
-    result = [0,0]
+    return y_score[0][0], y_score[0][1]
 
-    if y_score[0][0] > 0.5:
-        result[0] = 1
-    else:
-        result[0] = 0
-    if y_score[0][1] > 0.5:
-        result[1] = 1
-    else:
-        result[1] = 0
-
-    return result
 
 i=1
 funny_accuracy = 0
@@ -96,19 +91,22 @@ for index, row in df.iterrows():
 	idn = row['id']
 	funny_label  = row['Funny']
 	exciting_label = row['Exciting']
-	
+
 	video_path = "../data/videos/"+str(idn)+".mp4"
 	data = load_sample(video_path)
-	result = predict(data)	
-	
-	if result[0] == exciting_label:
+	exciting_pred, funny_pred = predict(data)
+
+
+	if round(exciting_pred) == exciting_label:
 		exciting_accuracy += 1
-	if result[1] == funny_label:
+	if round(funny_pred)  == funny_label:
 		funny_accuracy += 1
-	if i == 20:
+
+	if i == 60:
 		break
 	i+=1
+
+
 print(i)
 print(funny_accuracy/i)
 print(exciting_accuracy/i)
-
