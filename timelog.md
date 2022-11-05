@@ -111,3 +111,40 @@
 
 * *0.5 hour* Meeting with supervisor 
 * *0.5 hour* Write up projet meeting minutes 
+
+### 27 Oct 2022
+
+### 28 Oct 2022
+
+### 29 Oct 2022
+
+* *6 hours* Downloaded Pitts dataset and worked on Jin's code 
+
+### 30 Oct 2022
+
+* *4 hours* Read and annotate Literature Survey on Active Learning 
+
+## Week 4
+
+### 31 Oct 2022
+
+* *2 hours* Play with parameters on model 
+* *2 hours* Project meeting preperation
+
+### 1 Nov 2022
+
+* *2 hours* Reaseach into AL query based frameworks
+
+### 2 Nov 2022
+
+* *0.5 hour* Project meeting 
+
+### 3 Nov 2022
+
+* *2 hours* Found an optimal parameter configuration 
+
+### 4 Nov 2022
+
+### 5 Nov 2022
+
+* *3 hours* Ran annotated videos through pre-trained models 
