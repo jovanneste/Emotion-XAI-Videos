@@ -116,14 +116,14 @@ def get_result(y_score,y_test):
 
         if y_test[x] == 1 and y_score[x] == 1:
             exciteTT=exciteTT+1
-            accuracy +=1 
+            accuracy +=1
         if y_test[x] == 1 and y_score[x] == 0:
             exciteTF=exciteTF+1
         if y_test[x] == 0 and y_score[x] == 1:
             exciteFT=exciteFT+1
         if y_test[x] == 0 and y_score[x] == 0:
             exciteFF=exciteFF+1
-            accuracy +=1 
+            accuracy +=1
     print("Accuracy ", accuracy/y_test.shape[0])
 
     # avoid divide by 0
@@ -202,9 +202,9 @@ def load_sample(SampleType,SampleNumbers,SampleRate,SampleContext,vae=False):
             scene_list = detect(video_path, ContentDetector())
             for i, scene in enumerate(scene_list):
                 scene_place.append(scene[0].get_frames())
-           
+
             for k in scene_place:
-    
+
                 clip_samples = np.zeros((1,512))
                 n = k-SampleContext
                 j = k
@@ -222,7 +222,7 @@ def load_sample(SampleType,SampleNumbers,SampleRate,SampleContext,vae=False):
                     n = n+1
                 aver_sample = clip_samples/(2*SampleContext+1)
                 video_samples.append(aver_sample)
-        
+
 
         avg_sampled_frames = avg_sampled_frames+np.shape(video_samples)[0]
         train_data.append(video_samples)

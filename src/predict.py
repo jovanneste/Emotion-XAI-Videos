@@ -1,5 +1,6 @@
 import os
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
+import sys
 import pandas as pd
 import numpy as np
 import cv2
@@ -21,12 +22,10 @@ df = pd.read_csv('../data/annotatedVideos.csv', delim_whitespace=True)
 def load_sample(video_path):
     # read video
     video = cv2.VideoCapture(video_path)
-
     # if video loading fails, exit the program
     if not video.isOpened():
         print('Video open failed, please check the video file.')
         sys.exit(0)
-
     # CLIP setting
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model, preprocess = clip.load("ViT-B/32", device=device)
@@ -68,7 +67,6 @@ def load_sample(video_path):
     video_samples = np.array(video_samples,dtype='float')
     video_samples = np.squeeze(video_samples,axis=-2)
     video_samples = np.expand_dims(video_samples,0)
-
     return video_samples
 
 
@@ -78,9 +76,10 @@ def round(n):
     else:
         return 1
 
+
 def predict(data):
     y_score = pretrained_model.predict(data)
-    return y_score[0][0], y_score[0][1]
+    return [y_score[0][0], y_score[0][1]]
 
 
 i=1
@@ -94,19 +93,18 @@ for index, row in df.iterrows():
 
 	video_path = "../data/videos/"+str(idn)+".mp4"
 	data = load_sample(video_path)
-	exciting_pred, funny_pred = predict(data)
+	result = predict(data)
 
-
-	if round(exciting_pred) == exciting_label:
+	if round(result[0]) == exciting_label:
 		exciting_accuracy += 1
-	if round(funny_pred)  == funny_label:
+	if round(result[1])  == funny_label:
 		funny_accuracy += 1
 
-	if i == 60:
+	if i == 1:
 		break
 	i+=1
 
 
-print(i)
-print(funny_accuracy/i)
-print(exciting_accuracy/i)
+#print(i)
+#print(funny_accuracy/i)
+#print(exciting_accuracy/i)
