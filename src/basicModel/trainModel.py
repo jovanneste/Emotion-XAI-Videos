@@ -49,9 +49,6 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
     train_data = np.asarray(train_data).astype('float32')
     train_data = np.squeeze(train_data,axis=-2)
 
-    print(train_value)
-    print(train_data)
-
     # target_nums is the model output dim
     Target_nums = 2
 
@@ -63,7 +60,6 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
         _,train_value = np.hsplit(train_value,2)
         Target_nums = 1
 
-    print("n:", n)
 
     x_train, x_test, y_train, y_test = train_test_split(
         train_data,train_value[VID_START:VID_END],test_size=TEST_SPLIT
@@ -71,11 +67,10 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
 
     seq_length = x_train.shape[1]
 
-    print(x_train)
+    print(x_train.shape)
     print(y_train.shape)
 
-
-    sys.exit()
+    # sys.exit()
 
     model = get_model(ModelType,seq_length,NUM_FEATURES,Target_nums)
     model.fit(
