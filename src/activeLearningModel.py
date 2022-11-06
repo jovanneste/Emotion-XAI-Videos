@@ -47,6 +47,12 @@ def uncertaintySampling(n, annotate_num):
     print("Batch to annotate (exciting)...", exciting_batch)
     #funny_labels = annotate_batch(exciting_batch, annotate_num, videos)
 
+    for k,v in funny_batch:
+        print(k)
+        video_path = "../data/videos/"+str(k)+".mp4"
+        data = load_sample(video_path)
+        print(data)
+
 
 
 uncertaintySampling(0.3, 5)
