@@ -7,11 +7,12 @@ def sortDictionary(d):
     return {k: v for k, v in sorted(d.items(), key=lambda item: item[1])}
 
 def annotate_batch(batch, annotate_num):
+    print('aaaa')
     j=0
-    annotations = []
+    annotations = {}
     for key in batch:
         if j<annotate_num:
-            annotations.append(annotate(key))
+            annotations.update({key:annotate(key)})
             j+=1
     return annotations
 
@@ -35,10 +36,12 @@ def uncertaintySampling(n, annotate_num):
 
     funny_batch = sortDictionary(funny_batch)
     exciting_batch = sortDictionary(exciting_batch)
+
     print("Batch to annotate (funny)...", funny_batch)
-    funny_labels = annotate_batch(funny_batch, annotate_num)
+    #funny_labels = annotate_batch(funny_batch, annotate_num)
+    print("Batch to annotate (exciting)...", exciting_batch)
+    #funny_labels = annotate_batch(exciting_batch, annotate_num)
 
 
 
-
-uncertaintySampling(0.1, 5)
+uncertaintySampling(0.3, 5)

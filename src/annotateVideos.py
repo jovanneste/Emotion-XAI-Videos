@@ -6,10 +6,11 @@ import pandas as pd
 
 videos=[]
 annotations=[]
-
+print('what')
 NUM_OF_VIDEOS = 100
 
 def annotate(i):
+    print('the')
     video_id = videos[i]
     video = '../data/videos/'+str(video_id)
     opener = "open" if sys.platform == "darwin" else "xdg-open"
