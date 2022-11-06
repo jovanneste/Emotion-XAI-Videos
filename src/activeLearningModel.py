@@ -10,7 +10,7 @@ def sortDictionary(d):
 def annotate_batch(batch, annotate_num, videos):
     j=0
     annotations = {}
-    for key in batch:
+    for key, v in batch:
         if j<annotate_num:
             annotations.update({key:annotate(key, videos)})
             j+=1
@@ -21,7 +21,7 @@ def uncertaintySampling(n, annotate_num):
     funny_batch = {}
     exciting_batch = {}
     videos = []
-    for i in range(1, 10):
+    for i in range(1, 3):
         print(i)
         video_path = "../data/videos/"+str(i)+".mp4"
         if os.path.exists(video_path):
@@ -43,16 +43,16 @@ def uncertaintySampling(n, annotate_num):
            videos.append(filename)
 
     print("Batch to annotate (funny)...", funny_batch)
-    #funny_labels = annotate_batch(funny_batch, annotate_num, videos)
-    print("Batch to annotate (exciting)...", exciting_batch)
-    #funny_labels = annotate_batch(exciting_batch, annotate_num, videos)
+    funny_labels = annotate_batch(funny_batch, annotate_num, videos)
+    #print("Batch to annotate (exciting)...", exciting_batch)
+    #exciting_labels = annotate_batch(exciting_batch, annotate_num, videos)
 
-    for k,v in funny_batch:
-        print(k)
-        video_path = "../data/videos/"+str(k)+".mp4"
+    for v in funny_labels.values():
+        video_number = v[0]
+        label = [v[1], v[2]]
+        video_path = "..data/videos/"+str(video_number)+".mp4"
         data = load_sample(video_path)
-        print(data)
 
 
 
-uncertaintySampling(0.3, 5)
+uncertaintySampling(0.45, 5)
