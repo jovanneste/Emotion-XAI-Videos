@@ -20,7 +20,7 @@ def uncertaintySampling(n, annotate_num):
     funny_batch = {}
     exciting_batch = {}
     videos = []
-    for i in range(1, 500):
+    for i in range(1, 50):
         print(i)
         video_path = "../data/videos/"+str(i)+".mp4"
         if os.path.exists(video_path):
@@ -57,10 +57,17 @@ def uncertaintySampling(n, annotate_num):
         video_number = v[0]
         train_labels.append([v[1], v[2]])
         video_path = "..data/videos/"+str(video_number)+".mp4"
-        train_values.append(load_sample(video_path))
+        try:
+            train_values.append(load_sample(video_path))
+        except:
+            print("Video failed:", video_path)
 
     model = keras.models.load_model('../data/predict_model')
     print('Training model on new labelled instances...')
+
+    train_values = np.asarray(train_values).astype('float32').reshape(len(train_values), 10, 512)
+    train_labels = np.asarray(train_labels)
+
     model.fit(
         train_values,
         train_labels,
@@ -70,5 +77,5 @@ def uncertaintySampling(n, annotate_num):
     model.save('../../data/predict_model')
 
 print("Uncertainty Sampling\n")
-uncertaintySampling(0.1, 20)
+uncertaintySampling(0.1, 2)
 print(evaluateModel())
