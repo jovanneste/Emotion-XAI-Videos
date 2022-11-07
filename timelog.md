@@ -148,3 +148,12 @@
 ### 5 Nov 2022
 
 * *3 hours* Ran annotated videos through pre-trained models 
+
+### 6 Nov 2022
+
+* *5 hours* Worked on uncertainty sampling function
+
+### 7 Nov 2022
+
+* *2 hours* Worked on uncertainty sampling function 
+* *1 hour* Removed annotated videos from list of videos 
