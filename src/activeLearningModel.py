@@ -2,7 +2,7 @@ from evaluateModel import *
 from  annotateVideos import annotate
 import os.path
 import subprocess, sys
-
+from tensorflow import keras
 
 def sortDictionary(d):
     return sorted(d.items(), key=lambda x: abs(x[1] - 0.5))
@@ -20,7 +20,7 @@ def uncertaintySampling(n, annotate_num):
     funny_batch = {}
     exciting_batch = {}
     videos = []
-    for i in range(1, 3):
+    for i in range(1, 500):
         print(i)
         video_path = "../data/videos/"+str(i)+".mp4"
         if os.path.exists(video_path):
@@ -59,7 +59,16 @@ def uncertaintySampling(n, annotate_num):
         video_path = "..data/videos/"+str(video_number)+".mp4"
         train_values.append(load_sample(video_path))
 
+    model = keras.models.load_model('../data/predict_model')
+    print('Training model on new labelled instances...')
+    model.fit(
+        train_values,
+        train_labels,
+        batch_size=4,
+        epochs=10,
+    )
+    model.save('../../data/predict_model')
 
 
-
-uncertaintySampling(0.45, 5)
+uncertaintySampling(0.1, 20)
+print(evaluateModel())
