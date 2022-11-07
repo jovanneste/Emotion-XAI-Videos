@@ -17,7 +17,6 @@ pretrained_model = keras.models.load_model('../data/predict_model')
 SAMPLE_FRAMES = 10
 FrameSize = 216
 
-df = pd.read_csv('../data/annotatedVideos.csv', delim_whitespace=True)
 
 def load_sample(video_path):
     # read video
@@ -82,29 +81,27 @@ def predict(data):
     return [y_score[0][0], y_score[0][1]]
 
 
-i=1
-funny_accuracy = 0
-exciting_accuracy = 0
-for index, row in df.iterrows():
-	print(index)
-	idn = row['id']
-	funny_label  = row['Funny']
-	exciting_label = row['Exciting']
+def evaluateModel():
+    df = pd.read_csv('../data/annotatedVideos.csv', delim_whitespace=True)
+    nums = df.shape[0]
+    funny_accuracy, exciting_accuracy = 0, 0
+    for index, row in df.iterrows():
+    	idn = row['id']
+    	funny_label  = row['Funny']
+    	exciting_label = row['Exciting']
 
-	video_path = "../data/videos/"+str(idn)+".mp4"
-	data = load_sample(video_path)
-	result = predict(data)
+    	video_path = "../data/videos/"+str(idn)+".mp4"
+    	data = load_sample(video_path)
+    	result = predict(data)
 
-	if round(result[0]) == exciting_label:
-		exciting_accuracy += 1
-	if round(result[1])  == funny_label:
-		funny_accuracy += 1
+        # might want F1 or precision too
+    	if round(result[0]) == exciting_label:
+    		exciting_accuracy += 1
+    	if round(result[1])  == funny_label:
+    		funny_accuracy += 1
 
-	if i == 1:
-		break
-	i+=1
+    return [exciting_accuracy/nums, funny_accuracy/nums]
 
 
-#print(i)
-#print(funny_accuracy/i)
-#print(exciting_accuracy/i)
+if __name__ == '__main__':
+    evaluateModel()
