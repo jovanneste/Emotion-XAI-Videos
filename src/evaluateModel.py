@@ -82,6 +82,7 @@ def predict(data):
 
 
 def evaluateModel():
+    print('Evaluating Model\n')
     df = pd.read_csv('../data/annotatedVideos.csv', delim_whitespace=True)
     nums = df.shape[0]
     funny_accuracy, exciting_accuracy = 0, 0

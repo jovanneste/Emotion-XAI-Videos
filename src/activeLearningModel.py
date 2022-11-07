@@ -69,6 +69,6 @@ def uncertaintySampling(n, annotate_num):
     )
     model.save('../../data/predict_model')
 
-
+print("Uncertainty Sampling\n")
 uncertaintySampling(0.1, 20)
 print(evaluateModel())
