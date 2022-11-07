@@ -1,4 +1,4 @@
-from predict import *
+from evaluateModel import *
 from  annotateVideos import annotate
 import os.path
 import subprocess, sys
@@ -15,7 +15,6 @@ def annotate_batch(batch, annotate_num, videos):
             annotations.update({key:annotate(key, videos)})
             j+=1
     return annotations
-
 
 def uncertaintySampling(n, annotate_num):
     funny_batch = {}
@@ -43,15 +42,23 @@ def uncertaintySampling(n, annotate_num):
            videos.append(filename)
 
     print("Batch to annotate (funny)...", funny_batch)
-    funny_labels = annotate_batch(funny_batch, annotate_num, videos)
-    #print("Batch to annotate (exciting)...", exciting_batch)
-    #exciting_labels = annotate_batch(exciting_batch, annotate_num, videos)
+    funny_videos_info = annotate_batch(funny_batch, annotate_num, videos)
+    print("Batch to annotate (exciting)...", exciting_batch)
+    exciting_videos_info = annotate_batch(exciting_batch, annotate_num, videos)
 
-    for v in funny_labels.values():
+    annotated_insts_info = {}
+    annotated_insts_info.update(funny_videos_info)
+    annotated_insts_info.update(exciting_videos_info)
+
+    train_values = []
+    train_labels = []
+
+    for v in annotated_insts_info.values():
         video_number = v[0]
-        label = [v[1], v[2]]
+        train_labels.append([v[1], v[2]])
         video_path = "..data/videos/"+str(video_number)+".mp4"
-        data = load_sample(video_path)
+        train_values.append(load_sample(video_path))
+
 
 
 
