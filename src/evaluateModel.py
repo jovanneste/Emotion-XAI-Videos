@@ -17,14 +17,13 @@ pretrained_model = keras.models.load_model('../data/predict_model')
 SAMPLE_FRAMES = 10
 FrameSize = 216
 
-
 def load_sample(video_path):
     # read video
     video = cv2.VideoCapture(video_path)
     # if video loading fails, exit the program
     if not video.isOpened():
-        print('Video open failed, please check the video file.')
-        sys.exit(0)
+        print('Video open failed, please check the video file.', video_path)
+        sys.exit()
     # CLIP setting
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model, preprocess = clip.load("ViT-B/32", device=device)

@@ -9,7 +9,6 @@ def annotate(i, videos):
     video = '../data/videos/'+str(video_id)
     opener = "open" if sys.platform == "darwin" else "xdg-open"
     subprocess.call([opener, video])
-    print("Video:", i)
     exciting = input("Exciting (0/1): ")
     funny = input("Funny (0/1): ")
     return [str(video_id[:len(video_id)-4]), exciting, funny]
