@@ -93,7 +93,7 @@ def evaluateModel():
         funny_label = row['Funny']
         exciting_label = row['Exciting']
 
-        video_path = "../data/videos/"+str(idn)+".mp4"
+        video_path = "../data/videos/test_videos/"+str(idn)+".mp4"
 
         try:
             data = load_sample(video_path)

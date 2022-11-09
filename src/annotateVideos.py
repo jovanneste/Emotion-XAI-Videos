@@ -6,7 +6,10 @@ import pandas as pd
 
 def annotate(i, videos):
     video_id = videos[i]
-    video = '../data/videos/'+str(video_id)
+    try:
+        video = '../data/videos/train_videos/'+str(video_id)
+    except:
+        video = '../data/videos/test_videos/'+str(video_id)
     opener = "open" if sys.platform == "darwin" else "xdg-open"
     subprocess.call([opener, video])
     exciting = input("Exciting (0/1): ")
@@ -18,8 +21,8 @@ def main():
     annotations=[]
     NUM_OF_VIDEOS = 100
 
-    for filename in os.listdir("../data/videos"):
-       with open(os.path.join("../data/videos", filename), 'r') as f:
+    for filename in os.listdir("../data/videos/test_videos"):
+       with open(os.path.join("../data/videos/test_videos", filename), 'r') as f:
            videos.append(filename)
 
     random.shuffle(videos)

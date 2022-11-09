@@ -12,13 +12,13 @@ with open('../data/videolinks.csv','r') as f:
 		print(str(row[0]))
 		print("Video: " + str(count))
 
-		videoName = '../data/videos/' + str(count) + '.mp4'
+		videoName = '../data/videos/train_videos/' + str(count) + '.mp4'
 		print("Video: " + videoName)
 		url = "https://archive.org" + str(row[0])
 
 		r = requests.get(url, timeout = 30)
 		soup = BeautifulSoup(r.content, 'html.parser')
-					
+
 		links = soup.find_all('a', class_='stealth')
 		for link in links:
 			if(str(link['href']).endswith('mp4')):
@@ -35,6 +35,6 @@ with open('../data/videolinks.csv','r') as f:
 				except:
 					print("FAILED - malformed html")
 					break;
-		
-		
+
+
 print("Videos downloaded: " + str(count))

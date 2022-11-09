@@ -21,13 +21,13 @@ def uncertaintySampling(n, annotate_num):
     exciting_batch = {}
     videos = []
 
-    for filename in os.listdir("../data/videos"):
-       with open(os.path.join("../data/videos", filename), 'r') as f:
+    for filename in os.listdir("../data/videos/train_videos"):
+       with open(os.path.join("../data/videos/train_videos", filename), 'r') as f:
            videos.append(filename)
 
     for i in range(1, 500):
         print(i)
-        video_path = "../data/videos/"+str(i)+".mp4"
+        video_path = "../data/videos/train_videos/"+str(i)+".mp4"
         if os.path.exists(video_path):
             data = load_sample(video_path)
             result = predict(data)
