@@ -25,7 +25,7 @@ def uncertaintySampling(n, annotate_num):
        with open(os.path.join("../data/videos", filename), 'r') as f:
            videos.append(filename)
 
-    for i in range(1, 10):
+    for i in range(1, 500):
         print(i)
         video_path = "../data/videos/"+str(i)+".mp4"
         if os.path.exists(video_path):
@@ -35,13 +35,9 @@ def uncertaintySampling(n, annotate_num):
             continue
         if (0.5-n) < result[0] < (0.5+n):
             exciting_batch.update({i:[float(result[0]), data]})
-            print(result[0])
-            print(data)
         elif (0.5-n) < result[1] < (0.5+n):
             # if video already in list it will probably be annotated anyway
             funny_batch.update({i:[float(result[1]), data]})
-            print(result[1])
-            print(data)
 
 
     funny_batch = sortDictionary(funny_batch)
@@ -51,10 +47,7 @@ def uncertaintySampling(n, annotate_num):
     datas.update(funny_batch)
     datas.update(exciting_batch)
 
-
-    print("Batch to annotate (funny)...", funny_batch)
     funny_videos_info = annotate_batch(funny_batch, annotate_num, videos)
-    print("Batch to annotate (exciting)...", exciting_batch)
     exciting_videos_info = annotate_batch(exciting_batch, annotate_num, videos)
 
     annotated_insts_info = {}
@@ -84,8 +77,8 @@ def uncertaintySampling(n, annotate_num):
         batch_size=4,
         epochs=10,
     )
-    #model.save('../../data/predict_model')
+    print("Saving model")
+    model.save('../../data/predict_model')
 
 print("\nUncertainty Sampling\n")
-uncertaintySampling(0.3, 5)
-print(evaluateModel())
+uncertaintySampling(0.4, 16)
