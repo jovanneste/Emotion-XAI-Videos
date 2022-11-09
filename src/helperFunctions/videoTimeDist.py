@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 
 times = []
 i=0
-for filename in os.listdir("../data/videos"):
-   with open(os.path.join("../data/videos", filename), 'r') as f:
+for filename in os.listdir("../../data/videos/train_videos/"):
+   with open(os.path.join("../../data/videos/train_videos/", filename), 'r') as f:
        try:
-           data = cv2.VideoCapture("../data/videos/" + filename)
+           data = cv2.VideoCapture("../../data/videos/train_videos/" + filename)
            frames = data.get(cv2.CAP_PROP_FRAME_COUNT)
            fps = data.get(cv2.CAP_PROP_FPS)
            seconds = round(frames/fps)
