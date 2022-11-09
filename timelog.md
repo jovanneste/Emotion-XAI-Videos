@@ -157,3 +157,13 @@
 
 * *2 hours* Worked on uncertainty sampling function
 * *1 hour* Removed annotated videos from list of videos
+
+### 8 Nov 2022
+
+* *2 hours* Worked on uncertainty sampling function (completed)
+* *1 hour* Project meeting preparation
+
+### 9 Nov 2022
+
+* *1 hour* Project meeting
+* *1 hour* Split videos into test and train sets
