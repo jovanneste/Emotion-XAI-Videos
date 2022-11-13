@@ -3,6 +3,7 @@ from  annotateVideos import annotate
 import os.path
 import subprocess, sys
 from tensorflow import keras
+import random
 
 def sortDictionary(d):
     return sorted(d.items(), key=lambda x: abs(x[1][0] - 0.5))
@@ -15,6 +16,25 @@ def annotate_batch(batch, annotate_num, videos):
             annotations.update({key:annotate(key, videos)})
             j+=1
     return annotations
+
+
+def randomSampling(annotate_num, bootstrap_steps=1):
+    videos = []
+    for filename in os.listdir("../data/videos/train_videos"):
+       with open(os.path.join("../data/videos/train_videos", filename), 'r') as f:
+           videos.append(filename)
+    random.shuffle(videos)
+
+    for i in range(bootstrap_steps):
+        print("Iteration", i)
+        annotate_batch = videos.pop(annotate_num)
+
+
+
+
+
+
+
 
 def uncertaintySampling(n, annotate_num):
     funny_batch = {}
@@ -78,7 +98,9 @@ def uncertaintySampling(n, annotate_num):
         epochs=10,
     )
     print("Saving model")
-    model.save('../../data/predict_model')
+    model.save('../../data/uncertainty_sampling_model')
 
-print("\nUncertainty Sampling\n")
-uncertaintySampling(0.4, 16)
+
+randomSampling()
+# print("\nUncertainty Sampling\n")
+# uncertaintySampling(0.4, 16)
