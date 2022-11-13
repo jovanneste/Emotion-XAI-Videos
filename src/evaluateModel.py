@@ -111,5 +111,66 @@ def evaluateModel():
     return [exciting_accuracy/nums, funny_accuracy/nums]
 
 
+
+def crossValidation(k=5):
+    df = pd.read_csv('../data/annotatedVideos.csv', delim_whitespace=True)
+    videos = []
+
+    for index, row in df.iterrows():
+        videos.append("../data/videos/test_videos/"+str(row['id'])+".mp4")
+
+    videos = np.split(np.array(videos), k)
+
+    test_fold = videos[0]
+    train_fold = np.concatenate(videos[1:])
+
+    train_values = []
+    train_labels = []
+
+    test_values = []
+    test_labels = []
+
+    for index, row in df.iterrows():
+        print(index)
+        video_path = "../data/videos/test_videos/"+str(row['id'])+".mp4"
+        if video_path in train_fold:
+            print('Loading for training...', video_path)
+            train_values.append(load_sample(video_path))
+            train_labels.append([row['Exciting'], row['Funny']])
+        elif video_path in test_fold:
+            print('Loading for testing...', video_path)
+            test_values.append(load_sample(video_path))
+            test_labels.append([row['Exciting'], row['Funny']])
+
+
+    train_values = np.asarray(train_values).astype('float32').reshape(len(train_values), 10, 512)
+    train_labels = np.asarray(train_labels)
+    print("Updating model on fold 1...")
+    pretrained_model.fit(
+        train_values,
+        train_labels,
+        batch_size=4,
+        epochs=10,
+    )
+    print("Saving model")
+    pretrained_model.save('../../data/predict_model')
+
+    exciting_accuracy, funny_accuracy, nums = 0, 0, 0
+
+    for data in test_values:
+        print("Testing", nums)
+        result = predict(data)
+        if round(result[0]) == test_labels[nums][0]:
+            exciting_accuracy += 1
+        if round(result[1]) == test_labels[nums][1]:
+            funny_accuracy += 1
+        nums += 1
+
+    return [exciting_accuracy/nums, funny_accuracy/nums]
+
+
+
+
+
 if __name__ == '__main__':
-    print(evaluateModel())
+    print(crossValidation())
