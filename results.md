@@ -8,7 +8,11 @@ With Optimal parameters
 - 62.5, 61.8, 63.2
 - 65.0, 57.0, 73.0
 - 63.4, 63.0, 63.8 
+- 61.0, 58.5, 63.6
 
 
 ## Basic Model on 100 annotated Internet Archive videos (average, exciting, funny)%
 
+- 69.5, 68.0, 71.0
+
+Same result every time 
