@@ -77,7 +77,7 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
         batch_size=BATCH_SIZE,
         epochs=EPOCHS,
     )
-    model.save('../../data/predict_model')
+    model.save('../../data/model/predict_model')
     y_score = model.predict(x_test)
 
 

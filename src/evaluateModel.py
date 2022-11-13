@@ -12,7 +12,7 @@ import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 global pretrained_model
-pretrained_model = keras.models.load_model('../data/predict_model')
+pretrained_model = keras.models.load_model('../data/models/predict_model')
 
 SAMPLE_FRAMES = 10
 FrameSize = 216
