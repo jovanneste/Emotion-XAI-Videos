@@ -28,8 +28,6 @@ from sklearn.metrics import confusion_matrix
 from tensorflow.keras.layers.experimental import RandomFourierFeatures
 from scenedetect import detect, ContentDetector
 
-### This file is for training the model and get test result ###
-
 
 # train variables
 EPOCHS = 50
@@ -288,9 +286,9 @@ def NormalizeData(data):
 
 # train variables, all possible value listed above
 num = 10
-rate = 300
+rate = 20
 context = 3
-type = 'SVM'
+type = 'LSTM'
 sample_type = 'FIXED'
 label = 'Combined'
 vae = False
