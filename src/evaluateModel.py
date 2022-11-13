@@ -166,8 +166,11 @@ def crossValidation(k=5):
         if round(result[1]) == test_labels[nums][1]:
             funny_accuracy += 1
         nums += 1
+    exciting_accuracy = exciting_accuracy/nums
+    funny_accuracy = funny_accuracy/nums
+    average = (exciting_accurac+funny_accuracy)/2
 
-    return [exciting_accuracy/nums, funny_accuracy/nums]
+    return [average, exciting_accuracy, funny_accuracy]
 
 
 
