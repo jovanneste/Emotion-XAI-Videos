@@ -78,17 +78,18 @@ def round(n):
         return 1
 
 
-def predict(data):
+def predict(data,model):
     y_score = pretrained_model.predict(data)
     return [y_score[0][0], y_score[0][1]]
 
 
-def evaluateModel():
+def evaluateModel(model=pretrained_model):
     print('Evaluating Model\n')
     df = pd.read_csv('../data/annotatedVideos.csv', delim_whitespace=True)
     nums = df.shape[0]
     funny_accuracy, exciting_accuracy = 0, 0
     for index, row in df.iterrows():
+        print(index)
         idn = row['id']
         funny_label = row['Funny']
         exciting_label = row['Exciting']
@@ -97,7 +98,8 @@ def evaluateModel():
 
         try:
             data = load_sample(video_path)
-            result = predict(data)
+            result = predict(data,model)
+            print(result)
         except:
             print("Video Failed")
             break
@@ -131,7 +133,6 @@ def crossValidation(k=5):
     test_labels = []
 
     for index, row in df.iterrows():
-        print(index)
         video_path = "../data/videos/test_videos/"+str(row['id'])+".mp4"
         if video_path in train_fold:
             print('Loading for training...', video_path)
@@ -171,4 +172,4 @@ def crossValidation(k=5):
 
 
 if __name__ == '__main__':
-    print(crossValidation())
+    print(evaluateModel())
