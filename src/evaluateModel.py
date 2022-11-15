@@ -175,4 +175,5 @@ def crossValidation(k=5):
 
 
 if __name__ == '__main__':
-    print(evaluateModel(pretrained_model))
+    pretrained_model2 = keras.models.load_model('../data/models/random_sampling_model')
+    print(evaluateModel(pretrained_model2))
