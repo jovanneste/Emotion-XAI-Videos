@@ -24,7 +24,7 @@ fig, ax = plt.subplots(1, 1)
 ax.hist(times, bins=9)
 ax.set_title("Video time distribution, over 300 seconds=" + str(i))
 ax.set_ylabel('Number of videos')
-ax.set_xlabel('Lenght of video (seconds)')
+ax.set_xlabel('Length of video (seconds)')
 
 plt.savefig('videoTimeDistribution.png')
 plt.show()
