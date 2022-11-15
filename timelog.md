@@ -153,6 +153,8 @@
 
 * *5 hours* Worked on uncertainty sampling function
 
+## Week 5
+
 ### 7 Nov 2022
 
 * *2 hours* Worked on uncertainty sampling function
@@ -167,3 +169,28 @@
 
 * *1 hour* Project meeting
 * *1 hour* Split videos into test and train sets
+
+### 10 Nov 2022
+
+* *3 hours* Work on cross validation
+
+### 11 Nov 2022
+
+* *3 hours* Work on random sampling
+* *0.5 hour* Work on cross validation
+
+### 12 Nov 2022
+
+* *2 hours* Time distribution
+* *0.5 hour* Finish one fold cross validation
+
+### 13 Nov 2022
+
+## Week 6
+
+### 14 Nov 2022
+
+### 15 Nov 2022
+
+* *2 hours* Finish and test random sampling  
+* *0.5 hour* Create and update results.md
