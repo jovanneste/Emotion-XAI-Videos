@@ -83,7 +83,7 @@ def predict(data,model):
     return [y_score[0][0], y_score[0][1]]
 
 
-def evaluateModel(model=pretrained_model):
+def evaluateModel(model):
     print('Evaluating Model', str(model))
     df = pd.read_csv('../data/annotatedVideos.csv', delim_whitespace=True)
     nums = df.shape[0]
@@ -175,4 +175,4 @@ def crossValidation(k=5):
 
 
 if __name__ == '__main__':
-    print(evaluateModel())
+    print(evaluateModel(pretrained_model))
