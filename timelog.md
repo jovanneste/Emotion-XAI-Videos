@@ -194,3 +194,8 @@
 
 * *2 hours* Finish and test random sampling  
 * *0.5 hour* Create and update results.md
+
+### 16 Nov 2022
+
+* *2 hours* Update results and re-train models 
+* *1 hour* Prepare for meeting 
