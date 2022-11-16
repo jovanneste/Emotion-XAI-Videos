@@ -146,21 +146,27 @@ def crossValidation(k=5):
 
     train_values = np.asarray(train_values).astype('float32').reshape(len(train_values), 10, 512)
     train_labels = np.asarray(train_labels)
+
     print("Updating model on fold 1...")
-    pretrained_model.fit(
+
+    model = keras.models.load_model('../data/models/predict_model')
+
+    model.fit(
         train_values,
         train_labels,
         batch_size=4,
         epochs=10,
     )
     print("Saving model")
-    pretrained_model.save('../../data/predict_model')
+    model.save('../../data/models/cross_validation_model')
 
     exciting_accuracy, funny_accuracy, nums = 0, 0, 0
 
+    model = keras.models.load_model('../data/models/cross_validation_model')
+
     for data in test_values:
         print("Testing", nums)
-        result = predict(data)
+        result = predict(data, model)
         if round(result[0]) == test_labels[nums][0]:
             exciting_accuracy += 1
         if round(result[1]) == test_labels[nums][1]:
@@ -168,12 +174,11 @@ def crossValidation(k=5):
         nums += 1
     exciting_accuracy = exciting_accuracy/nums
     funny_accuracy = funny_accuracy/nums
-    average = (exciting_accurac+funny_accuracy)/2
+    average = (exciting_accuracy+funny_accuracy)/2
 
     return [average, exciting_accuracy, funny_accuracy]
 
 
 
 if __name__ == '__main__':
-    pretrained_model2 = keras.models.load_model('../data/models/random_sampling_model')
-    print(evaluateModel(pretrained_model2))
+    print(crossValidation())
