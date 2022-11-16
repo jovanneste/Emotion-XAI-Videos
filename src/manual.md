@@ -1,15 +1,15 @@
-## Deployment 
+## Initial Model set-up (basicModel)
 
-CLI deployment
+- Download Pitts dataset (including annotations)
+- Run *trainModel.py* 
 
-### - crawlVideos.py
+## Run Model on new data
 
-Crawl the internet archive website looking for commercial videos - these links are saved in the file 'videolinks.csv' in the data directory.
+- Crawl and download videos from Internet Archive 
+- Split videos into test and train 
+- Annotate the test set 
+- Run *evaluateModel.py* to run model on test videos (cross-validation available)
 
-### - downloadVideos.py
+## Improve Model
 
-Download each video from 'videolinks.csv' as MP4 as long as size of video < 30 MBs to 'videos' folder.
-
-### - annotateVideos.py
-
-Select a small subset of downloaded videos at random to be annotated manually - creates pandas dataframe with video id and labels assigned.
+- Run *activeLearningModel.py* with either random or uncertainty sampling 
