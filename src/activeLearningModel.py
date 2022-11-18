@@ -96,12 +96,12 @@ def uncertaintySampling(n, annotate_num):
        with open(os.path.join("../data/videos/train_videos", filename), 'r') as f:
            videos.append(filename)
 
-    for i in range(1, 500):
+    for i in range(1, 1500):
         print(i)
         video_path = "../data/videos/train_videos/"+str(i)+".mp4"
         if os.path.exists(video_path):
             data = load_sample(video_path)
-            result = predict(data)
+            result = predict(data, pretrained_model)
         else:
             continue
         if (0.5-n) < result[0] < (0.5+n):
@@ -145,9 +145,15 @@ def uncertaintySampling(n, annotate_num):
         epochs=10,
     )
     print("Saving model")
-    model.save('../data/models/uncertainty_sampling_model')
+    pretrained_model.save('../data/models/uncertainty_sampling_model')
+    model = keras.models.load_model('../data/models/uncertainty_sampling_model')
+
+    print("Evaluating model...")
+
+    print(evaluateModel(model))
 
 
-randomSampling(5, 5)
-# print("\nUncertainty Sampling\n")
-# uncertaintySampling(0.4, 16)
+
+
+print("\nUncertainty Sampling\n")
+uncertaintySampling(0.4, 15)
