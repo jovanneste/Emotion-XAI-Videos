@@ -31,3 +31,9 @@ Updated after each supervisor meeting
 - Add random sampling AL method
 - Use cross validation on annotated videos
 - Look into explanation methods for video classification 
+
+### 16/11/2022
+
+- Look into explainabilty 
+- LIME and SHAP research 
+- Remove videos >60seconds
