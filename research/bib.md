@@ -34,3 +34,16 @@ for Sequence Labeling Tasks. In Proc. of EMNLP’08. 1070–1079.]
 - David D. Lewis and Jason Catlett. 1994. Heterogenous Uncertainty Sampling for
 Supervised Learning. In Proc. of ICML’94. 148–156. (nb:uncertainty sampling)
 
+
+## Explainability 
+
+- TOWARDS AN OBJECTIVE EVALUATION OF THE TRUSTWORTHINESS OF CLASSIFIERS
+
+- @inproceedings{ribeiro2016should,
+  title={" Why should i trust you?" Explaining the predictions of any classifier},
+  author={Ribeiro, Marco Tulio and Singh, Sameer and Guestrin, Carlos},
+  booktitle={Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining},
+  pages={1135--1144},
+  year={2016}
+}
+
