@@ -37,3 +37,39 @@ Updated after each supervisor meeting
 - Look into explainabilty 
 - LIME and SHAP research 
 - Remove videos >60seconds
+
+## Plan for Explainability 
+
+Retrieval task to find images that explain why a video has been labelled in some way
+
+Given a model and synthetic videos (will make these and annotate using a boundary box) :
+
+
+
+1. Find key frames from video 
+For each pair of frames:
+- SSIM, or
+- Sum of absolute difference thresholded
+Or 
+- Scene detect (not necessarily a key frame)
+- Average image over a given period of time (split video into n images)
+
+2. Use LIME or SHAP on these key frames 
+Evalute on synthetic vidoes
+
+3. Compute overlap of LIME and SHAP pixel regions 
+Use some set similarity score (Jaccard) to order the key frames 
+Output some 'score' to represent how explainable the model is 
+
+
+
+Does model accuracy relate to model explainabilty (is this novel?)
+
+Update model to a joint model 
+Just ignore videos that the model labels 0,0
+Does this just work on ad videos 
+
+Test data set would contain:
+- Annotated ad videos 
+- Annotated synthetic videos 
+
