@@ -1,0 +1,22 @@
+
+Local Interpretable Model-agnostic Explanations (LIME)
+
+Main goal is to identify an interpretable model over the interpretable representation (understandable by humans eg words or patches) that is locally faithful to the classifier.
+
+
+f - model
+g - explanation of a model (not every g is simple enough to interpret)
+Sigma(g) - complexity 
+pi - proximity measure 
+L(f, g, pi) - how unfaithful f is in approximating f in the locality defined by pi 
+
+To ensure interpretability and local fidelity we must minimise L(f, g, pi) while having Sigma(G) be low enough for humans to understand.
+
+We sample around our input x weighted by pi in-order to approximate L(f, g, pi)
+
+For each prediction, permute (remove or mask a word/part) n times 
+Compute posterior class
+Calculate distance from all permutations to the original observations 
+Convert distance to similarity score 
+Select the m features that best describe the complex model's outcome (weigh the m features by its similarity to the original observation)
+Extract weights and use these as explanations for local behaviour 
