@@ -9,8 +9,8 @@ from PIL import Image
 
 
 def frameSimilarity(frame1, frame2):
-	frame1 = cv2.imread('../data/frames/frame' + str(frame1) + '.jpg')
-	frame2 = cv2.imread('../data/frames/frame' + str(frame2) + '.jpg')
+	frame1 = cv2.imread('../../data/frames/frame' + str(frame1) + '.jpg')
+	frame2 = cv2.imread('../../data/frames/frame' + str(frame2) + '.jpg')
 	before = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
 	after = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
 	(score, diff) = structural_similarity(before, after, full=True)
@@ -19,7 +19,7 @@ def frameSimilarity(frame1, frame2):
 
 def quantiseVideo(video_path, n):
     print("Removing files from last video...")
-    files = glob.glob('../data/frames/*')
+    files = glob.glob('../../data/frames/*')
     for f in files:
         os.remove(f)
 
@@ -37,7 +37,7 @@ def quantiseVideo(video_path, n):
         if not ret:
             break
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        cv2.imwrite('../data/frames/frame'+str(i)+'.jpg', frame)
+        cv2.imwrite('../../data/frames/frame'+str(i)+'.jpg', frame)
 
 
     cap.release()
