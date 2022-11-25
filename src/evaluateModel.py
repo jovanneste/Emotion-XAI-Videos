@@ -11,8 +11,8 @@ import sys
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
-global pretrained_model
-pretrained_model = keras.models.load_model('../data/models/predict_model')
+#global pretrained_model
+#pretrained_model = keras.models.load_model('../data/models/predict_model')
 
 SAMPLE_FRAMES = 10
 FrameSize = 216
@@ -79,7 +79,7 @@ def round(n):
 
 
 def predict(data,model):
-    y_score = pretrained_model.predict(data)
+    y_score = model.predict(data)
     return [y_score[0][0], y_score[0][1]]
 
 
@@ -177,8 +177,3 @@ def crossValidation(k=5):
     average = (exciting_accuracy+funny_accuracy)/2
 
     return [average, exciting_accuracy, funny_accuracy]
-
-
-
-if __name__ == '__main__':
-    print(evaluateModel(pretrained_model))
