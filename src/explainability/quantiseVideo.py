@@ -7,17 +7,17 @@ import glob
 from skimage.metrics import structural_similarity
 from PIL import Image
 
-# video test_videos/2496.mp4 is correclty labelled as exciting=1, funny=0 - WHY
+
+def frameSimilarity(frame1, frame2):
+	frame1 = cv2.imread('../data/frames/frame' + str(frame1) + '.jpg')
+	frame2 = cv2.imread('../data/frames/frame' + str(frame2) + '.jpg')
+	before = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+	after = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+	(score, diff) = structural_similarity(before, after, full=True)
+	return score
 
 
-video_id = '2496.mp4'
-video_path = '../data/videos/test_videos/'+str(video_id)
-
-# opener = "open" if sys.platform == "darwin" else "xdg-open"
-# subprocess.call([opener, video_name])
-
-
-def getKeyFrames(video_path):
+def quantiseVideo(video_path, n):
     print("Removing files from last video...")
     files = glob.glob('../data/frames/*')
     for f in files:
@@ -26,12 +26,9 @@ def getKeyFrames(video_path):
     print("Frame extraction for new video")
 
     cap = cv2.VideoCapture(video_path)
-    frame_seq = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    time_length = round(frame_seq/fps)
+    frame_num = cap.get(cv2.CAP_PROP_FRAME_COUNT)
 
-    print("Video:", video_path)
-    print("Number of frames:", frame_seq)
+    print("Number of frames:", frame_num)
 
 
 	# assume dependence between frames
@@ -46,19 +43,8 @@ def getKeyFrames(video_path):
     cap.release()
     cv2.destroyAllWindows()
 
-
-def frameSimilarity(frame1, frame2):
-	frame1 = cv2.imread('../data/frames/frame' + str(frame1) + '.jpg')
-	frame2 = cv2.imread('../data/frames/frame' + str(frame2) + '.jpg')
-	before = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-	after = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
-	(score, diff) = structural_similarity(before, after, full=True)
-	return score
-
-# n: how many frame we want to use to represent the video
-def quantiseVideo(n):
 	print("Quantising video")
-	frame_num = 904
+
 	frames = {}
 	for i in range(0, frame_num-5, 10):
 		score = frameSimilarity(i, i+10)
@@ -89,18 +75,3 @@ def quantiseVideo(n):
 				break
 		ranges.append(r)
 	return ranges
-
-
-
-
-	# for i in frames.keys():
-	# 	print(i)
-	# 	im = Image.open('../data/frames/frame' + str(i) + '.jpg')
-	# 	im.show()
-
-#getKeyFrames(video_path)
-#print(quantiseVideo(10))
-
-ranges = [[40, 1, 49], [320, 272, 323], [350, 337, 353], [810, 809, 812],
-		[260, 231, 268], [850, 822, 854], [860, 853, 866], [430, 382, 431],
-		[380, 371, 382], [750, 749, 752]]
