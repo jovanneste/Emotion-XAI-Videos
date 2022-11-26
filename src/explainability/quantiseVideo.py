@@ -27,7 +27,12 @@ def getFrames(video_path, n):
 
     cap = cv2.VideoCapture(video_path)
     frame_num = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-	fps = video.get(cv2.cv.CV_CAP_PROP_FPS)
+	fps = cap.get(cv2.cv.CV_CAP_PROP_FPS)
+	width = cap. get(cv2.CAP_PROP_FRAME_WIDTH)
+	height = cap. get(cv2.CAP_PROP_FRAME_HEIGHT)
+
+	frameSize = (width, height)
+
     print("Number of frames:", frame_num)
 	print("Frames per second:", fps)
 
@@ -41,7 +46,7 @@ def getFrames(video_path, n):
 
     cap.release()
     cv2.destroyAllWindows()
-    return getRanges(frame_num, n), fps
+    return getRanges(frame_num, n), fps, frameSize
 
 
 def getRanges(frame_num, n):
