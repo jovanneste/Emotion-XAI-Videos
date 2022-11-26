@@ -27,14 +27,15 @@ def getFrames(video_path, n):
 
     cap = cv2.VideoCapture(video_path)
     frame_num = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-	fps = cap.get(cv2.cv.CV_CAP_PROP_FPS)
-	width = cap. get(cv2.CAP_PROP_FRAME_WIDTH)
-	height = cap. get(cv2.CAP_PROP_FRAME_HEIGHT)
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-	frameSize = (width, height)
+    frameSize = (width, height)
 
     print("Number of frames:", frame_num)
-	print("Frames per second:", fps)
+    print("Frames per second:", fps)
+    print("Frame size:", frameSize)
 
     # assume dependence between frames
     for i in range(int(frame_num)):
@@ -50,6 +51,7 @@ def getFrames(video_path, n):
 
 
 def getRanges(frame_num, n):
+    print("Getting ranges for " + str(n) + " key frames...")
     frames = {}
     for i in range(0, int(frame_num-5), 10):
         score = frameSimilarity(i, i+10)
@@ -69,7 +71,7 @@ def getRanges(frame_num, n):
                     r.append(frame-i)
                     break
             except:
-                r.append(1)
+                r.append(0)
                 break
         for i in range(1, int(frame_num)):
             try:
