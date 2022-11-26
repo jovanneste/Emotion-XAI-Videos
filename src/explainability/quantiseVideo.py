@@ -31,7 +31,7 @@ def getFrames(video_path, n):
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
 
-    frameSize = (width, height)
+    frameSize = (int(width), int(height))
 
     print("Number of frames:", frame_num)
     print("Frames per second:", fps)
