@@ -197,5 +197,51 @@
 
 ### 16 Nov 2022
 
-* *2 hours* Update results and re-train models 
-* *1 hour* Prepare for meeting 
+* *2 hours* Update results and re-train models
+* *1 hour* Prepare for meeting
+* *0.5 hour* Meeting
+
+### 17 Nov 2022
+
+### 18 Nov 2022
+
+### 19 Nov 2022
+
+### 20 Nov 2022
+
+## Week 7
+
+### 21 Nov 2022
+
+* *2 hours* Explainability in videos research
+
+### 22 Nov 2022
+
+* *2 hours* LIME and SHAP research
+* *1 hour* Plan for project
+
+### 23 Nov 2022
+
+* *1 hour* Prepare for meeting
+* *0.5 hour* Meeting
+
+### 24 Nov 2022
+
+* *5 hours* Work on finding n key frames in a given video
+
+### 25 Nov 2022
+
+* *2 hours* Additional LIME research
+* *3 hours* Mask out key frame segments and run on model
+
+### 26 Nov 2022
+
+### 27 Nov 2022
+
+* *3 hours* How to convert accuracy into similarity?
+
+## Week 8
+
+### 28 Nov 2022
+
+* *2 hours* How do I extract weights 
