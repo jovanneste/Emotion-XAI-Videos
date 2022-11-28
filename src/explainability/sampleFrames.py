@@ -10,12 +10,14 @@ import glob
 def maskVideos(video_path, n):
     print("Quantising video...")
     ranges, fps, frameSize = getFrames(video_path, n)
-
+    print(ranges)
     data = load_sample(video_path)
     result = predict(data, model)
+    exciting_label = result[0]
     print("Original video result", result)
 
     frames = []
+    differnces = {}
 
     for filename in glob.glob('../../data/frames/*.jpg'):
         filename = filename.split('/')[4].split('.')[0]
@@ -41,10 +43,13 @@ def maskVideos(video_path, n):
         result = predict(data, model)
         print(keyFrame)
         print(result)
+        differnces.update({keyFrame:result[0]-exciting_label})
+
+    return {k: v for k, v in sorted(differnces.items(), key=lambda item: item[1])}
 
 
 if __name__ == "__main__":
     print("Loading model...")
     model = keras.models.load_model('../../data/models/predict_model')
-    video_path = "../../data/videos/test_videos/2496.mp4"
-    maskVideos(video_path, 25)
+    video_path = "../../data/videos/test_videos/2342.mp4"
+    print(maskVideos(video_path, 5))
