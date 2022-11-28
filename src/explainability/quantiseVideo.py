@@ -55,7 +55,7 @@ def getRanges(frame_num, n):
     frames = {}
     for i in range(0, int(frame_num-5), 10):
         score = frameSimilarity(i, i+10)
-        if score < 0.5:
+        if score < 0.7:
             frames.update({i: score})
     frames = {k: v for k, v in sorted(
         frames.items(), key=lambda item: item[1])}

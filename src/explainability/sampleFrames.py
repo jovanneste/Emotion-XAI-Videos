@@ -7,9 +7,9 @@ import cv2
 import glob
 
 
-def maskVideos(video_path):
+def maskVideos(video_path, n):
     print("Quantising video...")
-    ranges, fps, frameSize = getFrames(video_path, 10)
+    ranges, fps, frameSize = getFrames(video_path, n)
 
     data = load_sample(video_path)
     result = predict(data, model)
@@ -47,5 +47,4 @@ if __name__ == "__main__":
     print("Loading model...")
     model = keras.models.load_model('../../data/models/predict_model')
     video_path = "../../data/videos/test_videos/2496.mp4"
-    print(video_path[3:])
-    maskVideos(video_path)
+    maskVideos(video_path, 25)
