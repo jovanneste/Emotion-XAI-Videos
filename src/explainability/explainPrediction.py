@@ -51,5 +51,5 @@ def maskVideos(video_path, n):
 if __name__ == "__main__":
     print("Loading model...")
     model = keras.models.load_model('../../data/models/predict_model')
-    video_path = "../../data/videos/test_videos/2342.mp4"
-    print(maskVideos(video_path, 5))
+    video_path = "../../data/videos/test_videos/2496.mp4"
+    print(maskVideos(video_path, 25))
