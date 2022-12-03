@@ -67,7 +67,7 @@ def getRanges(frame_num, n):
         r = [frame]
         for i in range(1, int(frame_num)):
             try:
-                if (frameSimilarity(frame, frame-i)) < 0.5:
+                if (frameSimilarity(frame, frame-i)) < 0.4:
                     r.append(frame-i)
                     break
             except:
@@ -75,7 +75,7 @@ def getRanges(frame_num, n):
                 break
         for i in range(1, int(frame_num)):
             try:
-                if (frameSimilarity(frame, frame+i)) < 0.5:
+                if (frameSimilarity(frame, frame+i)) < 0.4:
                     r.append(frame+i)
                     break
             except:

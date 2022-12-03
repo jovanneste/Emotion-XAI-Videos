@@ -7,7 +7,7 @@ import cv2
 import glob
 
 
-def maskVideos(video_path, n):
+def maskFrames(video_path, n):
     print("Quantising video...")
     ranges, fps, frameSize = getFrames(video_path, n)
     print(ranges)
@@ -45,11 +45,35 @@ def maskVideos(video_path, n):
         print(result)
         differnces.update({keyFrame:result[0]-exciting_label})
 
-    return {k: v for k, v in sorted(differnces.items(), key=lambda item: item[1])}
+    sorted_frames = {k: v for k, v in sorted(differnces.items(), key=lambda item: item[1])}
+    print(sorted_frames)
+
+    prime_frame = sorted_frames.key()[0]
+    print("prime frame", prime_frame)
+
+    for r in ranges:
+        if r[0]==prime_frame:
+            lower_frame, upper_frame = r[1], r[2]
+            break
+
+    return prime_frame, lower_frame, upper_frame
+
+
+def maskPixels(key_frame, lower_frame, upper_frame, box_size=5):
+    f1 = cv2.imread('../../data/frames/frame' + str(lower_frame) + '.jpg')
+
+    for i in range(box_size):
+        for j in range(box_size)
+            f1[i][j] = (0,0,0)
+
+    cv2.imwrite('../../data/frames/frame'+str(lower_frame)+'.jpg', f1)
+
+
 
 
 if __name__ == "__main__":
-    print("Loading model...")
-    model = keras.models.load_model('../../data/models/predict_model')
-    video_path = "../../data/videos/test_videos/2496.mp4"
-    print(maskVideos(video_path, 25))
+    # print("Loading model...")
+    # model = keras.models.load_model('../../data/models/predict_model')
+    # video_path = "../../data/videos/test_videos/2496.mp4"
+    # print(maskFrames(video_path, 25))
+    maskPixels(70,53,76)
