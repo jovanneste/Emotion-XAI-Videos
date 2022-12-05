@@ -59,14 +59,17 @@ def maskFrames(video_path, n):
     return prime_frame, lower_frame, upper_frame
 
 
-def maskPixels(key_frame, lower_frame, upper_frame, box_size=5):
-    f1 = cv2.imread('../../data/frames/frame' + str(lower_frame) + '.jpg')
+def maskPixels(key_frame, lower_frame, upper_frame, box_size=50):
 
-    for i in range(box_size):
-        for j in range(box_size)
-            f1[i][j] = (0,0,0)
+    for i in range(lower_frame, upper_frame):
+        print("Masking frame", i)
+        frame = cv2.imread('../../data/frames/frame' + str(i) + '.jpg')
 
-    cv2.imwrite('../../data/frames/frame'+str(lower_frame)+'.jpg', f1)
+        for k in range(box_size):
+            for j in range(box_size):
+                frame[k][j] = (0,0,0)
+
+        cv2.imwrite('../../data/maskedFrames/frame'+str(i)+'.jpg', frame)
 
 
 
@@ -76,4 +79,4 @@ if __name__ == "__main__":
     # model = keras.models.load_model('../../data/models/predict_model')
     # video_path = "../../data/videos/test_videos/2496.mp4"
     # print(maskFrames(video_path, 25))
-    maskPixels(70,53,76)
+    maskPixels(70,54,72)
