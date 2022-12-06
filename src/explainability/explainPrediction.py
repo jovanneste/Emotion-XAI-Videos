@@ -63,7 +63,7 @@ def maskFrames(video_path, n):
     return prime_frame, lower_frame, upper_frame, frameSize, fps
 
 
-def maskPixels(key_frame, lower_frame, upper_frame, frameSize, fps, box_size=150):
+def maskPixels(key_frame, lower_frame, upper_frame, frameSize, fps, box_size=100):
 
     print("Original video prediction:")
     exciting_label = predict(load_sample("../../data/videos/test_videos/2496.mp4"), model)[0]
@@ -126,4 +126,4 @@ if __name__ == "__main__":
     # video_path = "../../data/videos/test_videos/2496.mp4"
     # print(maskFrames(video_path, 20))
     # (40, 0, 50, (600, 480), 30.0)
-    maskPixels(260,232,267,(600, 480), 30)
+    maskPixels(40,0,50,(600, 480), 30)
