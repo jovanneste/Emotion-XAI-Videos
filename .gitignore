@@ -8,6 +8,7 @@ __pycache__/
 *.so
 .DS_Store
 data/
+*.mp4
 
 # Distribution / packaging
 .Python
