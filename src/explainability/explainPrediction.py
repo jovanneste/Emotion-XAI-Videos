@@ -57,18 +57,19 @@ def maskFrames(video_path, n):
             lower_frame, upper_frame = r[1], r[2]
             break
 
-    return prime_frame, lower_frame, upper_frame
+    return prime_frame, lower_frame, upper_frame, frameSize
 
 
-def maskPixels(key_frame, lower_frame, upper_frame, box_size=0):
+def maskPixels(key_frame, lower_frame, upper_frame, frameSize, box_size=0):
+
 
     print("Removing masked frames from last video...")
-    files = glob.glob('../../data/maskedFrames/frames/*')
+    files = glob.glob('../../data/maskedFrames/*')
     for f in files:
         os.remove(f)
 
+    print("Masking " + str(upper_frame-lower_frame) + " frames...")
     for i in range(lower_frame, upper_frame):
-        print("Masking frame", i)
         frame = cv2.imread('../../data/frames/frame' + str(i) + '.jpg')
 
         for k in range(box_size):
@@ -77,12 +78,12 @@ def maskPixels(key_frame, lower_frame, upper_frame, box_size=0):
 
         cv2.imwrite('../../data/maskedFrames/frame'+str(i)+'.jpg', frame)
 
-    print("Building masked video")
+    print("Building masked video...")
     video = str(key_frame) + '.mp4'
     # will need to read in framesize and fps
-    out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc('m','p','4','v'), 30, (600, 480))
+    out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc('m','p','4','v'), 30, frameSize)
     frames = getSortedFrames()
-    print(len(frames))
+
     for f in frames:
         if lower_frame <= f < upper_frame:
             img = cv2.imread('../../data/maskedFrames/frame' +str(f)+ '.jpg')
@@ -92,19 +93,20 @@ def maskPixels(key_frame, lower_frame, upper_frame, box_size=0):
             out.write(img)
 
     out.release()
-    print("Original video")
+    print("Original video prediction:")
     print(predict(load_sample("../../data/videos/test_videos/2496.mp4"), model))
     data = load_sample(video)
     result = predict(data, model)
-    print("Masked video")
+    print("Masked video prediction:")
     print(result)
 
-    # os.remove(video)
+    #os.remove(video)
 
 
 if __name__ == "__main__":
     print("Loading model...")
     model = keras.models.load_model('../../data/models/predict_model')
-    video_path = "../../data/videos/test_videos/2496.mp4"
-    print(maskFrames(video_path, 25))
-    #maskPixels(70,54,72)
+    # video_path = "../../data/videos/test_videos/2496.mp4"
+    # print(maskFrames(video_path, 25)) returns (40, 0, 50, (600,480))
+
+    maskPixels(40,0,50, (600, 480))
