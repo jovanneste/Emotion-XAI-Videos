@@ -111,12 +111,12 @@ def maskPixels(key_frame, lower_frame, upper_frame, frameSize, fps, box_size=150
             print("Masked video prediction")
             print(video)
             print(result)
-            difference.update({frame_index:result[0]-exciting_label})
+            differences.update({frame_index:result[0]-exciting_label})
 
 
             #os.remove(video)
-        print("\nFinished\n")
-        print(sortDict(differences))
+    print("\nFinished\n")
+    print(sortDict(differences))
 
 
 if __name__ == "__main__":
@@ -126,4 +126,4 @@ if __name__ == "__main__":
     # video_path = "../../data/videos/test_videos/2496.mp4"
     # print(maskFrames(video_path, 20))
     # (40, 0, 50, (600, 480), 30.0)
-    maskPixels(260,232,267,30,(600, 480))
+    maskPixels(260,232,267,(600, 480), 30)
