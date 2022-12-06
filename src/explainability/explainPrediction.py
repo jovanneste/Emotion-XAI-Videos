@@ -6,23 +6,24 @@ from tensorflow import keras
 import cv2
 import glob
 
+def getSortedFrames():
+    frames = []
+    for filename in glob.glob('../../data/frames/*.jpg'):
+        filename = filename.split('/')[4].split('.')[0]
+        frames.append(int(filename[5:]))
+    return sorted(frames)
+
 
 def maskFrames(video_path, n):
     print("Quantising video...")
     ranges, fps, frameSize = getFrames(video_path, n)
-    print(ranges)
     data = load_sample(video_path)
     result = predict(data, model)
     exciting_label = result[0]
     print("Original video result", result)
 
-    frames = []
     differnces = {}
-
-    for filename in glob.glob('../../data/frames/*.jpg'):
-        filename = filename.split('/')[4].split('.')[0]
-        frames.append(int(filename[5:]))
-    frames = sorted(frames)
+    frames = getSortedFrames()
 
     for r in ranges:
         keyFrame = r[0]
@@ -48,7 +49,7 @@ def maskFrames(video_path, n):
     sorted_frames = {k: v for k, v in sorted(differnces.items(), key=lambda item: item[1])}
     print(sorted_frames)
 
-    prime_frame = sorted_frames.key()[0]
+    prime_frame = list(sorted_frames.keys())[0]
     print("prime frame", prime_frame)
 
     for r in ranges:
@@ -59,7 +60,12 @@ def maskFrames(video_path, n):
     return prime_frame, lower_frame, upper_frame
 
 
-def maskPixels(key_frame, lower_frame, upper_frame, box_size=50):
+def maskPixels(key_frame, lower_frame, upper_frame, box_size=0):
+
+    print("Removing masked frames from last video...")
+    files = glob.glob('../../data/maskedFrames/frames/*')
+    for f in files:
+        os.remove(f)
 
     for i in range(lower_frame, upper_frame):
         print("Masking frame", i)
@@ -71,12 +77,34 @@ def maskPixels(key_frame, lower_frame, upper_frame, box_size=50):
 
         cv2.imwrite('../../data/maskedFrames/frame'+str(i)+'.jpg', frame)
 
+    print("Building masked video")
+    video = str(key_frame) + '.mp4'
+    # will need to read in framesize and fps
+    out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc('m','p','4','v'), 30, (600, 480))
+    frames = getSortedFrames()
+    print(len(frames))
+    for f in frames:
+        if lower_frame <= f < upper_frame:
+            img = cv2.imread('../../data/maskedFrames/frame' +str(f)+ '.jpg')
+            out.write(img)
+        else:
+            img = cv2.imread('../../data/frames/frame' +str(f)+ '.jpg')
+            out.write(img)
 
+    out.release()
+    print("Original video")
+    print(predict(load_sample("../../data/videos/test_videos/2496.mp4"), model))
+    data = load_sample(video)
+    result = predict(data, model)
+    print("Masked video")
+    print(result)
+
+    # os.remove(video)
 
 
 if __name__ == "__main__":
-    # print("Loading model...")
-    # model = keras.models.load_model('../../data/models/predict_model')
-    # video_path = "../../data/videos/test_videos/2496.mp4"
-    # print(maskFrames(video_path, 25))
-    maskPixels(70,54,72)
+    print("Loading model...")
+    model = keras.models.load_model('../../data/models/predict_model')
+    video_path = "../../data/videos/test_videos/2496.mp4"
+    print(maskFrames(video_path, 25))
+    #maskPixels(70,54,72)

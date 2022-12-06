@@ -11,9 +11,9 @@ from PIL import Image
 def frameSimilarity(frame1, frame2):
     frame1 = cv2.imread('../../data/frames/frame' + str(frame1) + '.jpg')
     frame2 = cv2.imread('../../data/frames/frame' + str(frame2) + '.jpg')
-    before = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-    after = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
-    (score, diff) = structural_similarity(before, after, full=True)
+    # before = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+    # after = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+    (score, diff) = structural_similarity(frame1, frame2, full=True, multichannel=True)
     return score
 
 
@@ -42,7 +42,7 @@ def getFrames(video_path, n):
         ret, frame = cap.read()
         if not ret:
             break
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         cv2.imwrite('../../data/frames/frame'+str(i)+'.jpg', frame)
 
     cap.release()
