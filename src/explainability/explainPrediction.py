@@ -5,6 +5,9 @@ from evaluateModel import *
 from tensorflow import keras
 import cv2
 import glob
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 def getSortedFrames():
     frames = []
@@ -13,8 +16,11 @@ def getSortedFrames():
         frames.append(int(filename[5:]))
     return sorted(frames)
 
-def sortDict(d):
-    return {k: v for k, v in sorted(d.items(), key=lambda item: item[1])}
+def sortDict(d, key):
+    if key:
+        return {k: v for k, v in sorted(d.items(), key=lambda item: item[0])}
+    else:
+        return {k: v for k, v in sorted(d.items(), key=lambda item: item[1])}
 
 def maskFrames(video_path, n):
     print("Quantising video...")
@@ -49,8 +55,17 @@ def maskFrames(video_path, n):
         print(result)
         differences.update({keyFrame:result[0]-exciting_label})
 
-    sorted_frames = sortDict(differences)
-    print(sorted_frames)
+
+    differences = sortDict(differences, True)
+    xpoints = np.asarray(list(differences.keys()))
+    ypoints = np.asarray(list(differences.values()))*-1
+
+    plt.plot(xpoints, ypoints, marker='o')
+    plt.xlabel("Frames")
+    plt.ylabel("Frame importance")
+    plt.show()
+
+    sys.exit()
 
     prime_frame = list(sorted_frames.keys())[0]
     print("prime frame", prime_frame)
@@ -112,19 +127,19 @@ def maskPixels(key_frame, lower_frame, upper_frame, frameSize, fps, box_size=100
             print(result)
             differences.update({frame_index:result[0]-exciting_label})
 
-
             #os.remove(video)
     print("\nFinished\n")
-    print(sortDict(differences))
+    print(sortDict(differences, False))
 
 
 if __name__ == "__main__":
     print("Loading model...")
     global model
     model = keras.models.load_model('../../data/models/predict_model')
-    video_path = "../../data/videos/test_videos/7.mp4"
-    prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 10)
-    print('\n\n\n')
-    print(prime_frame, lower_frame, upper_frame, frameSize, fps)
-    print('\n\n\n')
-    maskPixels(prime_frame, lower_frame, upper_frame, frameSize, fps)
+    video_path = "../../data/videos/test_videos/2496.mp4"
+    print(maskFrames(video_path, 15))
+    # prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 10)
+    # print('\n\n\n')
+    # print(prime_frame, lower_frame, upper_frame, frameSize, fps)
+    # print('\n\n\n')
+    # maskPixels(prime_frame, lower_frame, upper_frame, frameSize, fps)
