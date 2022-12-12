@@ -244,11 +244,11 @@
 
 ### 28 Nov 2022
 
-* *2 hours* How do I extract weights 
+* *2 hours* How do I extract weights
 
 ### 29 Nov 2022
 
-* *2 hours* Meeting preperation 
+* *2 hours* Meeting preperation
 * *2 hours* Run algorithm on several different videos
 
 ### 30 Nov 2022
@@ -263,16 +263,34 @@
 
 ### 04 Dec 2022
 
-* *5 hours* Work on masking out pixels 
-* *1 hour* More LIME research 
+* *5 hours* Work on masking out pixels
+* *1 hour* More LIME research
 
 ## Week 9
 
 ### 05 Dec 2022
 
-* *2 hours* Work on masking out pixels 
+* *2 hours* Work on masking out pixels
 
 ### 06 Dec 2022
 
-* *2 hours* Work on masking out pixels 
-* *2 hours* Meeting preperation
+* *2 hours* Work on masking out pixels
+* *2 hours* Meeting preparation
+
+### 07 Dec 2022
+
+### 08 Dec 2022
+
+### 09 Dec 2022
+
+* *4 hours* Implement plotting (frames v frame importance)
+
+### 10 Dec 2022
+
+### 11 Dec 2022
+
+## Week 10
+
+### 12 Dec 2022
+
+* *2 hours* Work on status report
