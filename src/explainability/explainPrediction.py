@@ -9,6 +9,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+def plot(x, y, ranges):
+    lowers, uppers = [], []
+    for r in ranges:
+        for point in x:
+            if r[0]==point:
+                lowers.append(np.abs(r[0] - r[1]))
+                uppers.append(np.abs(r[0] - r[2]))
+    fig, ax = plt.subplots()
+    ax.errorbar(x, y, xerr=[lowers, uppers], fmt='-o')
+    ax.set_xlabel("Frames")
+    ax.set_ylabel("Frame importance")
+    plt.show()
+
 def getSortedFrames():
     frames = []
     for filename in glob.glob('../../data/frames/*.jpg'):
@@ -57,15 +70,11 @@ def maskFrames(video_path, n):
 
 
     differences = sortDict(differences, True)
-    xpoints = np.asarray(list(differences.keys()))
-    ypoints = np.asarray(list(differences.values()))*-1
+    x = np.asarray(list(differences.keys()))
+    y = np.asarray(list(differences.values()))*-1
 
-    plt.plot(xpoints, ypoints, marker='o')
-    plt.xlabel("Frames")
-    plt.ylabel("Frame importance")
-    plt.show()
+    plot(x, y, ranges)
 
-    sys.exit()
 
     prime_frame = list(sorted_frames.keys())[0]
     print("prime frame", prime_frame)
@@ -136,10 +145,9 @@ if __name__ == "__main__":
     print("Loading model...")
     global model
     model = keras.models.load_model('../../data/models/predict_model')
-    video_path = "../../data/videos/test_videos/2496.mp4"
-    print(maskFrames(video_path, 15))
-    # prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 10)
-    # print('\n\n\n')
-    # print(prime_frame, lower_frame, upper_frame, frameSize, fps)
-    # print('\n\n\n')
-    # maskPixels(prime_frame, lower_frame, upper_frame, frameSize, fps)
+    video_path = "../../data/videos/train_videos/31.mp4"
+    prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 15)
+    print('\n\n\n')
+    print(prime_frame, lower_frame, upper_frame, frameSize, fps)
+    print('\n\n\n')
+    maskPixels(prime_frame, lower_frame, upper_frame, frameSize, fps)
