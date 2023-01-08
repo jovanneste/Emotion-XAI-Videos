@@ -294,3 +294,28 @@
 ### 12 Dec 2022
 
 * *2 hours* Work on status report
+
+### 13 Dec 2022
+
+* *2 hours* Work on status report
+
+### 14 Dec 2022
+
+* *2 hours* Work on status report
+
+### 15 Dec 2022
+
+* *0.5 hour* Submit status report
+
+# Break 
+
+### 07 Jan 2023
+
+* *0.5 hour* Look over current project
+
+### 07 Jan 2023
+
+* *0.5 hour* Update supervisor on current problems 
+* *1 hour* Think of solutions to problems 
+
+## Week 11
