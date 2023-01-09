@@ -313,9 +313,11 @@
 
 * *0.5 hour* Look over current project
 
-### 07 Jan 2023
+### 08 Jan 2023
 
 * *0.5 hour* Update supervisor on current problems 
 * *1 hour* Think of solutions to problems 
 
 ## Week 11
+
+* *1 hour* Start dissertation - background 
