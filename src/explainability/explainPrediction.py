@@ -1,4 +1,6 @@
 from quantiseVideo import *
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 import sys
 sys.path.append('../')
 from evaluateModel import *
@@ -7,8 +9,7 @@ import cv2
 import glob
 import matplotlib.pyplot as plt
 import numpy as np
-import os
-os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
+
 
 def plot(x, y, ranges):
     lowers, uppers = [], []
@@ -76,8 +77,7 @@ def maskFrames(video_path, n):
 
     plot(x, y, ranges)
 
-
-    prime_frame = list(sorted_frames.keys())[0]
+    prime_frame = list(differences.keys())[0]
     print("prime frame", prime_frame)
 
     for r in ranges:
