@@ -7,7 +7,8 @@ import cv2
 import glob
 import matplotlib.pyplot as plt
 import numpy as np
-
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 
 def plot(x, y, ranges):
     lowers, uppers = [], []
