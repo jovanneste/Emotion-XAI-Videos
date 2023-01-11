@@ -33,13 +33,13 @@ def load_sample(video_path):
     # read video informations and calculate sample rate
     FrameNumber = video.get(7)
     FrameNumber = int(FrameNumber)
+    print("Frame number", FrameNumber)
     rate = math.floor((FrameNumber-1)/SAMPLE_FRAMES)
     if rate <= 0:
         rate = 1
 
     # initailize
     video_samples = []
-
     # Sampling
     for i in range(SAMPLE_FRAMES):
         samp_loc = i*rate
@@ -50,11 +50,15 @@ def load_sample(video_path):
         video.set(cv2.CAP_PROP_POS_FRAMES, samp_loc)
         rval, frame = video.read()
         if not rval:
-            print('Video read Failed, please check the video file.')
+            print('Video read Failed, please check the video file---')
+
 
         # preprocessing frame for clip
-        frame = cv2.resize(frame, (FrameSize, FrameSize),
-                           fx=0, fy=0, interpolation=cv2.INTER_CUBIC)
+        try:
+            frame = cv2.resize(frame, (FrameSize, FrameSize),
+                               fx=0, fy=0, interpolation=cv2.INTER_CUBIC)
+        except:
+            continue
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame_pil = Image.fromarray(frame)
         img_pred = preprocess(frame_pil).unsqueeze(0).to(device)
@@ -63,6 +67,7 @@ def load_sample(video_path):
         encoded_image = model.encode_image(img_pred)
         encoded_image_array = encoded_image.detach().cpu().numpy()
         video_samples.append(encoded_image_array)
+
 
     # resize the samples to fit model
     video_samples = np.array(video_samples, dtype='float')
