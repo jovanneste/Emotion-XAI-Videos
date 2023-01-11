@@ -2,13 +2,16 @@ import lime
 from lime import lime_image
 import os
 import sys
+sys.path.append('../')
+from evaluateModel import *
 import cv2
 from tensorflow import keras
 import keras.utils as image
 import numpy as np
-
-global model
-model = keras.models.load_model('../../data/models/predict_model')
+# from keras.applications import inception_v3 as inc_net
+#
+# global model
+# model = keras.models.load_model('../../data/models/predict_model')
 
 def transform_img_fn(img_path):
     print('transform_img_fn')
@@ -21,12 +24,22 @@ def transform_img_fn(img_path):
     return np.vstack(out)
 
 explainer = lime_image.LimeImageExplainer()
-frame = transform_img_fn('../../data/frames/frame300.jpg')
-print(frame)
+#frame = transform_img_fn('../../data/frames/frame300.jpg')
+frame = image.load_img('../../data/frames/frame300.jpg', target_size=(299, 299))
+frame = image.img_to_array(frame)
+
+print(type(frame))
+print(frame.shape)
+print("Loading random video for test")
+data = load_sample('../../data/videos/train_videos/1.mp4')
+print(type(data))
+print(data.shape)
+
+
 sys.exit()
 
 # create auxilary local model
 print('creating explaination')
-explanation  = explainer.explain_instance(frame.astype('double'), model.predict, top_labels=1, hide_color=0, num_samples=1000)
+explanation  = explainer.explain_instance(frame.astype('double'), model.predict, top_labels=5, hide_color=0, num_samples=1000)
 
 print(explanation)
