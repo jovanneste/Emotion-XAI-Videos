@@ -25,14 +25,11 @@ def transform_img_fn(img_path):
 
 explainer = lime_image.LimeImageExplainer()
 #frame = transform_img_fn('../../data/frames/frame300.jpg')
-frame = image.load_img('../../data/frames/frame300.jpg', target_size=(299, 299))
-frame = image.img_to_array(frame)
+print("Video data")
+print(load_sample('../../data/videos/train_videos/1.mp4').shape)
 
-print(type(frame))
-print(frame.shape)
-print("Loading random video for test")
-data = load_sample('../../data/videos/train_videos/1.mp4')
-print(type(data))
+print("Frame data")
+data = load_sample('../../data/frames/frame300.jpg')
 print(data.shape)
 
 
