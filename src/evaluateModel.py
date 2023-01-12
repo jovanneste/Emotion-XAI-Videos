@@ -33,7 +33,6 @@ def load_sample(video_path):
     # read video informations and calculate sample rate
     FrameNumber = video.get(7)
     FrameNumber = int(FrameNumber)
-    print("Frame number", FrameNumber)
     rate = math.floor((FrameNumber-1)/SAMPLE_FRAMES)
     if rate <= 0:
         rate = 1
@@ -50,7 +49,7 @@ def load_sample(video_path):
         video.set(cv2.CAP_PROP_POS_FRAMES, samp_loc)
         rval, frame = video.read()
         if not rval:
-            print('Video read Failed, please check the video file---')
+            print('Video read Failed, please check the video file.')
 
 
         # preprocessing frame for clip
