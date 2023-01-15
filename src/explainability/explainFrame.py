@@ -22,17 +22,19 @@ def transform_img_fn(img_path):
     return np.squeeze(x)
 
 explainer = lime_image.LimeImageExplainer()
-print("Frame data")
-frame = transform_img_fn('../../data/frames/frame300.jpg')
-print(frame.shape)
+# print("Frame data")
+# frame = transform_img_fn('../../data/frames/frame300.jpg')
+# print(frame.shape)
+#
 
-print("Video data")
 data = load_sample('../../data/videos/train_videos/43.mp4')
-print(data.shape)
-
-
+print("data=", data.shape)
+y = np.squeeze(data)
+print("y=", y.shape)
+x = np.expand_dims(data, axis=0)
+print("x=", x.shape)
 # create auxilary local model
 print('Creating explaination')
-explanation  = explainer.explain_instance(data.astype('double'), model.predict, top_labels=2, hide_color=None, num_samples=1000)
+explanation  = explainer.explain_instance(y.astype('double'), model.predict, top_labels=2, hide_color=None, num_samples=1000)
 
 print(explanation)
