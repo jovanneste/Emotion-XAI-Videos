@@ -33,7 +33,6 @@ def visualiseSuperPixels(segments, image):
         key = cv2.waitKey(0)
 
 
-
 def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=300, visualise=False):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
@@ -61,12 +60,7 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=300
         print("Masking out "+str(indexes.shape[0])+" pixels")
         for index in indexes:
             frame[index[0], index[1]] = (0,0,0)
-        cv2.imwrite("test" + str(i+1) + ".jpg", frame)
-
-
-
-
-
+        cv2.imwrite("../../data/LIMEset/"str(i+1)+".jpg", frame)
 
 
 path = '../../data/frames/frame429.jpg'
