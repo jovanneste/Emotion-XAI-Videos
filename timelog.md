@@ -248,7 +248,7 @@
 
 ### 29 Nov 2022
 
-* *2 hours* Meeting preperation
+* *2 hours* Meeting preparation
 * *2 hours* Run algorithm on several different videos
 
 ### 30 Nov 2022
@@ -307,7 +307,7 @@
 
 * *0.5 hour* Submit status report
 
-# Break 
+# Break
 
 ### 07 Jan 2023
 
@@ -315,9 +315,41 @@
 
 ### 08 Jan 2023
 
-* *0.5 hour* Update supervisor on current problems 
-* *1 hour* Think of solutions to problems 
+* *0.5 hour* Update supervisor on current problems
+* *1 hour* Think of solutions to problems
 
 ## Week 11
 
-* *1 hour* Start dissertation - background 
+### 09 Jan 2023
+
+* *1 hour* Start dissertation - background
+
+### 10 Jan 2023
+
+* *2 hours* Meeting preparation
+
+### 11 Jan 2023
+
+* *1 hour* Supervisor meeting
+
+### 12 Jan 2023
+
+### 13 Jan 2023
+
+* *2 hours* Work on explaining frames with masked out pixels
+
+### 14 Jan 2023
+
+* *2 hours* Try to use LIME to explain predictions
+* *2 hours* Test LIME with videos/images with a video model - does not work
+
+### 15 Jan 2023
+
+### 16 Jan 2023
+
+* *2 hours* Start implementing algorithm to pertube local instance
+
+### 17 Jan 2023
+
+* *5 hours* Finish creating neighbourhood set for a given frame
+* *0.5 hour* Meeting preparation
