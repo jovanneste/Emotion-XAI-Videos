@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 
 def visualiseSuperPixels(segments, image):
     for (i, segVal) in enumerate(np.unique(segments)):
-        print("[x] inspecting segment %d" % (i))
+        print("Inspecting segment %d" % (i))
         mask = np.zeros(image.shape[:2], dtype = "uint8")
         mask[segments == segVal] = 255
         cv2.imshow("Mask", mask)
@@ -33,7 +33,7 @@ def visualiseSuperPixels(segments, image):
         key = cv2.waitKey(0)
 
 
-def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=300, visualise=False):
+def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500, visualise=False):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
 
@@ -57,14 +57,14 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=300
         indexes = np.asarray(indexes)
 
         print("Creating image", i+1)
-        print("Masking out "+str(indexes.shape[0])+" pixels")
+        print("Masking out "+str(indexes.shape[0])+" pixels\n")
         for index in indexes:
             frame[index[0], index[1]] = (0,0,0)
-        cv2.imwrite("../../data/LIMEset/"str(i+1)+".jpg", frame)
+        cv2.imwrite("../../data/LIMEset/"+str(i+1)+".jpg", frame)
 
 
 path = '../../data/frames/frame429.jpg'
-createNeighbourhoodSet(path, 10, 5)
+createNeighbourhoodSet(path, 10, 10)
 
 # explainer = lime_image.LimeImageExplainer()
 #
