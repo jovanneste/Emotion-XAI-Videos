@@ -37,14 +37,16 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
 
-    # visualise super pixel regions
-    fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
-    ax = fig.add_subplot(1, 1, 1)
-    ax.imshow(mark_boundaries(image, segments))
-    plt.axis("off")
-    plt.show()
-
-    if visualise: visualiseSuperPixels(segments, image)
+    if visualise:
+        visualiseSuperPixels(segments, image)
+        # visualise super pixel regions
+        fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
+        ax = fig.add_subplot(1, 1, 1)
+        ax.imshow(mark_boundaries(image, segments))
+        plt.axis("off")
+        plt.show()
+    else:
+        print("To see super pixel segmentation set visualise=True")
 
     for i in range(perturbed_num):
         frame = cv2.imread(image_path)
@@ -56,6 +58,8 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500
                 indexes.append(p)
         indexes = np.asarray(indexes)
 
+
+
         print("Creating image", i+1)
         print("Masking out "+str(indexes.shape[0])+" pixels\n")
         for index in indexes:
@@ -63,7 +67,7 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500
         cv2.imwrite("../../data/LIMEset/"+str(i+1)+".jpg", frame)
 
 
-path = '../../data/frames/frame429.jpg'
+paths = ['../../data/frames/frame429.jpg', '../../data/frames/frame430.jpg', '../../data/frames/frame429.jpg']
 createNeighbourhoodSet(path, 10, 10)
 
 # explainer = lime_image.LimeImageExplainer()
