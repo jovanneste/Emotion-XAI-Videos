@@ -75,10 +75,10 @@ def maskPixels(pixels, i, j):
     cv2.imwrite("../../data/LIMEset/"+ str(i) +".jpg", frame)
 
 
-def createMaskedVideos(prime_frame, lower_frame, upper_frame):
+def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n):
     j=1
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
-    perturbed_pixels = createNeighbourhoodSet(path, 10, 10)
+    perturbed_pixels = createNeighbourhoodSet(path, 10, n)
 
     for pixels in perturbed_pixels:
         remove()
@@ -86,7 +86,7 @@ def createMaskedVideos(prime_frame, lower_frame, upper_frame):
             maskPixels(pixels, i, j)
 
         video = '../../data/LIMEset/' + str(j) + '.mp4'
-        out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc('m','p','4','v'), 59.94, (600,480))
+        out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
 
         files = glob.glob('../../data/LIMEset/*')
         for f in files:
@@ -99,7 +99,7 @@ def createMaskedVideos(prime_frame, lower_frame, upper_frame):
 
 
 if __name__ == '__main__':
-    createMaskedVideos(20, 1, 28)
+    createMaskedVideos(20, 1, 28, 59.94, (600,480), 10)
 
 
 
