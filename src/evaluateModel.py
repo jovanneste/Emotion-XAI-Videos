@@ -82,7 +82,7 @@ def round(n):
         return 1
 
 
-def predict(data,model):
+def predict(data, model):
     y_score = model.predict(data)
     return [y_score[0][0], y_score[0][1]]
 
