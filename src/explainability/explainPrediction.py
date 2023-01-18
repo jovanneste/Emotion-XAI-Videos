@@ -87,7 +87,7 @@ def maskFrames(video_path, n):
 
     return prime_frame, lower_frame, upper_frame, frameSize, fps
 
-
+# does not work - we will use LIME instead
 def maskPixels(key_frame, lower_frame, upper_frame, frameSize, fps, box_size=100):
     print("Original video prediction:")
     exciting_label = predict(load_sample("../../data/videos/test_videos/2496.mp4"), model)[0]
@@ -150,5 +150,3 @@ if __name__ == "__main__":
     prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 15)
     print('\n\n\n')
     print(prime_frame, lower_frame, upper_frame, frameSize, fps)
-    print('\n\n\n')
-    maskPixels(prime_frame, lower_frame, upper_frame, frameSize, fps)
