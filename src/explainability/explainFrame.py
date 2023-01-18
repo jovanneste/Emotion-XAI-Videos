@@ -22,6 +22,12 @@ import glob
 
 #print(model.summary())
 
+def remove():
+    files = glob.glob('../../data/LIMEset/*')
+    for f in files:
+        if f.endswith('jpg'):
+            os.remove(f)
+
 
 def visualiseSuperPixels(segments, image):
     for (i, segVal) in enumerate(np.unique(segments)):
@@ -46,7 +52,7 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500
         plt.axis("off")
         plt.show()
     else:
-        print("To see super pixel segmentation set visualise=True")
+        print("\nTo see super pixel segmentation set visualise=True\n")
 
     perturbed_pixels = []
     for i in range(perturbed_num):
@@ -72,14 +78,10 @@ def maskPixels(pixels, i, j):
 def createMaskedVideos(prime_frame, lower_frame, upper_frame):
     j=1
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
-    perturbed_pixels = createNeighbourhoodSet(path, 10, 1)
+    perturbed_pixels = createNeighbourhoodSet(path, 10, 10)
 
     for pixels in perturbed_pixels:
-        files = glob.glob('../../data/LIMEset/*')
-        for f in files:
-            if f.endswith('jpg'):
-                os.remove(f)
-
+        remove()
         for i in range(lower_frame, upper_frame):
             maskPixels(pixels, i, j)
 
@@ -92,6 +94,8 @@ def createMaskedVideos(prime_frame, lower_frame, upper_frame):
             out.write(img)
         out.release()
         j+=1
+    remove()
+    print("Finished")
 
 
 if __name__ == '__main__':
