@@ -48,6 +48,7 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500
     else:
         print("To see super pixel segmentation set visualise=True")
 
+    perturbed_pixels = []
     for i in range(perturbed_num):
         frame = cv2.imread(image_path)
         indexes = []
@@ -56,19 +57,35 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500
             pos = np.transpose(np.where(segments==n))
             for p in pos:
                 indexes.append(p)
-        indexes = np.asarray(indexes)
+        perturbed_pixels.append(np.asarray(indexes))
+
+    return perturbed_pixels
+
+
+def maskPixels(pixels, i, j):
+    frame = cv2.imread('../..data/frames/frame'+str(i)+'.jpg')
+    for p in pixels:
+        frame[p[0], p[1]] = (0,0,0)
+    cv2.imwrite("../../data/LIMEset/"+ str(j) + "/" + str(i) +".jpg", frame)
+
+
+def createMaskedVideos(prime_frame, lower_frame, upper_frame):
+    j=0
+    path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
+    perturbed_pixels = createNeighbourhoodSet(path, 10, 10)
+    print(perturbed_pixels.shape)
+    for pixels in perturbed_pixels:
+        for i in range(lower_frame, upper_frame):
+            maskPixels(pixels, i, j)
+        j+=1
 
 
 
-        print("Creating image", i+1)
-        print("Masking out "+str(indexes.shape[0])+" pixels\n")
-        for index in indexes:
-            frame[index[0], index[1]] = (0,0,0)
-        cv2.imwrite("../../data/LIMEset/"+str(i+1)+".jpg", frame)
 
 
-paths = ['../../data/frames/frame429.jpg', '../../data/frames/frame430.jpg', '../../data/frames/frame429.jpg']
-createNeighbourhoodSet(path, 10, 10)
+
+
+
 
 # explainer = lime_image.LimeImageExplainer()
 #
