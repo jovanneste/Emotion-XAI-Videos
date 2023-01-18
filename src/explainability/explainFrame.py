@@ -15,7 +15,7 @@ from skimage.segmentation import mark_boundaries
 from skimage.util import img_as_float
 from skimage import io
 import matplotlib.pyplot as plt
-
+import glob
 
 # global model
 # model = keras.models.load_model('../../data/models/predict_model')
@@ -63,27 +63,39 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500
 
 
 def maskPixels(pixels, i, j):
-    frame = cv2.imread('../..data/frames/frame'+str(i)+'.jpg')
+    frame = cv2.imread('../../data/frames/frame'+str(i)+'.jpg')
     for p in pixels:
         frame[p[0], p[1]] = (0,0,0)
-    cv2.imwrite("../../data/LIMEset/"+ str(j) + "/" + str(i) +".jpg", frame)
+    cv2.imwrite("../../data/LIMEset/"+ str(i) +".jpg", frame)
 
 
 def createMaskedVideos(prime_frame, lower_frame, upper_frame):
-    j=0
+    j=1
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
-    perturbed_pixels = createNeighbourhoodSet(path, 10, 10)
-    print(perturbed_pixels.shape)
+    perturbed_pixels = createNeighbourhoodSet(path, 10, 1)
+
     for pixels in perturbed_pixels:
+        files = glob.glob('../../data/LIMEset/*')
+        for f in files:
+            if f.endswith('jpg'):
+                os.remove(f)
+
         for i in range(lower_frame, upper_frame):
             maskPixels(pixels, i, j)
+
+        video = '../../data/LIMEset/' + str(j) + '.mp4'
+        out = cv2.VideoWriter(video, cv2.VideoWriter_fourcc('m','p','4','v'), 59.94, (600,480))
+
+        files = glob.glob('../../data/LIMEset/*')
+        for f in files:
+            img = cv2.imread(f)
+            out.write(img)
+        out.release()
         j+=1
 
 
-
-
-
-
+if __name__ == '__main__':
+    createMaskedVideos(20, 1, 28)
 
 
 
