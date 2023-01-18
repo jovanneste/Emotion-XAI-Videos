@@ -44,6 +44,7 @@ def maskFrames(video_path, n):
     result = predict(data, model)
     exciting_label = result[0]
     print("Original video result", result)
+    print("Exciting label =", exciting_label)
     print(ranges)
 
     differences = {}
@@ -78,7 +79,9 @@ def maskFrames(video_path, n):
     plot(x, y, ranges)
 
     prime_frame = list(differences.keys())[0]
-    print("prime frame", prime_frame)
+    print("Prime frame", prime_frame)
+    print()
+    print(differences)
 
     for r in ranges:
         if r[0]==prime_frame:
@@ -146,7 +149,7 @@ if __name__ == "__main__":
     print("Loading model...")
     global model
     model = keras.models.load_model('../../data/models/predict_model')
-    video_path = "../../data/videos/train_videos/31.mp4"
-    prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 15)
+    video_path = "../../data/videos/train_videos/62.mp4"
+    prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 10)
     print('\n\n\n')
     print(prime_frame, lower_frame, upper_frame, frameSize, fps)
