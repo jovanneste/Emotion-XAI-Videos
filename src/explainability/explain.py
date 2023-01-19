@@ -1,5 +1,3 @@
-import lime
-from lime import lime_image
 import os
 import sys
 sys.path.append('../')
@@ -189,13 +187,3 @@ if __name__ == '__main__':
     # print(prime_frame, lower_frame, upper_frame, frameSize, fps)
     # this returns 20 12 24 (640, 464) 29.97
     createMaskedVideos(20, 12, 24-1, 29.97, (640,464), 20)
-
-
-
-# explainer = lime_image.LimeImageExplainer()
-#
-# # create auxilary local model
-# print('Creating explaination')
-# explanation  = explainer.explain_instance(y.astype('double'), model.predict, top_labels=2, hide_color=None, num_samples=1000)
-#
-# print(explanation)
