@@ -148,13 +148,13 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500
 
 def maskPixels(pixels, i, j):
     frame = cv2.imread('../../data/frames/frame'+str(i)+'.jpg')
-    for p in pixels:
-        frame[p[0], p[1]] = (0,0,0)
+    if j!=0:
+        for p in pixels:
+            frame[p[0], p[1]] = (0,0,0)
     cv2.imwrite("../../data/LIMEset/"+ str(i) +".jpg", frame)
 
-
 def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n):
-    j=1
+    j=0
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
     perturbed_pixels = createNeighbourhoodSet(path, 10, n)
 
