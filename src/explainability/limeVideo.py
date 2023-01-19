@@ -2,6 +2,8 @@ import lime
 from lime import lime_base
 from functools import partial
 import sklearn
+# from sklearn import metrics
+# from sklearn.metrics import pairwise_distances
 from sklearn.utils import check_random_state
 import glob
 import sys
@@ -28,18 +30,22 @@ class LimeVideoExplainer(object):
 
     def explain_instances(self, video, classifier_fn):
         data, labels = self.data_labels(classifier_fn)
-        distances = sklearn.metrics.pairwise_distance(
+        print("\nData and labels created")
+        distances = sklearn.metrics.pairwise_distances(
             data,
             data[0].reshape(1,-1),
             metric = 'cosine'
         ).ravel()
 
         ret_exp = VideoExplanation(video)
+        print("/nVideo explaination created")
         top = np.argsort(labels[0])[-5:]
+        print("Top:", top)
         ret_exp.top_labels = list(top)
         ret_exp.top_labels.reverse()
 
         for label in top:
+            print("\nLabel in top:", label)
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
              ret_exp.score[label],
@@ -47,17 +53,20 @@ class LimeVideoExplainer(object):
                                                                                labels,
                                                                                distances,
                                                                                label,
-                                                                               100000
-                                                                               )
+                                                                               100000)
+        print("Done")
         return ret_exp
 
     def data_labels(self, classifier_fn):
         data, labels = [], []
+        # might have to sort this
         files = glob.glob('../../data/LIMEset/*')
         for f in files:
-            d = load_sample('../../data/LIMEset/'+str(f))
+            print("\nFile:", f)
+            d = load_sample(f)
             data.append(d)
-            label = predict(data)
+            label = classifier_fn(d)
+            print(label)
             labels.append(label)
         return np.array(data), np.array(labels)
 
@@ -68,4 +77,5 @@ if __name__ == '__main__':
     global model
     model = keras.models.load_model('../../data/models/predict_model')
     explainer = LimeVideoExplainer()
+    print("\nExplainer created")
     explanation = explainer.explain_instances('video', model.predict)
