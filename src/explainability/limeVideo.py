@@ -31,6 +31,8 @@ class LimeVideoExplainer(object):
     def explain_instances(self, video, classifier_fn):
         data, labels = self.data_labels(classifier_fn)
         print("\nData and labels created")
+
+
         distances = sklearn.metrics.pairwise_distances(
             data,
             data[0].reshape(1,-1),
@@ -70,12 +72,14 @@ class LimeVideoExplainer(object):
             labels.append(label)
         return np.array(data), np.array(labels)
 
+    def distanceVideos(v1, v2):
 
 
 
 if __name__ == '__main__':
     global model
     model = keras.models.load_model('../../data/models/predict_model')
+    originl_video = '../../data/LIMEset/0.mp4'
     explainer = LimeVideoExplainer()
     print("\nExplainer created")
-    explanation = explainer.explain_instances('video', model.predict)
+    explanation = explainer.explain_instances(originl_video, model.predict)
