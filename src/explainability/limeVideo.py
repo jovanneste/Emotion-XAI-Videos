@@ -12,6 +12,10 @@ import numpy as np
 class VideoExplanation(object):
     def __init__(self, video):
         self.video = video
+        self.intercept = {}
+        self.local_exp = {}
+        self.local_pred = {}
+        self.score = {}
 
 
 class LimeVideoExplainer(object):
@@ -29,6 +33,24 @@ class LimeVideoExplainer(object):
             data[0].reshape(1,-1),
             metric = 'cosine'
         ).ravel()
+
+        ret_exp = VideoExplanation(video)
+        top = np.argsort(labels[0])[-5:]
+        ret_exp.top_labels = list(top)
+        ret_exp.top_labels.reverse()
+
+        for label in top:
+            (ret_exp.intercept[label],
+             ret_exp.local_exp[label],
+             ret_exp.score[label],
+             ret_exp.local_pred[label]) = self.base.explain_instance_with_data(data,
+                                                                               labels,
+                                                                               distances,
+                                                                               label,
+                                                                               100000
+                                                                               )
+        return ret_exp
+
 
 
     def data_labels(self, classifier_fn):
