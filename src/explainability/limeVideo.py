@@ -51,8 +51,6 @@ class LimeVideoExplainer(object):
                                                                                )
         return ret_exp
 
-
-
     def data_labels(self, classifier_fn):
         data, labels = [], []
         files = glob.glob('../../data/LIMEset/*')
@@ -62,3 +60,12 @@ class LimeVideoExplainer(object):
             label = predict(data)
             labels.append(label)
         return np.array(data), np.array(labels)
+
+
+
+
+if __name__ == '__main__':
+    global model
+    model = keras.models.load_model('../../data/models/predict_model')
+    explainer = LimeVideoExplainer()
+    explanation = explainer.explain_instances('video', model.predict)
