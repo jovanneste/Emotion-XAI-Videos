@@ -1,3 +1,4 @@
+import numpy as np
 import lime
 from lime import lime_base
 from functools import partial
@@ -9,7 +10,6 @@ import glob
 import sys
 sys.path.append('../')
 from evaluateModel import *
-import numpy as np
 
 class VideoExplanation(object):
     def __init__(self, video):
@@ -24,29 +24,23 @@ class LimeVideoExplainer(object):
     def __init__(self):
         def kernel(d):
             return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
-        kernel_fn = partial(kernel, kernel_width=0.25)
+        kernel_fn = partial(kernel)
         self.random_state = check_random_state(None)
-        self.base = lime_base.LimeBase(kernel_fn, True, random_state=self.random_state)
+        self.base = lime_base.LimeBase(
+            kernel_fn, True, random_state=self.random_state)
 
     def explain_instances(self, video, classifier_fn):
         data, labels, order = self.data_labels(classifier_fn)
         print("\nData and labels created")
         print(order)
+        distances = []
         vidcap = cv2.VideoCapture(video)
         success, original_image = vidcap.read()
-
         for f in order:
-            distance(f, original_image)
-
-        sys.exit()
-        distances = sklearn.metrics.pairwise_distances(
-            data,
-            data[0].reshape(1,-1),
-            metric = 'cosine'
-        ).ravel()
+            distances.append(self.distance(f, original_image[:,:,0]))
 
         ret_exp = VideoExplanation(video)
-        print("/nVideo explaination created")
+        print("\nVideo explaination created")
         top = np.argsort(labels[0])[-5:]
         print("Top:", top)
         ret_exp.top_labels = list(top)
@@ -79,18 +73,21 @@ class LimeVideoExplainer(object):
             labels.append(label)
         return np.array(data), np.array(labels), order
 
-    def distance(video, original_image):
+    def distance(self, video, original_image):
         vidcap = cv2.VideoCapture(video)
         success, image = vidcap.read()
+        image = image[:,:,0]
+
         if success:
+            print("Cosine distance calculated")
             d = sklearn.metrics.pairwise_distances(
                 image,
                 original_image,
                 metric = 'cosine'
             )
-            print(d)
-
-
+            return d
+        else:
+            print("Distance calcultion failed")
 
 if __name__ == '__main__':
     global model
