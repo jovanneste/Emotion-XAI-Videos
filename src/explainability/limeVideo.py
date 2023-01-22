@@ -29,10 +29,16 @@ class LimeVideoExplainer(object):
         self.base = lime_base.LimeBase(kernel_fn, True, random_state=self.random_state)
 
     def explain_instances(self, video, classifier_fn):
-        data, labels = self.data_labels(classifier_fn)
+        data, labels, order = self.data_labels(classifier_fn)
         print("\nData and labels created")
+        print(order)
+        vidcap = cv2.VideoCapture(video)
+        success, original_image = vidcap.read()
 
+        for f in order:
+            distance(f, original_image)
 
+        sys.exit()
         distances = sklearn.metrics.pairwise_distances(
             data,
             data[0].reshape(1,-1),
@@ -60,19 +66,29 @@ class LimeVideoExplainer(object):
         return ret_exp
 
     def data_labels(self, classifier_fn):
-        data, labels = [], []
+        data, labels, order = [], [], []
         # might have to sort this
         files = glob.glob('../../data/LIMEset/*')
         for f in files:
+            order.append(f)
             print("\nFile:", f)
             d = load_sample(f)
             data.append(d)
             label = classifier_fn(d)
             print(label)
             labels.append(label)
-        return np.array(data), np.array(labels)
+        return np.array(data), np.array(labels), order
 
-    def distanceVideos(v1, v2):
+    def distance(video, original_image):
+        vidcap = cv2.VideoCapture(video)
+        success, image = vidcap.read()
+        if success:
+            d = sklearn.metrics.pairwise_distances(
+                image,
+                original_image,
+                metric = 'cosine'
+            )
+            print(d)
 
 
 
