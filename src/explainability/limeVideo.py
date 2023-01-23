@@ -32,22 +32,21 @@ class LimeVideoExplainer(object):
     def explain_instances(self, video, classifier_fn):
         data, labels, order = self.data_labels(classifier_fn)
         print("\nData and labels created")
-        print(order)
         distances = []
         vidcap = cv2.VideoCapture(video)
         success, original_image = vidcap.read()
         for f in order:
             distances.append(self.distance(f, original_image[:,:,0]))
-
+        distances = np.asarray(distances).ravel()
+        print(distances.shape)
         ret_exp = VideoExplanation(video)
         print("\nVideo explaination created")
-        top = np.argsort(labels[0])[-5:]
+        top = np.argsort(labels[0])
         print("Top:", top)
         ret_exp.top_labels = list(top)
         ret_exp.top_labels.reverse()
-
+        labels = labels.reshape(20, 2, 1)
         for label in top:
-            print("\nLabel in top:", label)
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
              ret_exp.score[label],
@@ -79,7 +78,6 @@ class LimeVideoExplainer(object):
         image = image[:,:,0]
 
         if success:
-            print("Cosine distance calculated")
             d = sklearn.metrics.pairwise_distances(
                 image,
                 original_image,
