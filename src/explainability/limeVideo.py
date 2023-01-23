@@ -10,6 +10,7 @@ import glob
 import sys
 sys.path.append('../')
 from evaluateModel import *
+from sklearn.linear_model import Ridge, lars_path
 
 class VideoExplanation(object):
     def __init__(self, video):
@@ -30,6 +31,9 @@ class LimeVideoExplainer(object):
             kernel_fn, True, random_state=self.random_state)
 
     def explain_instances(self, video, classifier_fn):
+        def k(d):
+            return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
+        kf = partial(k)
         data, labels, order = self.data_labels(classifier_fn)
         print("\nData and labels created")
         distances = []
@@ -47,6 +51,15 @@ class LimeVideoExplainer(object):
         ret_exp.top_labels.reverse()
         labels = labels.reshape(20, 2, 1)
         for label in top:
+            weights = kf(distances)
+            labels_column = labels[:, label]
+            clf = Ridge(alpha=0.01, fit_intercept=True,
+                        random_state=self.random_state)
+            print("Data shape:", data.shape)
+            print("Labels shape:", labels_column.shape)
+            print("Weights shape:", weights.shape)
+            clf.fit(data, labels_column, sample_weight=weights)
+            sys.exit()
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
              ret_exp.score[label],
