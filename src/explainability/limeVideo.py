@@ -38,30 +38,58 @@ class LimeVideoExplainer(object):
         data, labels, order = self.data_labels(classifier_fn)
 
         print("\nData and labels created")
+        print("Explain instance\n")
+
+        print("Data shape:", data.shape)
+        print("Labels shape:", labels.shape)
+
+        print()
         distances = []
         vidcap = cv2.VideoCapture(video)
         success, original_image = vidcap.read()
         for f in order:
             distances.append(self.distance(f, original_image[:,:,0]))
         distances = np.asarray(distances).ravel()
-        print(distances.shape)
+
         ret_exp = VideoExplanation(video)
-        print("\nVideo explaination created")
-        top = np.argsort(labels[0])
-        print("Top:", top)
+
+        print("Distances shape:", distances.shape)
+        top = np.argsort(labels[0])[-5:]
         ret_exp.top_labels = list(top)
         ret_exp.top_labels.reverse()
         labels = labels.reshape(20, 2, 1)
+        print("Top", top)
         for label in top:
+            print("Calling explain_instance_with_data with:")
+            print("data", data.shape)
+            print("labels", labels.shape)
+            print("distances", distances.shape)
+            print("label", label.shape, label)
+            print("num_features", num_features)
+            sys.exit()
+            # imitating what happens in lime base when we call explain with instance
             weights = kf(distances)
             labels_column = labels[:, label]
+            used_features = self.base.feature_selection(data,
+                                               labels_column,
+                                               weights,
+                                               100000,
+                                               method='auto')
+            print()
+            print(used_features)
+            print()
             clf = Ridge(alpha=0.01, fit_intercept=True,
                         random_state=self.random_state)
             print("Data shape:", data.shape)
             print("Labels shape:", labels_column.shape)
 
-            clf.fit(data, labels_column, sample_weight=weights)
+            clf.fit(data[:,used_features], labels_column, sample_weight=weights)
             sys.exit()
+
+
+
+
+
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
              ret_exp.score[label],
