@@ -49,12 +49,12 @@ class LimeVideoExplainer(object):
         success, original_image = vidcap.read()
         for f in order:
             distances.append(self.distance(f, original_image[:,:,0]))
-        distances = np.asarray(distances).ravel()
+        distances = np.asarray(distances)#.ravel()
 
         ret_exp = VideoExplanation(video)
 
         print("Distances shape:", distances.shape)
-        top = np.argsort(labels[0])[-5:]
+        top = np.argsort(labels)[-2:]
         ret_exp.top_labels = list(top)
         ret_exp.top_labels.reverse()
         labels = labels.reshape(20, 2, 1)
@@ -65,7 +65,6 @@ class LimeVideoExplainer(object):
             print("labels", labels.shape)
             print("distances", distances.shape)
             print("label", label.shape, label)
-            print("num_features", num_features)
             sys.exit()
             # imitating what happens in lime base when we call explain with instance
             weights = kf(distances)
@@ -128,7 +127,7 @@ class LimeVideoExplainer(object):
             )
             return d
         else:
-            print("Distance calcultion failed")
+            print("Distance calculation failed")
 
 if __name__ == '__main__':
     global model
