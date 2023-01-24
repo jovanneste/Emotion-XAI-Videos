@@ -34,7 +34,9 @@ class LimeVideoExplainer(object):
         def k(d):
             return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
         kf = partial(k)
+
         data, labels, order = self.data_labels(classifier_fn)
+
         print("\nData and labels created")
         distances = []
         vidcap = cv2.VideoCapture(video)
@@ -57,7 +59,7 @@ class LimeVideoExplainer(object):
                         random_state=self.random_state)
             print("Data shape:", data.shape)
             print("Labels shape:", labels_column.shape)
-            print("Weights shape:", weights.shape)
+
             clf.fit(data, labels_column, sample_weight=weights)
             sys.exit()
             (ret_exp.intercept[label],
@@ -83,7 +85,7 @@ class LimeVideoExplainer(object):
             label = classifier_fn(d)
             print(label)
             labels.append(label)
-        return np.array(data), np.array(labels), order
+        return np.squeeze(np.array(data)), np.squeeze(np.array(labels)), order
 
     def distance(self, video, original_image):
         vidcap = cv2.VideoCapture(video)
