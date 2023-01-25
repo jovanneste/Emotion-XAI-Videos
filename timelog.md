@@ -345,11 +345,44 @@
 
 ### 15 Jan 2023
 
+## Week 12
+
 ### 16 Jan 2023
 
-* *2 hours* Start implementing algorithm to pertube local instance
+* *2 hours* Start implementing algorithm to perturbe local instance
 
 ### 17 Jan 2023
 
 * *5 hours* Finish creating neighbourhood set for a given frame
 * *0.5 hour* Meeting preparation
+
+### 18 Jan 2023
+
+* *0.5 hour* Meeting
+
+### 19 Jan 2023
+
+* *6 hours* Start implementing parts of LIME algorithm (video explainer classes)
+
+### 20 Jan 2023
+
+* *6 hours* Decompile lime_image to see parameter shapes
+
+### 21 Jan 2023
+
+### 22 Jan 2023
+
+## Week 13
+
+### 23 Jan 2023
+
+* *4 hours* Connected perturbed data and labels to LIME
+
+### 24 Jan 2023
+
+* *2 hours* Bug fixes
+* *1 hour* Try different regressors for surrogate model
+
+### 25 Jan 2023
+
+* *2 hours* Meeting preperation
