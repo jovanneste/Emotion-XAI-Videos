@@ -10,8 +10,10 @@ import glob
 import sys
 sys.path.append('../')
 from evaluateModel import *
-from sklearn.linear_model import Ridge, lars_path
-from sklearn.linear_model import SGDRegressor
+
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Dropout
 
 class VideoExplanation(object):
     def __init__(self, video):
@@ -32,11 +34,6 @@ class LimeVideoExplainer(object):
             kernel_fn, True, random_state=self.random_state)
 
     def explain_instances(self, video, classifier_fn):
-        # delete this
-        def k(d):
-            return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
-        kf = partial(k)
-
         data, labels, order = self.data_labels(classifier_fn)
 
         distances = []
@@ -53,40 +50,10 @@ class LimeVideoExplainer(object):
         ret_exp.top_labels.reverse()
 
         for label in top:
-            print("data", data.shape)
-            print("labels", labels.shape)
-            print("distances", distances.shape)
-            print("label", label.shape, label)
-
-            # imitating what happens in lime base when we call explain with instance
-            weights = kf(distances)
-            labels_column = np.squeeze(labels[:, label])
-            used_features = self.base.feature_selection(data,
-                                               labels_column,
-                                               weights,
-                                               100000,
-                                               method='none')
-
-            clf = Ridge(alpha=0.01, fit_intercept=True,
-                        random_state=self.random_state)
-
-            print("\nCLF.fit called with")
-            print("Data[:,used_features]", data[:,used_features].shape)
-            print("labels_column", labels_column.shape)
-
-            clf.fit(data[:,used_features], labels_column, sample_weight=weights)
-            print("SGD model fitted")
-            sys.exit()
-
-
-
-
-
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
              ret_exp.score[label],
-             ret_exp.local_pred[label]) = self.base.explain_instance_with_data(data,
-                                                                               labels,
+             ret_exp.local_pred[label]) = self.explain_instance_with_data(data,labels,
                                                                                distances,
                                                                                label,
                                                                                100000)
@@ -114,20 +81,37 @@ class LimeVideoExplainer(object):
             data.append(frames)
         return np.array(data), np.squeeze(np.array(labels)), order
 
+
     def distance(self, video, original_image):
         vidcap = cv2.VideoCapture(video)
         success, image = vidcap.read()
         image = image[:,:,0]
 
         if success:
-            d = sklearn.metrics.pairwise_distances(
-                image,
-                original_image,
-                metric = 'cosine'
-            )
-            return d
+            return sklearn.metrics.pairwise_distances(image, original_image, metric = 'cosine')
         else:
             print("Distance calculation failed")
+
+
+    def explain_instance_with_data(neighbourhood_data, neighbourhood_labels, distances, label, num_features):
+        # delete this
+        def k(d):
+            return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
+        kf = partial(k)
+
+        print("neighbourhood_data", data.neighbourhood_data)
+        print("neighbourhood_labels", labels.neighbourhood_labels)
+        print("distances", distances.shape)
+        print("label", label.shape, label)
+
+        weights = kf(distances).ravel()
+        labels_column = np.squeeze(neighbourhood_labels[:, label])
+        used_features = self.base.feature_selection(neighbourhood_data,
+                                                    labels_column,
+                                                    weights,
+                                                    num_features,
+                                                    method='none')
+
 
 if __name__ == '__main__':
     global model
