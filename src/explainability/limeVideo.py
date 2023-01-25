@@ -11,6 +11,7 @@ import sys
 sys.path.append('../')
 from evaluateModel import *
 from sklearn.linear_model import Ridge, lars_path
+from sklearn.linear_model import SGDRegressor
 
 class VideoExplanation(object):
     def __init__(self, video):
@@ -54,7 +55,7 @@ class LimeVideoExplainer(object):
         ret_exp = VideoExplanation(video)
 
         print("Distances shape:", distances.shape)
-        top = np.argsort(labels)[-2:]
+        top = np.argsort(labels)[-1:]
         ret_exp.top_labels = list(top)
         ret_exp.top_labels.reverse()
         labels = labels.reshape(20, 2, 1)
@@ -77,12 +78,13 @@ class LimeVideoExplainer(object):
             print()
             print(used_features)
             print()
-            clf = Ridge(alpha=0.01, fit_intercept=True,
+            clf = SGDRegressor(alpha=0.01, fit_intercept=True,
                         random_state=self.random_state)
             print("Data shape:", data.shape)
             print("Labels shape:", labels_column.shape)
 
             clf.fit(data[:,used_features], labels_column, sample_weight=weights)
+            print("SGD model fitted")
             sys.exit()
 
 
