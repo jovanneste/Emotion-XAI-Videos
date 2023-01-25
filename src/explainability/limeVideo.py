@@ -13,6 +13,7 @@ from evaluateModel import *
 
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.layers import Linear
 from keras.layers import Dropout
 
 class VideoExplanation(object):
@@ -53,10 +54,7 @@ class LimeVideoExplainer(object):
             (ret_exp.intercept[label],
              ret_exp.local_exp[label],
              ret_exp.score[label],
-             ret_exp.local_pred[label]) = self.explain_instance_with_data(data,labels,
-                                                                               distances,
-                                                                               label,
-                                                                               100000)
+             ret_exp.local_pred[label]) = self.explain_instance_with_data(data, labels, distances, label)
         print("Done")
         return ret_exp
 
@@ -93,14 +91,14 @@ class LimeVideoExplainer(object):
             print("Distance calculation failed")
 
 
-    def explain_instance_with_data(neighbourhood_data, neighbourhood_labels, distances, label, num_features):
+    def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, num_features=1000):
         # delete this
         def k(d):
             return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
         kf = partial(k)
 
-        print("neighbourhood_data", data.neighbourhood_data)
-        print("neighbourhood_labels", labels.neighbourhood_labels)
+        print("neighbourhood_data", neighbourhood_data.shape)
+        print("neighbourhood_labels", neighbourhood_labels.shape)
         print("distances", distances.shape)
         print("label", label.shape, label)
 
@@ -111,6 +109,20 @@ class LimeVideoExplainer(object):
                                                     weights,
                                                     num_features,
                                                     method='none')
+
+        print("Creating auxilary model...")
+
+        model = Sequential()
+        model.add(Dense(512, input_shape = (11, 464, 640, 3), activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Dense(256, activation='relu'))
+        model.add(Dropout(0.25))
+        model.add(Linear())
+        model.compile(optimizer='SGD', loss='mean_square_loss', metrics=['accuracy'])
+        model.fit(neighbourhood_data[:, used_features], labels_column, epochs=2, verbose=1)
+        model.summary()
+        print(model.summary())
+        sys.exit()
 
 
 if __name__ == '__main__':
