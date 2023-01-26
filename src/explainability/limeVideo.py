@@ -57,7 +57,7 @@ class LimeVideoExplainer(object):
         print("Done")
         return ret_exp
 
-    def data_labels(self, classifier_fn):
+    def data_labels(self, classifier_fn, scale=0.4):
         data, labels, order = [], [], []
         # might have to sort this
         files = glob.glob('../../data/LIMEset/*')
@@ -71,7 +71,7 @@ class LimeVideoExplainer(object):
             while(True):
                 success, frame = capture.read()
                 if success:
-                    frames.append(cv2.resize(frame, (0.5*frame.shape[1], 0.5*frame.shape[0])))
+                    frames.append(cv2.resize(frame, (int(scale*frame.shape[1]), int(scale*frame.shape[0]))))
                 else:
                     break
             capture.release()
@@ -110,9 +110,10 @@ class LimeVideoExplainer(object):
                                                     method='none')
 
         print("Creating auxilary model...")
+        batch_size, frames_num, width, height, depth = neighbourhood_data.shape
 
         model = Sequential()
-        model.add(Dense(512, input_shape = (11, 464, 640, 3), activation='relu'))
+        model.add(Dense(512, input_shape = (frame_num, width, height, depth), activation='relu'))
         model.add(Dropout(0.5))
         model.add(Dense(256, activation='relu'))
         model.add(Dropout(0.25))
