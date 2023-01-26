@@ -15,6 +15,11 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Dropout
 
+import tensorflow as tf
+
+from tensorflow import keras
+from tensorflow.keras import layers
+
 class VideoExplanation(object):
     def __init__(self, video):
         self.video = video
@@ -110,20 +115,25 @@ class LimeVideoExplainer(object):
                                                     method='none')
 
         print("Creating auxilary model...")
-        batch_size, frames_num, width, height, depth = neighbourhood_data.shape
+        batch_size, frame_num, width, height, depth = neighbourhood_data.shape
 
-        model = Sequential()
-        model.add(Dense(512, input_shape = (frame_num, width, height, depth), activation='relu'))
-        model.add(Dropout(0.5))
-        model.add(Dense(256, activation='relu'))
-        model.add(Dropout(0.25))
-        model.add(Dense(1))
-        model.compile(optimizer='SGD', loss='mean_squared_error', metrics=['accuracy'])
-        model.fit(neighbourhood_data[:, used_features], labels_column, epochs=2, verbose=1)
-        model.summary()
+        normalizer = tf.keras.layers.Normalization(axis=-1)
+        normalizer.adapt(np.array(neighbourhood_data))
+        print(normalizer.mean.numpy())
+
+        model = self.build_and_compile_model(normalizer)
         print(model.summary())
-        sys.exit()
 
+    def build_and_compile_model(self, norm):
+        model = keras.Sequential([
+            norm,
+            layers.Dense(64, activation='relu'),
+            layers.Dense(64, activation='relu'),
+            layers.Dense(1, activation='linear')
+        ])
+
+        model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(1e-3))
+        return model
 
 if __name__ == '__main__':
     global model
