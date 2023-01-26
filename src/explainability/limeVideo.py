@@ -71,7 +71,7 @@ class LimeVideoExplainer(object):
             while(True):
                 success, frame = capture.read()
                 if success:
-                    frames.append(frame)
+                    frames.append(cv2.resize(frame, (0.5*frame.shape[1], 0.5*frame.shape[0])))
                 else:
                     break
             capture.release()
