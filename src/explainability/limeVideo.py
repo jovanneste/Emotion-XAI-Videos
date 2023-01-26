@@ -13,7 +13,6 @@ from evaluateModel import *
 
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.layers import Linear
 from keras.layers import Dropout
 
 class VideoExplanation(object):
@@ -117,8 +116,8 @@ class LimeVideoExplainer(object):
         model.add(Dropout(0.5))
         model.add(Dense(256, activation='relu'))
         model.add(Dropout(0.25))
-        model.add(Linear())
-        model.compile(optimizer='SGD', loss='mean_square_loss', metrics=['accuracy'])
+        model.add(Dense(1))
+        model.compile(optimizer='SGD', loss='mean_squared_error', metrics=['accuracy'])
         model.fit(neighbourhood_data[:, used_features], labels_column, epochs=2, verbose=1)
         model.summary()
         print(model.summary())
