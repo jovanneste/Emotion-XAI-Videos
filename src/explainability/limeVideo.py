@@ -20,6 +20,8 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+
+
 class VideoExplanation(object):
     def __init__(self, video):
         self.video = video
@@ -115,19 +117,25 @@ class LimeVideoExplainer(object):
                                                     method='none')
 
         print("Creating auxilary model...")
-        batch_size, frame_num, width, height, depth = neighbourhood_data.shape
+
 
         normalizer = tf.keras.layers.Normalization(axis=-1)
         normalizer.adapt(np.array(neighbourhood_data))
         print(normalizer.mean.numpy())
 
-        model = self.build_and_compile_model(normalizer)
+        model = self.build_and_compile_model(normalizer, neighbourhood_data.shape)
         print(model.summary())
 
-    def build_and_compile_model(self, norm):
+        model.fit(neighbourhood_data[:, used_features], labels_column)
+
+    def build_and_compile_model(self, norm, shapes):
+        batch_size, frame_num, width, height, depth = shapes
+
         model = keras.Sequential([
             norm,
             layers.Dense(64, activation='relu'),
+            #flatten layer?
+            #.add(Flatten())
             layers.Dense(64, activation='relu'),
             layers.Dense(1, activation='linear')
         ])
