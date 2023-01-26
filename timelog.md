@@ -385,4 +385,9 @@
 
 ### 25 Jan 2023
 
-* *2 hours* Meeting preperation
+* *2 hours* Meeting preparation
+* *0.5 hour* Meeting
+
+### 26 Jan 2023
+
+* *4 hours* Start creating my own regression model with keras
