@@ -171,16 +171,19 @@ class LimeVideoExplainer(object):
         model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(1e-3))
         return model
 
-    def embedding(self, video):
-
+    def embedding(self, neighbourhood_data):
         img2vec = Img2Vec(cuda=False, model='resnet18')
+        video_features = []
+        for video in neighbourhood_data:
+            frame_features = []
+            for frame in video:
+                img = Image.fromarray(frame)
+                vec = img2vec.get_vec(img, tensor=True)
+                frame_features.append(np.squeeze(np.asarray(vec).ravel()))
+            video_features.append(sum(frame_features)/len(frame_features))
+        return np.asarray(video_features)
 
-        for frame in video:
-            img = Image.fromarray(frame)
-            vec = img2vec.get_vec(img, tensor=True)
-            vec = np.squeeze(np.asarray(vec).ravel())
-            print(vec.shape)
-            sys.exit()
+
 
 
 
