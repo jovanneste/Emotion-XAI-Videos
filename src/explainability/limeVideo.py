@@ -123,38 +123,34 @@ class LimeVideoExplainer(object):
                                                     num_features,
                                                     method='none')
 
-        print("Creating auxilary model...")
-
-
         features = self.embedding(neighbourhood_data)
-        print(features.shape)
+        print("features", features.shape)
 
-        sys.exit()
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
-
         easy_model = model_regressor
 
 
         print("labels", labels_column.reshape(-1,1).shape)
 
-        easy_model.fit(flattened_data,labels_column.reshape(-1,1))
+        easy_model.fit(features, neighbourhood_labels)
         prediction_score = easy_model.score(
-            flattened_data[:, used_features],
-            labels_column)
+            features,
+            neighbourhood_labels)
 
-        local_pred = easy_model.predict(flattened_data[used_features].reshape(1, -1))
-
-
+        local_pred = easy_model.predict(features)
 
 
-        normalizer = tf.keras.layers.Normalization(axis=-1)
-        normalizer.adapt(np.array(neighbourhood_data))
-        print(normalizer.mean.numpy())
+        print('Intercept', easy_model.intercept_)
+        print('Prediction_local', local_pred,)
+        print('Right:', neighbourhood_labels[0, label])
 
-        model = self.build_and_compile_model(normalizer, neighbourhood_data.shape)
-        print(model.summary())
+        return (easy_model.intercept_,
+                sorted(zip(used_features, easy_model.coef_),
+                       key=lambda x: np.abs(x[1]), reverse=True),
+                prediction_score, local_pred)
 
-        model.fit(neighbourhood_data[:, used_features], labels_column)
+
+
 
     def build_and_compile_model(self, norm, shapes):
         batch_size, frame_num, width, height, depth = shapes
