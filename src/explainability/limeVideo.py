@@ -28,12 +28,8 @@ class VideoExplanation(object):
 
 class LimeVideoExplainer(object):
     def __init__(self):
-        def kernel(d):
-            return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
-        kernel_fn = partial(kernel)
         self.random_state = check_random_state(None)
-        self.base = lime_base.LimeBase(
-            kernel_fn, True, random_state=self.random_state)
+        self.base = lime_base.LimeBase(kernel_fn, True, random_state=self.random_state)
 
     def explain_instances(self, video, classifier_fn):
         data, labels, order = self.data_labels(classifier_fn)
@@ -93,17 +89,11 @@ class LimeVideoExplainer(object):
 
 
     def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, num_features=1000):
-
-        def k(d):
+        def kernel(d):
             return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
-        kf = partial(k)
+        kernel_fn = partial(kernel)
 
-        print("neighbourhood_data", neighbourhood_data.shape)
-        print("neighbourhood_labels", neighbourhood_labels.shape)
-        print("distances", distances.shape)
-        print("label", label.shape, label)
-
-        weights = kf(distances).ravel()
+        weights = kernel_fn(distances).ravel()
         labels_column = np.squeeze(neighbourhood_labels[:, label])
         used_features = self.base.feature_selection(neighbourhood_data,
                                                     labels_column,
@@ -112,34 +102,29 @@ class LimeVideoExplainer(object):
                                                     method='none')
 
         features = self.embedding(neighbourhood_data)
-        print("features", features.shape)
 
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
         easy_model = model_regressor
 
-
+        print("features", features.shape)
         print("labels", labels_column.reshape(-1,1).shape)
 
         easy_model.fit(features, neighbourhood_labels)
-        prediction_score = easy_model.score(
-            features,
-            neighbourhood_labels)
+        prediction_score = easy_model.score(features, neighbourhood_labels)
 
         local_pred = easy_model.predict(features)
-
 
         print('Intercept', easy_model.intercept_)
         print('Prediction_local', local_pred,)
         print('Right:', neighbourhood_labels[0, label])
 
         return (easy_model.intercept_,
-                sorted(zip(used_features, easy_model.coef_),
-                       key=lambda x: np.abs(x[1]), reverse=True),
+                sorted(zip(used_features, easy_model.coef_), key=lambda x: np.abs(x[1]), reverse=True),
                 prediction_score, local_pred)
 
 
-
     def embedding(self, neighbourhood_data):
+        #weights=ResNet18_Weights.DEFAULT
         img2vec = Img2Vec(cuda=False, model='resnet18')
         video_features = []
         for video in neighbourhood_data:
@@ -150,8 +135,6 @@ class LimeVideoExplainer(object):
                 frame_features.append(np.squeeze(np.asarray(vec).ravel()))
             video_features.append(sum(frame_features)/len(frame_features))
         return np.asarray(video_features)
-
-
 
 
 
