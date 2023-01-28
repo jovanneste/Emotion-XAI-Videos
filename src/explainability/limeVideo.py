@@ -20,7 +20,14 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+from sklearn.linear_model import Ridge, lars_path
 
+from transformers import AutoImageProcessor, VideoMAEForPreTraining
+import torch
+
+from img2vec_pytorch import Img2Vec
+from PIL import Image
+from matplotlib import cm
 
 class VideoExplanation(object):
     def __init__(self, video):
@@ -98,7 +105,7 @@ class LimeVideoExplainer(object):
 
 
     def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, num_features=1000):
-        # delete this
+
         def k(d):
             return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
         kf = partial(k)
@@ -117,6 +124,27 @@ class LimeVideoExplainer(object):
                                                     method='none')
 
         print("Creating auxilary model...")
+
+
+        features = self.embedding(neighbourhood_data)
+        print(features.shape)
+
+        sys.exit()
+        model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
+
+        easy_model = model_regressor
+
+
+        print("labels", labels_column.reshape(-1,1).shape)
+
+        easy_model.fit(flattened_data,labels_column.reshape(-1,1))
+        prediction_score = easy_model.score(
+            flattened_data[:, used_features],
+            labels_column)
+
+        local_pred = easy_model.predict(flattened_data[used_features].reshape(1, -1))
+
+
 
 
         normalizer = tf.keras.layers.Normalization(axis=-1)
@@ -142,6 +170,20 @@ class LimeVideoExplainer(object):
 
         model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(1e-3))
         return model
+
+    def embedding(self, video):
+
+        img2vec = Img2Vec(cuda=False, model='resnet18')
+
+        for frame in video:
+            img = Image.fromarray(frame)
+            vec = img2vec.get_vec(img, tensor=True)
+            vec = np.squeeze(np.asarray(vec).ravel())
+            print(vec.shape)
+            sys.exit()
+
+
+
 
 if __name__ == '__main__':
     global model
