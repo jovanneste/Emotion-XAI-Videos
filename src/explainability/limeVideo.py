@@ -1,33 +1,21 @@
 import numpy as np
 import lime
 from lime import lime_base
+from PIL import Image
+from matplotlib import cm
 from functools import partial
 import sklearn
-# from sklearn import metrics
-# from sklearn.metrics import pairwise_distances
+from sklearn.linear_model import Ridge, lars_path
 from sklearn.utils import check_random_state
 import glob
 import sys
 sys.path.append('../')
 from evaluateModel import *
 
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.layers import Dropout
-
-import tensorflow as tf
-
-from tensorflow import keras
-from tensorflow.keras import layers
-
-from sklearn.linear_model import Ridge, lars_path
-
 from transformers import AutoImageProcessor, VideoMAEForPreTraining
 import torch
-
 from img2vec_pytorch import Img2Vec
-from PIL import Image
-from matplotlib import cm
+
 
 class VideoExplanation(object):
     def __init__(self, video):
@@ -150,22 +138,6 @@ class LimeVideoExplainer(object):
                 prediction_score, local_pred)
 
 
-
-
-    def build_and_compile_model(self, norm, shapes):
-        batch_size, frame_num, width, height, depth = shapes
-
-        model = keras.Sequential([
-            norm,
-            layers.Dense(64, activation='relu'),
-            #flatten layer?
-            #.add(Flatten())
-            layers.Dense(64, activation='relu'),
-            layers.Dense(1, activation='linear')
-        ])
-
-        model.compile(loss='mean_squared_error', optimizer=tf.keras.optimizers.Adam(1e-3))
-        return model
 
     def embedding(self, neighbourhood_data):
         img2vec = Img2Vec(cuda=False, model='resnet18')
