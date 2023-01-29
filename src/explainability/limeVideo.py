@@ -1,4 +1,5 @@
 import numpy as np
+import pickle
 import lime
 from lime import lime_base
 from PIL import Image
@@ -28,10 +29,15 @@ class VideoExplanation(object):
 
 class LimeVideoExplainer(object):
     def __init__(self):
+        def kernel(d):
+            return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
+        kernel_fn = partial(kernel)
         self.random_state = check_random_state(None)
         self.base = lime_base.LimeBase(kernel_fn, True, random_state=self.random_state)
 
-    def explain_instances(self, video, classifier_fn):
+    def explain_instances(self, video, classifier_fn, segments):
+        print(segments)
+        print(segments.shape)
         data, labels, order = self.data_labels(classifier_fn)
 
         distances = []
@@ -48,10 +54,10 @@ class LimeVideoExplainer(object):
         ret_exp.top_labels.reverse()
 
         for label in top:
-            (ret_exp.intercept[label],
-             ret_exp.local_exp[label],
-             ret_exp.score[label],
-             ret_exp.local_pred[label]) = self.explain_instance_with_data(data, labels, distances, label)
+            (ret_exp.intercept[label[0]],
+             ret_exp.local_exp[label[0]],
+             ret_exp.score[label[0]],
+             ret_exp.local_pred[label[0]]) = self.explain_instance_with_data(data, labels, distances, label, segments)
         print("Done")
         return ret_exp
 
@@ -88,7 +94,7 @@ class LimeVideoExplainer(object):
             print("Distance calculation failed")
 
 
-    def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, num_features=1000):
+    def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, segments, num_features=1000):
         def kernel(d):
             return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
         kernel_fn = partial(kernel)
@@ -101,25 +107,25 @@ class LimeVideoExplainer(object):
                                                     num_features,
                                                     method='none')
 
+        used_features = [i for i in range(np.max(segments))]
+
         features = self.embedding(neighbourhood_data)
 
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
         easy_model = model_regressor
 
-        print("features", features.shape)
-        print("labels", labels_column.reshape(-1,1).shape)
+        easy_model.fit(features[:, used_features], neighbourhood_labels)
+        prediction_score = easy_model.score(features[:, used_features], neighbourhood_labels)
 
-        easy_model.fit(features, neighbourhood_labels)
-        prediction_score = easy_model.score(features, neighbourhood_labels)
-
-        local_pred = easy_model.predict(features)
-
-        print('Intercept', easy_model.intercept_)
-        print('Prediction_local', local_pred,)
-        print('Right:', neighbourhood_labels[0, label])
+        local_pred = easy_model.predict(features[0,used_features].reshape(1, -1))
+        print(easy_model.intercept_)
+        print(easy_model.coef_[0])
+        print(sorted(zip(used_features, easy_model.coef_[0]),key=lambda x: np.abs(x[1]), reverse=True))
+        print(prediction_score)
+        print(local_pred)
 
         return (easy_model.intercept_,
-                sorted(zip(used_features, easy_model.coef_), key=lambda x: np.abs(x[1]), reverse=True),
+                easy_model.coef_,
                 prediction_score, local_pred)
 
 
@@ -140,9 +146,12 @@ class LimeVideoExplainer(object):
 
 
 if __name__ == '__main__':
+    file = open('segments', 'rb')
+    segments = pickle.load(file)
+    file.close()
     global model
     model = keras.models.load_model('../../data/models/predict_model')
     originl_video = '../../data/LIMEset/0.mp4'
     explainer = LimeVideoExplainer()
     print("\nExplainer created")
-    explanation = explainer.explain_instances(originl_video, model.predict)
+    explanation = explainer.explain_instances(originl_video, model.predict, segments)
