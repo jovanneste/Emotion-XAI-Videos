@@ -166,26 +166,3 @@ class LimeVideoExplainer(object):
                 frame_features.append(np.squeeze(np.asarray(vec).ravel()))
             video_features.append(sum(frame_features)/len(frame_features))
         return np.asarray(video_features)
-
-
-
-if __name__ == '__main__':
-    global model
-    model = keras.models.load_model('../../data/models/predict_model')
-
-    file = open('segments_and_prime_frame', 'rb')
-    segments_and_prime_frame = pickle.load(file)
-    segments = segments_and_prime_frame[0]
-    prime_frame = segments_and_prime_frame[1]
-    file.close()
-
-    originl_video = '../../data/LIMEset/0.mp4'
-    explainer = LimeVideoExplainer()
-    explanation = explainer.explain_instances(originl_video, model.predict, segments)
-
-    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame, num_features=50, hide_rest=False)
-    plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
-    plt.show()
-
-    cv2.imshow("Mask", mask)
-    cv2.imshow("Applied", cv2.bitwise_and(image, image, mask = mask))

@@ -157,6 +157,7 @@ def maskPixels(pixels, i, j):
             frame[p[0], p[1]] = (0,0,0)
     cv2.imwrite("../../data/LIMEset/"+ str(i) +".jpg", frame)
 
+
 def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n):
     j=0
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
@@ -178,16 +179,3 @@ def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n)
         j+=1
     remove()
     print("Finished")
-
-
-if __name__ == '__main__':
-    # print("Loading model...")
-    # global model
-    # model = keras.models.load_model('../../data/models/predict_model')
-    # print(model.summary())
-    # video_path = "../../data/videos/train_videos/421.mp4"
-    # prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 15)
-    # print('\n\n\n')
-    # print(prime_frame, lower_frame, upper_frame, frameSize, fps)
-    # this returns 20 12 24 (640, 464) 29.97
-    createMaskedVideos(20, 12, 24-1, 29.97, (640,464), 5)
