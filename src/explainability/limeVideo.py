@@ -3,6 +3,7 @@ import pickle
 import lime
 from lime import lime_base
 from PIL import Image
+import cv2
 from matplotlib import cm
 from functools import partial
 import sklearn
@@ -19,14 +20,51 @@ from img2vec_pytorch import Img2Vec
 
 
 class VideoExplanation(object):
-    def __init__(self, video):
+    def __init__(self, video, segments):
         self.video = video
+        self.segments = segments
         self.intercept = {}
         self.local_exp = {}
         self.local_pred = {}
         self.score = {}
 
 
+    def get_image_and_mask(self, label, prime_frame, positive_only=True, negative_only=False, hide_rest=False,
+                       num_features=5, min_weight=0.):
+
+        if label[0] not in self.local_exp:
+            raise KeyError('Label not in explanation')
+
+        segments = self.segments
+        video = self.video
+        exp = self.local_exp[label[0]]
+        mask = np.zeros(segments.shape, segments.dtype)
+        image = cv2.imread('../../data/frames/frame'+str(prime_frame)+'.jpg')
+
+        print(image.shape)
+
+        temp = image.copy()
+
+        if positive_only:
+            fs = [x[0] for x in exp
+                  if x[1] > 0 and x[1] > min_weight][:num_features]
+        if negative_only:
+            fs = [x[0] for x in exp
+                  if x[1] < 0 and abs(x[1]) > min_weight][:num_features]
+        if positive_only or negative_only:
+            for f in fs:
+                temp[segments == f] = image[segments == f].copy()
+                mask[segments == f] = 1
+            return temp, mask
+        else:
+            for f, w in exp[:num_features]:
+                if np.abs(w) < min_weight:
+                    continue
+                c = 0 if w < 0 else 1
+                mask[segments == f] = -1 if w < 0 else 1
+                temp[segments == f] = image[segments == f].copy()
+                temp[segments == f, c] = np.max(image)
+            return temp, mask
 
 
 class LimeVideoExplainer(object):
@@ -49,7 +87,7 @@ class LimeVideoExplainer(object):
             distances.append(self.distance(f, original_image[:,:,0]))
         distances = np.asarray(distances)
 
-        ret_exp = VideoExplanation(video)
+        ret_exp = VideoExplanation(video, segments)
 
         top = np.argsort(labels)[-1:]
         ret_exp.top_labels = list(top)
@@ -142,12 +180,16 @@ class LimeVideoExplainer(object):
 
 
 if __name__ == '__main__':
-    file = open('segments', 'rb')
-    segments = pickle.load(file)
+    file = open('segments_and_prime_frame', 'rb')
+    segments_and_prime_frame = pickle.load(file)
+    segments = segments_and_prime_frame[0]
+    prime_frame = segments_and_prime_frame[1]
     file.close()
+    print("Key frame for explanation:", prime_frame)
     global model
     model = keras.models.load_model('../../data/models/predict_model')
     originl_video = '../../data/LIMEset/0.mp4'
     explainer = LimeVideoExplainer()
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
-    print(explaining.top_labels)
+
+    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame, positive_only=True, num_features=5, hide_rest=True)
