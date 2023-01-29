@@ -186,3 +186,6 @@ if __name__ == '__main__':
     temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame, num_features=50, hide_rest=False)
     plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
     plt.show()
+
+    cv2.imshow("Mask", mask)
+    cv2.imshow("Applied", cv2.bitwise_and(image, image, mask = mask))
