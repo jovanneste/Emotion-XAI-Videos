@@ -69,8 +69,6 @@ class LimeVideoExplainer(object):
         self.base = lime_base.LimeBase(kernel_fn, True, random_state=self.random_state)
 
     def explain_instances(self, video, classifier_fn, segments):
-        print(segments)
-        print(segments.shape)
         data, labels, order = self.data_labels(classifier_fn)
 
         distances = []
@@ -172,14 +170,15 @@ class LimeVideoExplainer(object):
 
 
 if __name__ == '__main__':
+    global model
+    model = keras.models.load_model('../../data/models/predict_model')
+
     file = open('segments_and_prime_frame', 'rb')
     segments_and_prime_frame = pickle.load(file)
     segments = segments_and_prime_frame[0]
     prime_frame = segments_and_prime_frame[1]
     file.close()
-    print("Key frame for explanation:", prime_frame)
-    global model
-    model = keras.models.load_model('../../data/models/predict_model')
+
     originl_video = '../../data/LIMEset/0.mp4'
     explainer = LimeVideoExplainer()
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
