@@ -117,12 +117,12 @@ def maskFrames(video_path, n):
     return prime_frame, lower_frame, upper_frame, frameSize, fps
 
 
-def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500, visualise=False):
+def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=500, visualise=False):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
-
-    file = open('segments', 'wb')
-    pickle.dump(segments, file)
+    segments_and_prime_frame = [segments, prime_frame]
+    file = open('segments_and_prime_frame', 'wb')
+    pickle.dump(segments_and_prime_frame, file)
     file.close()
 
     if visualise:
@@ -160,7 +160,7 @@ def maskPixels(pixels, i, j):
 def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n):
     j=0
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
-    perturbed_pixels = createNeighbourhoodSet(path, 10, n)
+    perturbed_pixels = createNeighbourhoodSet(path, 10, n, prime_frame)
 
     for pixels in perturbed_pixels:
         remove()
@@ -190,4 +190,4 @@ if __name__ == '__main__':
     # print('\n\n\n')
     # print(prime_frame, lower_frame, upper_frame, frameSize, fps)
     # this returns 20 12 24 (640, 464) 29.97
-    createMaskedVideos(20, 12, 24-1, 29.97, (640,464), 20)
+    createMaskedVideos(20, 12, 24-1, 29.97, (640,464), 5)
