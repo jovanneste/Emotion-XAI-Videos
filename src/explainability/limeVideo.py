@@ -17,7 +17,8 @@ from evaluateModel import *
 from transformers import AutoImageProcessor, VideoMAEForPreTraining
 import torch
 from img2vec_pytorch import Img2Vec
-
+import matplotlib.pyplot as plt
+from skimage.segmentation import mark_boundaries
 
 class VideoExplanation(object):
     def __init__(self, video, segments):
@@ -29,20 +30,12 @@ class VideoExplanation(object):
         self.score = {}
 
 
-    def get_image_and_mask(self, label, prime_frame, positive_only=True, negative_only=False, hide_rest=False,
-                       num_features=5, min_weight=0.):
-
-        if label[0] not in self.local_exp:
-            raise KeyError('Label not in explanation')
-
+    def get_image_and_mask(self, label, prime_frame, positive_only=True, negative_only=True, hide_rest=False, num_features=5, min_weight=-10):
         segments = self.segments
         video = self.video
         exp = self.local_exp[label[0]]
         mask = np.zeros(segments.shape, segments.dtype)
         image = cv2.imread('../../data/frames/frame'+str(prime_frame)+'.jpg')
-
-        print(image.shape)
-
         temp = image.copy()
 
         if positive_only:
@@ -178,7 +171,6 @@ class LimeVideoExplainer(object):
 
 
 
-
 if __name__ == '__main__':
     file = open('segments_and_prime_frame', 'rb')
     segments_and_prime_frame = pickle.load(file)
@@ -192,4 +184,6 @@ if __name__ == '__main__':
     explainer = LimeVideoExplainer()
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
 
-    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame, positive_only=True, num_features=5, hide_rest=True)
+    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame, num_features=50, hide_rest=False)
+    plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
+    plt.show()
