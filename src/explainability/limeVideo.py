@@ -27,6 +27,8 @@ class VideoExplanation(object):
         self.score = {}
 
 
+
+
 class LimeVideoExplainer(object):
     def __init__(self):
         def kernel(d):
@@ -108,7 +110,7 @@ class LimeVideoExplainer(object):
 
         used_features = [i for i in range(np.max(segments))]
 
-        features = self.embedding(neighbourhood_data)
+        features = self.feature_extraction(neighbourhood_data)
 
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
         easy_model = model_regressor
@@ -123,7 +125,7 @@ class LimeVideoExplainer(object):
                 prediction_score, local_pred)
 
 
-    def embedding(self, neighbourhood_data):
+    def feature_extraction(self, neighbourhood_data):
         #weights=ResNet18_Weights.DEFAULT
         img2vec = Img2Vec(cuda=False, model='resnet18')
         video_features = []
@@ -147,5 +149,5 @@ if __name__ == '__main__':
     model = keras.models.load_model('../../data/models/predict_model')
     originl_video = '../../data/LIMEset/0.mp4'
     explainer = LimeVideoExplainer()
-    print("\nExplainer created")
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
+    print(explaining.top_labels)
