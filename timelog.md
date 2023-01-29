@@ -391,3 +391,15 @@
 ### 26 Jan 2023
 
 * *4 hours* Start creating my own regression model with keras
+* *1 hour* Supervisor meeting
+
+### 27 Jan 2023
+
+### 28 Jan 2023
+
+* *5 hours* Feature extraction to use ridge regression (average of frames)
+
+### 29 Jan 2023
+
+* *3 hours* Bug fixes
+* *2 hours* Show mask  
