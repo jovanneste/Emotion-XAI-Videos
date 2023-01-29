@@ -58,7 +58,6 @@ class LimeVideoExplainer(object):
              ret_exp.local_exp[label[0]],
              ret_exp.score[label[0]],
              ret_exp.local_pred[label[0]]) = self.explain_instance_with_data(data, labels, distances, label, segments)
-        print("Done")
         return ret_exp
 
     def data_labels(self, classifier_fn, scale=0.4):
@@ -118,11 +117,6 @@ class LimeVideoExplainer(object):
         prediction_score = easy_model.score(features[:, used_features], neighbourhood_labels)
 
         local_pred = easy_model.predict(features[0,used_features].reshape(1, -1))
-        print(easy_model.intercept_)
-        print(easy_model.coef_[0])
-        print(sorted(zip(used_features, easy_model.coef_[0]),key=lambda x: np.abs(x[1]), reverse=True))
-        print(prediction_score)
-        print(local_pred)
 
         return (easy_model.intercept_,
                 easy_model.coef_,
