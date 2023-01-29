@@ -15,7 +15,7 @@ from skimage.util import img_as_float
 from skimage import io
 import matplotlib.pyplot as plt
 import glob
-
+import pickle
 
 def remove():
     files = glob.glob('../../data/LIMEset/*')
@@ -120,6 +120,10 @@ def maskFrames(video_path, n):
 def createNeighbourhoodSet(image_path, blocks, perturbed_num, pixel_segments=500, visualise=False):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
+
+    file = open('segments', 'wb')
+    pickle.dump(segments, file)
+    file.close()
 
     if visualise:
         visualiseSuperPixels(segments, image)
