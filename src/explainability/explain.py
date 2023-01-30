@@ -1,5 +1,5 @@
-# from lime_video import *
-# from mask import *
+from lime_video import *
+from mask import *
 import sys
 import argparse
 
@@ -10,7 +10,7 @@ def explain_model_prediction(video_path, model):
     print(prime_frame, lower_frame, upper_frame, frameSize, fps)
 
     print("Creating masks...")
-    createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, 200)
+    createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, 50)
 
     file = open('segments_and_prime_frame', 'rb')
     segments_and_prime_frame = pickle.load(file)
@@ -27,12 +27,13 @@ def explain_model_prediction(video_path, model):
 
     temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features=15, hide_rest=False)
 
-    t = plt.imshow(mark_boundaries(prime_frame_img, mask))
-    t.show()
+    plt.imshow(mark_boundaries(prime_frame_img, mask))
+    plt.show()
+
 
 
 if __name__=='__main__':
-    # start by removing masked videos from previous runs 
+    # start by removing masked videos from previous runs
     for f in glob.glob('../../data/LIMEset/*'):
         os.remove(f)
     sys.exit()
@@ -57,4 +58,4 @@ if __name__=='__main__':
     if not status:
         print("Maybe you want to use -m or -v as arguments ?")
 
-    sys.exit()
+    explain_model_prediction(arguments.video, model)
