@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append('../')
 from evaluateModel import *
-from quantiseVideo import *
+from quantise_video import *
 import cv2
 from tensorflow import keras
 import keras.utils as image
