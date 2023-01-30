@@ -117,7 +117,7 @@ def maskFrames(video_path, n):
     return prime_frame, lower_frame, upper_frame, frameSize, fps
 
 
-def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=500, visualise=False):
+def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=250, visualise=False):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
     segments_and_prime_frame = [segments, prime_frame]
@@ -127,14 +127,13 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel
 
     if visualise:
         visualiseSuperPixels(segments, image)
-    else:
         # visualise super pixel regions
         fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
         ax = fig.add_subplot(1, 1, 1)
         ax.imshow(mark_boundaries(image, segments))
         plt.axis("off")
         plt.show()
-        print("\nTo see step by step super pixel segmentation set visualise=True\n")
+    print("\nTo see super pixel segmentation set visualise=True\n")
 
     perturbed_pixels = []
     for i in range(perturbed_num):
