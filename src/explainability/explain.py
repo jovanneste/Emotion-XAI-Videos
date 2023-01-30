@@ -1,6 +1,6 @@
 from lime_video import *
 from mask import *
-
+import sys
 
 print("Loading model...")
 global model
@@ -18,21 +18,21 @@ createMaskedVideos(20, 12, 24-1, 29.97, (640,464), 5)
 file = open('segments_and_prime_frame', 'rb')
 segments_and_prime_frame = pickle.load(file)
 segments = segments_and_prime_frame[0]
-prime_frame = segments_and_prime_frame[1]
+prime_frame_num = segments_and_prime_frame[1]
 file.close()
 
 originl_video = '../../data/LIMEset/0.mp4'
+prime_frame_img = cv2.imread('../../data/frames/frame'+str(prime_frame_num)+'.jpg')
 explainer = LimeVideoExplainer()
 explanation = explainer.explain_instances(originl_video, model.predict, segments)
 
-temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame, num_features=10, hide_rest=False)
-print(temp.shape)
-print(temp)
-print(mask.shape)
-print(mask)
+temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features=5, hide_rest=False)
 
-plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
+plt.imshow(mask)
+plt.show()
+plt.imshow(prime_frame_img)
 plt.show()
 
-cv2.imshow("Mask", mask)
-cv2.imshow("Applied", cv2.bitwise_and(image, image, mask = mask))
+
+plt.imshow(mark_boundaries(prime_frame_img, mask))
+plt.show()
