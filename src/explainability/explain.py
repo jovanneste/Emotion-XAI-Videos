@@ -1,11 +1,10 @@
-from lime_video import *
-from mask import *
+# from lime_video import *
+# from mask import *
 import sys
+import argparse
+
 
 def explain_model_prediction(video_path, model):
-    print("Loading model...")
-    global model
-    model = keras.models.load_model('../../data/models/predict_model')
     prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 15)
 
     print(prime_frame, lower_frame, upper_frame, frameSize, fps)
@@ -30,3 +29,31 @@ def explain_model_prediction(video_path, model):
 
     t = plt.imshow(mark_boundaries(prime_frame_img, mask))
     t.show()
+
+
+if __name__=='__main__':
+    # for f in glob.glob('../../data/LIMEset/*'):
+    #     os.remove(f)
+    # sys.exit()
+    parser = argparse.ArgumentParser(description = "Description")
+    parser.add_argument("-m", "--model", help = "Video classification model", required = False, default = "")
+    parser.add_argument("-v", "--video", help = "Video to explain", required = True, default = "")
+
+    argument = parser.parse_args()
+    status = False
+
+    if argument.model:
+        print("You have used '-m' or '--model' with argument: {0}".format(argument.model))
+        status = True
+    if argument.video:
+        print("You have used '-v' or '--video' with argument: {0}".format(argument.video))
+        status = True
+
+    if not status:
+        print("Maybe you want to use -m or -v as arguments ?")
+
+    sys.exit()
+
+    print("Loading model...")
+    global model
+    model = keras.models.load_model('../../data/models/predict_model')
