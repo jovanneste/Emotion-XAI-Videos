@@ -30,10 +30,10 @@ class VideoExplanation(object):
         self.score = {}
 
 
-    def get_image_and_mask(self, label, prime_frame, positive_only=True, negative_only=True, hide_rest=False, num_features=5, min_weight=-10):
+    def get_image_and_mask(self, label, prime_frame, positive_only=True, negative_only=False, hide_rest=False, num_features=5, min_weight=-10):
         segments = self.segments
         video = self.video
-        exp = self.local_exp[label[0]]
+        exp = self.local_exp[1]
         mask = np.zeros(segments.shape, segments.dtype)
         image = cv2.imread('../../data/frames/frame'+str(prime_frame)+'.jpg')
         temp = image.copy()
@@ -91,7 +91,7 @@ class LimeVideoExplainer(object):
              ret_exp.local_pred[label[0]]) = self.explain_instance_with_data(data, labels, distances, label, segments)
         return ret_exp
 
-    def data_labels(self, classifier_fn, scale=0.4):
+    def data_labels(self, classifier_fn, scale=1):
         data, labels, order = [], [], []
         # might have to sort this
         files = glob.glob('../../data/LIMEset/*')
@@ -150,7 +150,8 @@ class LimeVideoExplainer(object):
         local_pred = easy_model.predict(features[0,used_features].reshape(1, -1))
 
         return (easy_model.intercept_,
-                easy_model.coef_,
+                sorted(zip(used_features, easy_model.coef_[0]),
+                       key=lambda x: np.abs(x[1]), reverse=True),
                 prediction_score, local_pred)
 
 
