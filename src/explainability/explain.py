@@ -5,9 +5,8 @@ import argparse
 
 
 def explain_model_prediction(video_path, model):
+    print("Finding key frames...")
     prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 15)
-
-    print(prime_frame, lower_frame, upper_frame, frameSize, fps)
 
     print("Creating masks...")
     createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, 50)
@@ -33,10 +32,10 @@ def explain_model_prediction(video_path, model):
 
 
 if __name__=='__main__':
-    # start by removing masked videos from previous runs
+    # start by removing masked videos and pickle file from previous run
     for f in glob.glob('../../data/LIMEset/*'):
         os.remove(f)
-    sys.exit()
+    os.remove('segments_and_prime_frame')
     parser = argparse.ArgumentParser(description = "Description")
     parser.add_argument("-m", "--model", help = "Video classification model", required = False, default = "")
     parser.add_argument("-v", "--video", help = "Video to explain", required = True, default = "")
@@ -57,5 +56,6 @@ if __name__=='__main__':
 
     if not status:
         print("Maybe you want to use -m or -v as arguments ?")
+
 
     explain_model_prediction(arguments.video, model)
