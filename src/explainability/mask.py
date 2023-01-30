@@ -63,7 +63,7 @@ def sortDict(d, key):
         return {k: v for k, v in sorted(d.items(), key=lambda item: item[1])}
 
 
-def maskFrames(video_path, n):
+def maskFrames(video_path, n, model):
     print("Quantising video...")
     ranges, fps, frameSize = getFrames(video_path, n)
     data = load_sample(video_path)
