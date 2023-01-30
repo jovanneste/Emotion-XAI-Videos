@@ -117,7 +117,7 @@ def maskFrames(video_path, n):
     return prime_frame, lower_frame, upper_frame, frameSize, fps
 
 
-def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=250, visualise=False):
+def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=500, visualise=False):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
     segments_and_prime_frame = [segments, prime_frame]
