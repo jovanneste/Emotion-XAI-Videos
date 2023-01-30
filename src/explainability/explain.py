@@ -24,7 +24,7 @@ def explain_model_prediction(video_path, model):
     explainer = LimeVideoExplainer()
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
 
-    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features=15, hide_rest=False)
+    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features=5, hide_rest=False)
 
     plt.imshow(mark_boundaries(prime_frame_img, mask))
     plt.show()
