@@ -33,7 +33,8 @@ class VideoExplanation(object):
     def get_image_and_mask(self, label, prime_frame, positive_only=True, negative_only=False, hide_rest=False, num_features=5, min_weight=-10):
         segments = self.segments
         video = self.video
-        exp = self.local_exp[1]
+        values = list(self.local_exp.keys())
+        exp = self.local_exp[values[0]]
         mask = np.zeros(segments.shape, segments.dtype)
         image = cv2.imread('../../data/frames/frame'+str(prime_frame)+'.jpg')
         temp = image.copy()
@@ -136,7 +137,7 @@ class LimeVideoExplainer(object):
                                                     weights,
                                                     num_features,
                                                     method='none')
-
+        # use all
         used_features = [i for i in range(np.max(segments))]
 
         features = self.feature_extraction(neighbourhood_data)
