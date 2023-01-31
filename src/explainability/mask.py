@@ -64,21 +64,19 @@ def sortDict(d, key):
 
 
 def maskFrames(video_path, n, model):
-    print("Quantising video...")
     ranges, fps, frameSize = getFrames(video_path, n)
+    print("Ranges", ranges)
     data = load_sample(video_path)
     result = predict(data, model)
     exciting_label = result[0]
     print("Original video result", result)
-    print("Exciting label =", exciting_label)
-    print(ranges)
+
 
     differences = {}
     frames = getSortedFrames()
 
     for r in ranges:
         keyFrame = r[0]
-        print("Building new video without", keyFrame)
         lowerBound = r[1]
         upperBound = r[2]
         out = cv2.VideoWriter(str(keyFrame) + '.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
