@@ -7,15 +7,18 @@ import argparse
 def explain_model_prediction(video_path, model):
     print("Finding key frames...")
     prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, 15, model)
+    print(prime_frame, lower_frame, upper_frame)
 
     print("Creating masks...")
-    createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, 50)
+    createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, 100)
 
     file = open('segments_and_prime_frame', 'rb')
     segments_and_prime_frame = pickle.load(file)
     segments = segments_and_prime_frame[0]
     prime_frame_num = segments_and_prime_frame[1]
     file.close()
+
+
 
     originl_video = '../../data/LIMEset/0.mp4'
     prime_frame_img = cv2.imread('../../data/frames/frame'+str(prime_frame_num)+'.jpg')
@@ -24,15 +27,47 @@ def explain_model_prediction(video_path, model):
     explainer = LimeVideoExplainer()
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
 
-    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features=5, hide_rest=False)
+    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features=3)
 
+    plt.imshow(mask)
+    plt.show()
+    plt.imshow(prime_frame_img)
+    plt.show()
     plt.imshow(mark_boundaries(prime_frame_img, mask))
+    plt.show()
+
+    values = list(explanation.local_exp.keys())
+    ind = explanation.local_exp[values[0]]
+
+    #Map each explanation weight to the corresponding superpixel
+    dict_heatmap = dict(ind)
+    heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
+
+    #Plot. The visualization makes more sense if a symmetrical colorbar is used.
+    plt.imshow(heatmap, cmap = 'RdBu')
+    plt.colorbar()
     plt.show()
 
 
 
 if __name__=='__main__':
-    parser = argparse.ArgumentParser(description = "Description")
+    for f in glob.glob('../../data/LIMEset/*'):
+        os.remove(f)
+    try:
+        os.remove('segments_and_prime_frame')
+    except:
+        pass
+    video_path = '../../data/videos/train_videos/582.mp4'
+    data = load_sample(video_path)
+    print(predict(data, keras.models.load_model('../../data/models/predict_model')))
+
+
+    explain_model_prediction(video_path, keras.models.load_model('../../data/models/predict_model'))
+    sys.exit()
+
+
+
+    parser = argparse.ArgumentParser(description = "Usage")
     parser.add_argument("-m", "--model", help = "Video classification model", required = False, default = "")
     parser.add_argument("-v", "--video", help = "Video to explain", required = True, default = "")
 
