@@ -16,6 +16,8 @@ from evaluateModel import *
 
 from transformers import AutoImageProcessor, VideoMAEForPreTraining
 import torch
+import clip
+import tqdm
 from img2vec_pytorch import Img2Vec
 import matplotlib.pyplot as plt
 from skimage.segmentation import mark_boundaries
@@ -127,8 +129,10 @@ class LimeVideoExplainer(object):
 
     def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, segments):
         used_features = [i for i in range(np.max(segments))]
-
+        print(neighbourhood_data.shape)
         features = self.feature_extraction(neighbourhood_data)
+        print(features.shape)
+        sys.exit()
 
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
 
@@ -143,15 +147,29 @@ class LimeVideoExplainer(object):
                 prediction_score, local_pred)
 
 
-    def feature_extraction(self, neighbourhood_data):
-        #weights=ResNet18_Weights.DEFAULT
-        img2vec = Img2Vec(cuda=False, model='resnet18')
+    def feature_extraction(self, neighbourhood_data, clip_model=True):
         video_features = []
-        for video in neighbourhood_data:
-            frame_features = []
-            for frame in video:
-                img = Image.fromarray(frame)
-                vec = img2vec.get_vec(img, tensor=True)
-                frame_features.append(np.squeeze(np.asarray(vec).ravel()))
-            video_features.append(sum(frame_features)/len(frame_features))
+        if clip_model:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            m, preprocess = clip.load("ViT-B/32", device=device)
+            for video in neighbourhood_data:
+                frame_features = []
+                for frame in video:
+                    frame_pil = Image.fromarray(frame)
+                    img_pred = preprocess(frame_pil).unsqueeze(0).to(device)
+                    encoded_image = m.encode_image(img_pred)
+                    encoded_image_array = encoded_image.detach().cpu().numpy()
+                    frame_features.append(np.squeeze(encoded_image_array))
+                video_features.append(sum(frame_features)/len(frame_features))
+        else:
+            #weights=ResNet18_Weights.DEFAULT
+            img2vec = Img2Vec(cuda=False, model='resnet18')
+            for video in neighbourhood_data:
+                frame_features = []
+                for frame in video:
+                    img = Image.fromarray(frame)
+                    vec = img2vec.get_vec(img, tensor=True)
+                    frame_features.append(np.squeeze(np.asarray(vec).ravel()))
+                video_features.append(sum(frame_features)/len(frame_features))
+
         return np.asarray(video_features)
