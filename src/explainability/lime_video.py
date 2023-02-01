@@ -129,10 +129,8 @@ class LimeVideoExplainer(object):
 
     def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, segments):
         used_features = [i for i in range(np.max(segments))]
-        print(neighbourhood_data.shape)
-        features = self.feature_extraction(neighbourhood_data)
-        print(features.shape)
-        sys.exit()
+
+        features = self.feature_extraction(neighbourhood_data, clip_model=True)
 
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
 
@@ -147,7 +145,7 @@ class LimeVideoExplainer(object):
                 prediction_score, local_pred)
 
 
-    def feature_extraction(self, neighbourhood_data, clip_model=True):
+    def feature_extraction(self, neighbourhood_data, clip_model):
         video_features = []
         if clip_model:
             device = "cuda" if torch.cuda.is_available() else "cpu"
