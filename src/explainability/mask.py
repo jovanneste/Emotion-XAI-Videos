@@ -100,7 +100,7 @@ def maskFrames(video_path, n, model):
     x = np.asarray(list(differences.keys()))
     y = np.asarray(list(differences.values()))*-1
 
-    plot(x, y, ranges)
+    # plot(x, y, ranges)
 
     prime_frame = list(differences.keys())[0]
     print("Prime frame", prime_frame)
@@ -115,7 +115,7 @@ def maskFrames(video_path, n, model):
     return prime_frame, lower_frame, upper_frame, frameSize, fps
 
 
-def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=100, visualise=False):
+def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=50, visualise=False):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
     segments_and_prime_frame = [segments, prime_frame]
@@ -158,7 +158,7 @@ def maskPixels(pixels, i, j):
 def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n):
     j=0
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
-    perturbed_pixels = createNeighbourhoodSet(path, 10, n, prime_frame)
+    perturbed_pixels = createNeighbourhoodSet(path, 20, n, prime_frame)
 
     for pixels in perturbed_pixels:
         remove()
