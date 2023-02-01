@@ -125,33 +125,20 @@ class LimeVideoExplainer(object):
             print("Distance calculation failed")
 
 
-    def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, segments, num_features=1000):
-        def kernel(d):
-            return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
-        kernel_fn = partial(kernel)
-
-        weights = kernel_fn(distances).ravel()
-        labels_column = np.squeeze(neighbourhood_labels[:, label])
-        used_features = self.base.feature_selection(neighbourhood_data,
-                                                    labels_column,
-                                                    weights,
-                                                    num_features,
-                                                    method='none')
-        # use all
+    def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, segments):
         used_features = [i for i in range(np.max(segments))]
 
         features = self.feature_extraction(neighbourhood_data)
 
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
-        easy_model = model_regressor
 
-        easy_model.fit(features[:, used_features], neighbourhood_labels)
-        prediction_score = easy_model.score(features[:, used_features], neighbourhood_labels)
+        model_regressor.fit(features[:, used_features], neighbourhood_labels)
+        prediction_score = model_regressor.score(features[:, used_features], neighbourhood_labels)
 
-        local_pred = easy_model.predict(features[0,used_features].reshape(1, -1))
+        local_pred = model_regressor.predict(features[0,used_features].reshape(1, -1))
 
-        return (easy_model.intercept_,
-                sorted(zip(used_features, easy_model.coef_[0]),
+        return (model_regressor.intercept_,
+                sorted(zip(used_features, model_regressor.coef_[0]),
                        key=lambda x: np.abs(x[1]), reverse=True),
                 prediction_score, local_pred)
 
