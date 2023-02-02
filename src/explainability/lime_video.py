@@ -122,7 +122,7 @@ class LimeVideoExplainer(object):
         image = image[:,:,0]
 
         if success:
-            return sklearn.metrics.pairwise_distances(image, original_image, metric = 'cosine')
+            return sklearn.metrics.pairwise_distances(image, original_image, metric='cosine')
         else:
             print("Distance calculation failed")
 
@@ -136,12 +136,11 @@ class LimeVideoExplainer(object):
 
         model_regressor.fit(features[:, used_features], neighbourhood_labels)
         prediction_score = model_regressor.score(features[:, used_features], neighbourhood_labels)
-
         local_pred = model_regressor.predict(features[0,used_features].reshape(1, -1))
 
         return (model_regressor.intercept_,
                 sorted(zip(used_features, model_regressor.coef_[0]),
-                       key=lambda x: np.abs(x[1]), reverse=True),
+                key=lambda x: np.abs(x[1]), reverse=True),
                 prediction_score, local_pred)
 
 
