@@ -96,11 +96,11 @@ def maskFrames(video_path, n, model):
         differences.update({keyFrame:result[0]-exciting_label})
 
 
-    differences = sortDict(differences, True)
+    differences = sortDict(differences, False)
     x = np.asarray(list(differences.keys()))
     y = np.asarray(list(differences.values()))*-1
 
-    # plot(x, y, ranges)
+    plot(x, y, ranges)
 
     prime_frame = list(differences.keys())[0]
     print("Prime frame", prime_frame)
@@ -115,7 +115,7 @@ def maskFrames(video_path, n, model):
     return prime_frame, lower_frame, upper_frame, frameSize, fps
 
 
-def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=50, visualise=False):
+def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=30, visualise=False):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
     segments_and_prime_frame = [segments, prime_frame]
@@ -125,12 +125,12 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel
 
     if visualise:
         visualiseSuperPixels(segments, image)
-        # visualise super pixel regions
-        fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
-        ax = fig.add_subplot(1, 1, 1)
-        ax.imshow(mark_boundaries(image, segments))
-        plt.axis("off")
-        plt.show()
+    # visualise super pixel regions
+    fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
+    ax = fig.add_subplot(1, 1, 1)
+    ax.imshow(mark_boundaries(image, segments))
+    plt.axis("off")
+    plt.show()
     print("\nTo see super pixel segmentation set visualise=True\n")
 
     perturbed_pixels = []
