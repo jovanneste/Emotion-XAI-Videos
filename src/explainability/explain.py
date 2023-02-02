@@ -10,14 +10,13 @@ def explain_model_prediction(video_path, model):
     print(prime_frame, lower_frame, upper_frame)
 
     print("Creating masks...")
-    createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, 100)
+    createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, 25)
 
     file = open('segments_and_prime_frame', 'rb')
     segments_and_prime_frame = pickle.load(file)
     segments = segments_and_prime_frame[0]
     prime_frame_num = segments_and_prime_frame[1]
     file.close()
-
 
 
     originl_video = '../../data/LIMEset/0.mp4'
@@ -35,19 +34,7 @@ def explain_model_prediction(video_path, model):
     plt.show()
     plt.imshow(mark_boundaries(prime_frame_img, mask))
     plt.show()
-
-    values = list(explanation.local_exp.keys())
-    ind = explanation.local_exp[values[0]]
-
-    #Map each explanation weight to the corresponding superpixel
-    dict_heatmap = dict(ind)
-    heatmap = np.vectorize(dict_heatmap.get)(explanation.segments)
-
-    #Plot. The visualization makes more sense if a symmetrical colorbar is used.
-    plt.imshow(heatmap, cmap = 'RdBu')
-    plt.colorbar()
-    plt.show()
-
+    plt.imsave('clashofkings.jpg', mark_boundaries(prime_frame_img, mask))
 
 
 if __name__=='__main__':
@@ -57,10 +44,12 @@ if __name__=='__main__':
         os.remove('segments_and_prime_frame')
     except:
         pass
-    video_path = '../../data/videos/train_videos/582.mp4'
+    video_path = '../../data/videos/train_videos/944.mp4'
     data = load_sample(video_path)
-    print(predict(data, keras.models.load_model('../../data/models/predict_model')))
-
+    result = predict(data, keras.models.load_model('../../data/models/predict_model'))
+    print(result[0])
+    if round(result[0]==0):
+        sys.exit()
 
     explain_model_prediction(video_path, keras.models.load_model('../../data/models/predict_model'))
     sys.exit()
