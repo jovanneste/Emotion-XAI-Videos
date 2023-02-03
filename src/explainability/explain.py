@@ -20,7 +20,7 @@ def explain_model_prediction(video_path, model):
 
 
     originl_video = '../../data/LIMEset/0.mp4'
-    prime_frame_img = cv2.imread('../../data/frames/frame'+str(prime_frame_num)+'.jpg')
+    prime_frame_img = cv2.imread('../../data/frames/frame'+str(prime_frame_num)+'.jpg')[:,:,::-1]
 
     print("Creating LIME explainer...")
     explainer = LimeVideoExplainer()
