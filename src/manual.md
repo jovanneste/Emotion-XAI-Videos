@@ -16,4 +16,4 @@
 
 ## Explain model
 
-- Run **explainModel.py** with a video and some *n* representing the number of key frames that should be used to represent the video
+- Run **explainModel.py** with a video and a keras model which outputs the most important frame with most imporatnt pixel regions highlighted 
