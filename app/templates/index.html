@@ -2,9 +2,9 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes"/>
+        <meta name="description" content="Demo for video explainability app" />
+        <meta name="author" content="Joachim Vanneste" />
         <title>Bare - Start Bootstrap Template</title>
         <link href="../static/styles.css" rel="stylesheet"/>
         <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
@@ -13,12 +13,40 @@
         <div class="container">
             <div class="text-center mt-5">
                 <h1>A Bootstrap 5 Starter Template</h1>
-                <p class="lead">A complete project boilerplate built with Bootstrap</p>
-                <p>Bootstrap v5.1.3</p>
-                <form>
-                <label for="avatar">Choose video</label>
-                <input type="file" id="avatar" name="avatar" accept="video/*" multiple onchange="msg()">
-                </form>
+                <p>A complete project boilerplate built with Bootstrap</p>
+                <p> Select a video:
+                  <select id="select1">
+                      <option value="free">Free</option>
+                      <option value="basic">Basic</option>
+                      <option value="premium">Premium</option>
+                  </select>
+              </p>
+
+
+              <p> The value of the option selected is:
+                  <span class="output"></span>
+              </p>
+
+              <div class="column">
+                <div class="row">
+                  <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" style="width:20%">
+                </div>
+                <div class="row">
+                  <img src={{ url_for('static', filename='50segments.png') }} alt="Forest" style="width:20%">
+                </div>
+                <div class="row">
+                  <img src={{ url_for('static', filename='50segments.png') }} alt="Mountains" style="width:20%">
+                </div>
+              </div>
+
+
+              <!-- <img id="layer1" src={{ url_for('static', filename='50segments.png') }} width="250" height="180" /> -->
+
+              <!-- <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
+              <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600"> -->
+
+
+    <button onclick="getOption()"> Check option </button>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

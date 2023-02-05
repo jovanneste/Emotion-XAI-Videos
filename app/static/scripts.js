@@ -10,7 +10,3 @@ function getOption(){
   output = selectElement.value;
   document.querySelector('.output').textContent = output;
 };
-
-function msg(){
-  alert("Hello Javatpoint");
-};
