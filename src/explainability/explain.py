@@ -26,7 +26,7 @@ def explain_model_prediction(video_path, model):
     explainer = LimeVideoExplainer()
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
 
-    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features=3)
+    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features=1)
 
     plt.imshow(mask)
     plt.show()
@@ -45,11 +45,11 @@ if __name__=='__main__':
     except:
         pass
     video_path = '../../data/videos/train_videos/944.mp4'
-    data = load_sample(video_path)
-    result = predict(data, keras.models.load_model('../../data/models/predict_model'))
-    print(result[0])
-    if round(result[0]==0):
-        sys.exit()
+    # data = load_sample(video_path)
+    # result = predict(data, keras.models.load_model('../../data/models/predict_model'))
+    # print(result[0])
+    # if round(result[0]==0):
+    #     sys.exit()
 
     explain_model_prediction(video_path, keras.models.load_model('../../data/models/predict_model'))
     sys.exit()
