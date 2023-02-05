@@ -1,6 +1,5 @@
 ## Project plan
 
-Updated after each supervisor meeting
 
 ### 19/10/2022
 
@@ -34,7 +33,7 @@ Updated after each supervisor meeting
 
 ### 16/11/2022
 
-- Look into explainabilty
+- Look into explainability
 - LIME and SHAP research
 - Remove videos >60seconds
 
@@ -63,7 +62,7 @@ Output some 'score' to represent how explainable the model is
 
 
 
-Does model accuracy relate to model explainabilty (is this novel?)
+Does model accuracy relate to model explainability  (is this novel?)
 
 Update model to a joint model
 Just ignore videos that the model labels 0,0
@@ -72,3 +71,15 @@ Does this just work on ad videos
 Test data set would contain:
 - Annotated ad videos
 - Annotated synthetic videos
+
+
+### 01/02/2023
+
+- Explainability implemented
+- Start small flask app
+- Cherry pick examples for demo paper
+
+## Plan for App
+
+Small flask app with pre computed examples to show in demo paper
+Use bootstrap with github 
