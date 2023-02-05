@@ -5,7 +5,12 @@ function showname() {
   alert('Selected file: ' + name.files.item(0).type);
 };
 
+function getOption(){
+  selectElement = document.querySelector('#select1');
+  output = selectElement.value;
+  document.querySelector('.output').textContent = output;
+};
 
 function msg(){
   alert("Hello Javatpoint");
-}
+};
