@@ -11,53 +11,44 @@
     </head>
     <body>
         <div class="one">
-          <p> Select a video:
+          <p>
             <label for="avatar">Choose video</label>
             <input type="file" id="select1" name="avatar" accept="video/*">
+            <button onclick="getOption()">Run</button>
+            <span class="output"></span>
+             <br>
 
-            <button onclick="getOption()"> Load video </button>
-           Loading video <span class="output"></span>
-           Video prediction with basic model: Exciting, not funny
-           Set parameters for model explaination:</p>
+           <label for="fname">Number of key frames to display:</label>
+           <input type="number" id="frames" name="frames" min="1" max="10">
+           <label for="fname">Number of features to show on key frame:</label>
+           <input type="number" id="features" name="features" min="1" max="5">
+           <br>
+           <button type="button" onclick="showFrames()" id="btnID">Show Image</button>
+         </p>
 
         </div>
         <div class="two">
           <p>
+          Frame 1
           <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
           <br>
+          Frame 3
           <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
           <br>
+          Frame 1
           <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
           <br>
+          Frame 1
           <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
           <br>
+          Frame 1
           <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
         </p>
 
         </div>
-        <div class="three">Section 3</div>
-
-
-
-
-
-
-        <label for="fname">Number of key frames to display:</label>
-        <input type="text" id="kframes" name="kframes">
-        <label for="fname">Number of features to show on key frame:</label>
-        <input type="text" id="segments" name="segments">
-
-        <button type="button" onclick="showFrames()" id="btnID">Show Image</button>
-
-        <br>
-        <br>
-
-
-
-
-        <img src={{ url_for('static', filename='50segments.png') }} style="float:right"  width="500" height="400"/>
-
-
+        <div class="three">
+          <img src={{ url_for('static', filename='50segments.png') }} style="float:right"  width="300" height="220"/>
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
