@@ -16,9 +16,9 @@ h1 {
 }
 
 .column {
-  float: center;
+  float: left;
   width: 33.33%;
-  padding: 5px;
+  padding: 2px;
 }
 
 .row::after {
