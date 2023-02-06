@@ -1,3 +1,4 @@
+
 label {
     display: block;
     font: 1rem 'Fira Sans', sans-serif;
@@ -15,8 +16,22 @@ h1 {
     text-align: center;
 }
 
+p {
+  padding: 8px;
+  margin: 25px;
+
+  /* other styling */
+  background-color: #33475b;
+  border-radius: 10px;
+  color: white;
+  font-family: Avenir;
+}
+
 .column {
-  float: left;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  float: center;
   width: 33.33%;
   padding: 2px;
 }
@@ -25,4 +40,32 @@ h1 {
   content: "";
   clear: both;
   display: table;
+}
+
+div
+{
+    text-align: left;
+    font-size: 20px;
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    height: 500px;
+    width:30%;
+}
+.one
+{
+    background-color:limegreen;
+    float: left;
+}
+.two
+{
+    background-color:orange;
+    float: left;
+}
+.three
+{
+    background-color: hotpink;
+    float: left;
 }
