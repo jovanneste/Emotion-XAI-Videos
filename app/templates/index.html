@@ -13,11 +13,12 @@
         <h1>Video explainability</h1>
         <div class="one">
           <p>
-            <label for="avatar">Choose video</label>
+            <label for="avatar">Select a video and a model</label>
             <input type="file" id="select1" name="avatar" accept="video/*">
+            <input type="file" id="ctrl" webkitdirectory directory multiple/>
             <!-- <button onclick="getOption()">Run</button> -->
             <br>
-            <button class="button" onclick="getOption()" style="vertical-align:middle"><span>Launch model</span></button>
+            <button class="button" onclick="getOption()" style="vertical-align:middle"><span>Run model with video</span></button>
             <br>
             <span class="output"></span>
              <br>
@@ -26,7 +27,7 @@
            <label for="fname">Features:
            <input type="number" id="features" name="features" min="1" max="10"></label>
            <!-- <button type="button" onclick="showFrames()" id="btnID">Show Image</button> -->
-           <button class="button" onclick="showFrames()" style="vertical-align:middle"><span>Show key frames</span></button>
+           <button class="button" id="btnID" onclick="showFrames()" style="vertical-align:middle"><span>Show key frames</span></button>
          </p>
 
         </div>
@@ -36,29 +37,23 @@
             <br>
           Frame x
           <br>
-          <img src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="250" height="200">
+          <img id="frame1" src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="250" height="200">
           <br>
           Frame x
           <br>
-          <img src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="100" height="80">
+          <img id="frame2" src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="250" height="200">
           <br>
           Frame x
           <br>
-          <img src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="100" height="80">
-          <br>
-          Frame x
-          <br>
-          <img src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="100" height="80">
-          <br>
-          Frame x
-          <br>
-          <img src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="100" height="80">
+          <img id="frame3" src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="250" height="200">
           <br>
         </p>
 
         </div>
         <div class="three">
           <p>
+             Regions in top frame:
+            <br>
           <img src={{ url_for('static', filename='50segments.png') }} style="float:right"  width="300" height="220"/>
         </p>
         </div>
