@@ -1,3 +1,12 @@
+#frame1 {
+  display: none;
+}
+#frame2 {
+  display: none;
+}
+#frame3 {
+  display: none;
+}
 
 label {
     display: block;
@@ -27,20 +36,6 @@ p {
   font-family: Avenir;
 }
 
-.column {
-  display:block;
-  margin-left: auto;
-  margin-right: auto;
-  float: center;
-  width: 33.33%;
-  padding: 2px;
-}
-
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
 
 div
 {
