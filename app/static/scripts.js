@@ -8,5 +8,11 @@ function showname() {
 function getOption(){
   selectElement = document.querySelector('#select1');
   output = selectElement.value;
-  document.querySelector('.output').textContent = output.slice(12);
+  // output var is fake path of video
+  document.querySelector('.output').textContent = "Exciting, not funny";
+};
+
+function showFrames(){
+  document.getElementById('frame').style.display = "block";
+  document.getElementById('btnID').style.display = "none";
 };
