@@ -5,50 +5,61 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes"/>
         <meta name="description" content="Demo for video explainability app" />
         <meta name="author" content="Joachim Vanneste" />
-        <title>Bare - Start Bootstrap Template</title>
+        <title></title>
         <link href="../static/styles.css" rel="stylesheet"/>
         <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
     </head>
     <body>
-        <div class="container">
-            <div class="text-center mt-5">
-                <h1>A Bootstrap 5 Starter Template</h1>
-                <p>A complete project boilerplate built with Bootstrap</p>
-                <p> Select a video:
-                  <select id="select1">
-                      <option value="free">Free</option>
-                      <option value="basic">Basic</option>
-                      <option value="premium">Premium</option>
-                  </select>
-              </p>
+      <h1>A Bootstrap 5 Starter Template</h1>
+      <p>A complete project boilerplate built with Bootstrap</p>
+        <p> Select a video:
+          <label for="avatar">Choose video</label>
+          <input type="file" id="select1" name="avatar" accept="video/*">
+        </p>
+        <button onclick="getOption()"> Load video </button>
+        <p> Loading video
+            <span class="output"></span>
+        </p>
+        <p> Video prediction with basic model: Exciting, not funny </p>
+        <p> Set parameters for model explaination:</p>
+
+        <label for="fname">Number of key frames to display:</label>
+        <input type="text" id="kframes" name="kframes">
+        <label for="fname">Number of features to show on key frame:</label>
+        <input type="text" id="segments" name="segments">
+
+        <br>
+        <br>
+
+        <p>Top 5 frames:</p>
+          <div class="column">
+            <div class="row">
+              <p>Frame 20:</p>
+              <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" style="width:50%">
+             </div>
+             <div class="row">
+              <p>Frame 20:</p>
+              <img src={{ url_for('static', filename='50segments.png') }} alt="Forest" style="width:50%">
+             </div>
+             <div class="row">
+              <p>Frame 20:</p>
+              <img src={{ url_for('static', filename='50segments.png') }} alt="Mountains" style="width:50%">
+             </div>
+             <div class="row">
+               <p>Frame 20:</p>
+               <img src={{ url_for('static', filename='50segments.png') }} alt="Mountains" style="width:50%">
+             </div>
+             <div class="row">
+               <p>Frame 20:</p>
+               <img src={{ url_for('static', filename='50segments.png') }} alt="Mountains" style="width:50%">
+             </div>
+          </div>
 
 
-              <p> The value of the option selected is:
-                  <span class="output"></span>
-              </p>
-
-              <div class="column">
-                <div class="row">
-                  <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" style="width:20%">
-                </div>
-                <div class="row">
-                  <img src={{ url_for('static', filename='50segments.png') }} alt="Forest" style="width:20%">
-                </div>
-                <div class="row">
-                  <img src={{ url_for('static', filename='50segments.png') }} alt="Mountains" style="width:20%">
-                </div>
-              </div>
+        <img src={{ url_for('static', filename='50segments.png') }} style="float:right"  width="500" height="400"/>
 
 
-              <!-- <img id="layer1" src={{ url_for('static', filename='50segments.png') }} width="250" height="180" /> -->
 
-              <!-- <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">
-              <img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600"> -->
-
-
-    <button onclick="getOption()"> Check option </button>
-            </div>
-        </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
