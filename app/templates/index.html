@@ -10,50 +10,49 @@
         <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
     </head>
     <body>
-      <h1>A Bootstrap 5 Starter Template</h1>
-      <p>A complete project boilerplate built with Bootstrap</p>
-        <p> Select a video:
-          <label for="avatar">Choose video</label>
-          <input type="file" id="select1" name="avatar" accept="video/*">
+        <div class="one">
+          <p> Select a video:
+            <label for="avatar">Choose video</label>
+            <input type="file" id="select1" name="avatar" accept="video/*">
+
+            <button onclick="getOption()"> Load video </button>
+           Loading video <span class="output"></span>
+           Video prediction with basic model: Exciting, not funny
+           Set parameters for model explaination:</p>
+
+        </div>
+        <div class="two">
+          <p>
+          <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
+          <br>
+          <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
+          <br>
+          <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
+          <br>
+          <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
+          <br>
+          <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" width="100" height="80">
         </p>
-        <button onclick="getOption()"> Load video </button>
-        <p> Loading video
-            <span class="output"></span>
-        </p>
-        <p> Video prediction with basic model: Exciting, not funny </p>
-        <p> Set parameters for model explaination:</p>
+
+        </div>
+        <div class="three">Section 3</div>
+
+
+
+
+
 
         <label for="fname">Number of key frames to display:</label>
         <input type="text" id="kframes" name="kframes">
         <label for="fname">Number of features to show on key frame:</label>
         <input type="text" id="segments" name="segments">
 
+        <button type="button" onclick="showFrames()" id="btnID">Show Image</button>
+
         <br>
         <br>
 
-        <p>Top 5 frames:</p>
-          <div class="column">
-            <div class="row">
-              <p>Frame 20:</p>
-              <img src={{ url_for('static', filename='50segments.png') }} alt="Snow" style="width:50%">
-             </div>
-             <div class="row">
-              <p>Frame 20:</p>
-              <img src={{ url_for('static', filename='50segments.png') }} alt="Forest" style="width:50%">
-             </div>
-             <div class="row">
-              <p>Frame 20:</p>
-              <img src={{ url_for('static', filename='50segments.png') }} alt="Mountains" style="width:50%">
-             </div>
-             <div class="row">
-               <p>Frame 20:</p>
-               <img src={{ url_for('static', filename='50segments.png') }} alt="Mountains" style="width:50%">
-             </div>
-             <div class="row">
-               <p>Frame 20:</p>
-               <img src={{ url_for('static', filename='50segments.png') }} alt="Mountains" style="width:50%">
-             </div>
-          </div>
+
 
 
         <img src={{ url_for('static', filename='50segments.png') }} style="float:right"  width="500" height="400"/>
