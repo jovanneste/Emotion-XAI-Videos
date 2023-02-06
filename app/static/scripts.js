@@ -9,7 +9,7 @@ function getOption(){
   selectElement = document.querySelector('#select1');
   output = selectElement.value;
   // output var is fake path of video
-  document.querySelector('.output').textContent = "Exciting, not funny";
+  document.querySelector('.output').textContent = "Prediction: Exciting";
 };
 
 function showFrames(){
