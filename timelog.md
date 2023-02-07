@@ -390,7 +390,7 @@
 
 ### 26 Jan 2023
 
-* *4 hours* Start creating my own regression model with keras
+* *4 hours* Start creating my own regression model with Keras
 * *1 hour* Supervisor meeting
 
 ### 27 Jan 2023
@@ -403,3 +403,48 @@
 
 * *3 hours* Bug fixes
 * *2 hours* Show mask  
+
+## Week 14
+
+### 30 Jan 2023
+
+* *4 hours* Implemented new feature extraction method
+
+### 31 Jan 2023
+
+* *2 hours* Hyper-parameter tuning
+
+### 01 Feb 2023
+
+* *1 hour* Meeting preparation
+* *1 hour* Meeting
+* *1 hour* Meeting write-up
+
+### 02 Feb 2023
+
+* *5 hours* Dissertation work
+
+### 03 Feb 2023
+
+* *2 hours* Cherry picking examples
+* *2 hours* Start basic Flask app
+* *2 hours* Dissertation work
+
+### 04 Feb 2023
+
+* *3 hours* Work on app
+
+### 05 Feb 2023
+
+* *3.5 hours* Work on app
+* *2 hours* Dissertation work
+
+### 06 Feb 2023
+
+* *1 hour* Dissertation work
+
+### 07 Feb 2023
+
+* *2 hours* Work on app
+* *3.5 hours* Show specific outputs
+* *0.5 hours* Meeting preparation
