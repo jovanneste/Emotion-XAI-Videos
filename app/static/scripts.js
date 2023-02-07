@@ -15,7 +15,7 @@ function getOption(){
 function showFrames(){
   document.getElementById('frame1').style.display = "block";
   document.getElementById('frame2').style.display = "block";
-  // document.getElementById('frame3').style.display = "block";
+  document.getElementById('frame3').style.display = "block";
   document.getElementById('frameoutput').style.display = "block";
   document.getElementById('btnID').style.display = "none";
 };
