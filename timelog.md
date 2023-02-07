@@ -432,11 +432,11 @@
 
 ### 04 Feb 2023
 
-* *3 hours* Work on app
+* *3 hours* Work on app - js and css implemented
 
 ### 05 Feb 2023
 
-* *3.5 hours* Work on app
+* *3.5 hours* Work on app - home page work
 * *2 hours* Dissertation work
 
 ### 06 Feb 2023
@@ -445,6 +445,6 @@
 
 ### 07 Feb 2023
 
-* *2 hours* Work on app
+* *2 hours* Work on app - nicer css added
 * *3.5 hours* Show specific outputs
 * *0.5 hours* Meeting preparation
