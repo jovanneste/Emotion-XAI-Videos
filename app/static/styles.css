@@ -7,6 +7,9 @@
 #frame3 {
   display: none;
 }
+#frameoutput {
+  display: none;
+}
 
 label {
     display: block;
@@ -28,7 +31,7 @@ h1 {
 }
 
 p {
-  padding: 50px;
+  padding: 30px;
   margin: 5px;
   background-color: #33475b;
   border-radius: 12px;
@@ -101,6 +104,6 @@ div
 }
 
 .button:hover span:after {
-  opacity: 1;
+  opacity: 0;
   right: 0;
 }
