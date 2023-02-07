@@ -10,7 +10,7 @@
         <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
     </head>
     <body>
-        <h1>Video classification explainability</h1>
+        <h1>Video classification explanation</h1>
         <div class="one">
           <p>
             <label for="avatar">Select a video and a model</label>
@@ -34,28 +34,29 @@
         </div>
         <div class="two">
           <p>
-            Key frames:
+            <label>Top frames</label>
             <br>
-          Frame 300
+          <label>Frame 530 (501-533)</label>
+          <img id="frame1" src={{ url_for('static', filename='frame530.jpg') }} alt="Frame" width="200" height="150">
           <br>
-          <img id="frame1" src={{ url_for('static', filename='frame300.jpg') }} alt="Frame" width="200" height="150">
+          <label>Frame 130 (116-140)</label>
+          <img id="frame2" src={{ url_for('static', filename='frame264.jpg') }} alt="Frame" width="200" height="150">
           <br>
-          Frame 401
-          <br>
-          <img id="frame2" src={{ url_for('static', filename='frame400.jpg') }} alt="Frame" width="200" height="150">
+          <label>Frame 210 (199-243)</label>
+          <img id="frame3" src={{ url_for('static', filename='frame730.jpg') }} alt="Frame" width="200" height="150">
           <br>
           <!-- Frame x
           <br>
-          <img id="frame3" src={{ url_for('static', filename='50segments.png') }} alt="Frame" width="250" height="200">
+          <img id="frame3" src={{ url_for('static', filename='x.png') }} alt="Frame" width="250" height="200">
           <br> -->
         </p>
 
         </div>
         <div class="three">
           <p>
-             Regions in top frame:
+             <label>Pixel regions</label>
             <br>
-          <img id="frameoutput" src={{ url_for('static', filename='out.jpg') }} style="float:right"  width="300" height="250"/>
+          <img id="frameoutput" src={{ url_for('static', filename='output.jpg') }} style="float:right"  width="320" height="250"/>
         </p>
         </div>
 
