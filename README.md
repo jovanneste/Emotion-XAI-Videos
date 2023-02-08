@@ -34,14 +34,15 @@ $ cd emotionClassificationFromVideos/src/explainability/
 
 ### Command line deployment
 
-`explain.py` takes a video file and a Keras model and returns an explanation
+`explain.py` requires a video file and a Keras model and returns an explanation.
 
 ```bash
-$ python explain.py --video <video file> --model <keras model file> --segments <segment number> --features <feature number> --print <verbose output (bool)>
+$ python explain.py --video <> --model <> [--segments <int>] [--features <int>] [--print <bool>]
 ```
-where:
- - `--segments` represents how many super pixel regions to segment our top frame into,
- - `--features` represents how many pixel regions to show in output 
+
+- `segments` : how many super pixel regions to segment our top frame into,
+- `features` : how many pixel regions to show in output,
+- `print` : when true, system will output step-by-step details.  
 
 Argument descriptions can be found using "--help":
 
