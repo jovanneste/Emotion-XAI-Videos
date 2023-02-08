@@ -63,15 +63,11 @@ def sortDict(d, key):
         return {k: v for k, v in sorted(d.items(), key=lambda item: item[1])}
 
 
-def maskFrames(video_path, n, model):
-    ranges, fps, frameSize = getFrames(video_path, n)
-    print("Ranges", ranges)
+def maskFrames(video_path, n, model, verbose):
+    ranges, fps, frameSize = getFrames(video_path, n, verbose)
     data = load_sample(video_path)
     result = predict(data, model)
     exciting_label = result[0]
-    print("Original video result", result)
-
-
     differences = {}
     frames = getSortedFrames()
 
@@ -91,8 +87,6 @@ def maskFrames(video_path, n, model):
 
         data = load_sample(str(keyFrame) + '.mp4')
         result = predict(data, model)
-        print(keyFrame)
-        print(result)
         differences.update({keyFrame:result[0]-exciting_label})
 
 
@@ -100,22 +94,22 @@ def maskFrames(video_path, n, model):
     x = np.asarray(list(differences.keys()))
     y = np.asarray(list(differences.values()))*-1
 
-    plot(x, y, ranges)
-
     prime_frame = list(differences.keys())[0]
-    print("Prime frame", prime_frame)
-    print()
-    print(differences)
 
     for r in ranges:
         if r[0]==prime_frame:
             lower_frame, upper_frame = r[1], r[2]
             break
 
+    if verbose:
+        print("Ranges used: ", ranges)
+        print("Prime frame", prime_frame)
+        plot(x, y, ranges)
+
     return prime_frame, lower_frame, upper_frame, frameSize, fps
 
 
-def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments=50, visualise=False):
+def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments, visualise):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
     segments_and_prime_frame = [segments, prime_frame]
@@ -125,13 +119,13 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel
 
     if visualise:
         visualiseSuperPixels(segments, image)
-    # visualise super pixel regions
-    fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
-    ax = fig.add_subplot(1, 1, 1)
-    ax.imshow(mark_boundaries(image, segments))
-    plt.axis("off")
-    plt.show()
-    print("\nTo see super pixel segmentation set visualise=True\n")
+        # visualise super pixel regions
+        fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
+        ax = fig.add_subplot(1, 1, 1)
+        ax.imshow(mark_boundaries(image, segments))
+        plt.axis("off")
+        plt.show()
+
 
     perturbed_pixels = []
     for i in range(perturbed_num):
@@ -155,10 +149,10 @@ def maskPixels(pixels, i, j):
     cv2.imwrite("../../data/LIMEset/"+ str(i) +".jpg", frame)
 
 
-def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n):
+def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n, num_segments, verbose):
     j=0
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
-    perturbed_pixels = createNeighbourhoodSet(path, 10, n, prime_frame)
+    perturbed_pixels = createNeighbourhoodSet(path, 20, n, prime_frame, num_segments, verbose)
 
     for pixels in perturbed_pixels:
         remove()
@@ -175,4 +169,5 @@ def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n)
         out.release()
         j+=1
     remove()
-    print("Finished")
+    if verbose:
+        print("Masked videos created")

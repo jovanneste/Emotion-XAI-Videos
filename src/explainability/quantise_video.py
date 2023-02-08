@@ -17,13 +17,10 @@ def frameSimilarity(frame1, frame2):
     return score
 
 
-def getFrames(video_path, n):
-    print("Removing files from last video...")
+def getFrames(video_path, n, verbose):
     files = glob.glob('../../data/frames/*')
     for f in files:
         os.remove(f)
-
-    print("Frame extraction for new video")
 
     cap = cv2.VideoCapture(video_path)
     frame_num = cap.get(cv2.CAP_PROP_FRAME_COUNT)
@@ -33,9 +30,10 @@ def getFrames(video_path, n):
 
     frameSize = (int(width), int(height))
 
-    print("Number of frames:", frame_num)
-    print("Frames per second:", fps)
-    print("Frame size:", frameSize)
+    if verbose:
+        print("Number of frames:", frame_num)
+        print("Frames per second:", fps)
+        print("Frame size:", frameSize)
 
     # assume dependence between frames
     for i in range(int(frame_num)):
@@ -51,7 +49,6 @@ def getFrames(video_path, n):
 
 
 def getRanges(frame_num, n):
-    print("Getting ranges for " + str(n) + " key frames...")
     frames = {}
     for i in range(0, int(frame_num-10), 10):
         score = frameSimilarity(i, i+10)
