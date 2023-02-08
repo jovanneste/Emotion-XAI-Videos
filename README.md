@@ -35,12 +35,18 @@ $ cd emotionClassificationFromVideos/src/explainability/
 ### Command line deployment
 
 ```bash
-$ python explain.py --video <video_path> --model <model_path> [--segments <int:number of segments>] [--features <int:number of features>] [--print <bool:show detailed outputs>]
+$ python explain.py --video <video file> --model <keras model file> --segments <segment number> --features <feature number> --print <verbose output (bool)>
+```
+
+Argument descriptions can be found using "--help":
+
+```bash
+$ python explain.py --help
 ```
 
 ### App
 
-The explainability parts of this project were used in a demo paper submitted to ACM SIGAR Conference on Research and Development in Information Retrieval 2023. Screenshots for this paper were taken from a small `flask` app created for this purpose. The app can be run using the following commands.
+The explainability parts of this project were used in a demo paper submitted to ACM SIGAR Conference on Research and Development in Information Retrieval 2023. Screenshots for this paper were taken from a small `flask` app created for this purpose. The app can be run using the following command:
 
 ```bash
 $ cd app/
