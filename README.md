@@ -34,9 +34,14 @@ $ cd emotionClassificationFromVideos/src/explainability/
 
 ### Command line deployment
 
+`explain.py` takes a video file and a Keras model and returns an explanation
+
 ```bash
 $ python explain.py --video <video file> --model <keras model file> --segments <segment number> --features <feature number> --print <verbose output (bool)>
 ```
+where:
+ - `--segments` represents how many super pixel regions to segment our top frame into,
+ - `--features` represents how many pixel regions to show in output 
 
 Argument descriptions can be found using "--help":
 
@@ -55,7 +60,7 @@ $ flask run
 ```
 ## Project structure
 
-Outline of project structure excluding the `data\` directory.
+Outline of project structure excluding the `data/` directory.
 
 ```bash
 .
