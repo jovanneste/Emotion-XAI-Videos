@@ -35,5 +35,5 @@ $ cd emotionClassificationFromVideos/src/explainability/
 Command line deployment
 
 ```bash
-$ python explain.py --video <<video_path>> --model <<model_path>> [--segments <<int:number of segments>>] [--features <<int:number of features>>] [--print <<bool:show detailed outputs>>]
+$ python explain.py --video <video_path> --model <model_path> [--segments <int:number of segments>] [--features <int:number of features>] [--print <bool:show detailed outputs>]
 ```
