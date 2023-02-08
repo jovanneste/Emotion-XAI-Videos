@@ -45,40 +45,34 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
 
 
 if __name__=='__main__':
-    # # for f in glob.glob('../../data/LIMEset/*'):
-    # #     os.remove(f)
-    # # try:
-    # #     os.remove('segments_and_prime_frame')
-    # # except:
-    # #     pass
-    # video_path = '../../data/videos/train_videos/1017.mp4'
-    # # data = load_sample(video_path)
-    # # result = predict(data, keras.models.load_model('../../data/models/predict_model'))
-    # # print(result)
-    # # if round(result[0]==0):
-    # #     sys.exit()
-    #
-    # explain_model_prediction(video_path, keras.models.load_model('../../data/models/predict_model'))
-    # sys.exit()
-    #
-
-
     parser = argparse.ArgumentParser(description = "Usage")
-    parser.add_argument("-m", "--model", help = "Video classification model", required = False, default = "")
+    parser.add_argument("-m", "--model", help = "Video classification model", required = True, default = "")
     parser.add_argument("-v", "--video", help = "Video to explain", required = True, default = "")
+    parser.add_argument("-s", "--segments", help = "Number of segments to split key frame into", required = False, default = 50)
+    parser.add_argument("-f", "--features", help = "Number of features to display", required = False, default = 1)
+    parser.add_argument("-p", "--print", help = "Verbose output", required = False, default = False)
 
     argument = parser.parse_args()
     status = False
 
     if argument.model:
         print("You have used '-m' or '--model' with argument: {0}".format(argument.model))
-        model = keras.models.load_model(argument.model)
         status = True
-    else:
-        model = keras.models.load_model('../../data/models/predict_model')
 
     if argument.video:
         print("You have used '-v' or '--video' with argument: {0}".format(argument.video))
+        status = True
+
+    if argument.segments:
+        print("You have used '-s' or '--segments' with argument: {0}".format(argument.segments))
+        status = True
+
+    if argument.features:
+        print("You have used '-f' or '--features' with argument: {0}".format(argument.features))
+        status = True
+
+    if argument.print:
+        print("You have used '-p' or '--print' with argument: {0}".format(argument.print))
         status = True
 
     if not status:
@@ -93,5 +87,4 @@ if __name__=='__main__':
         print('Removed')
 
     # parameters: video, model, features to show, pixel segments, verbose
-
-    explain_model_prediction(argument.video, model, num_features, num_segments, verbose)
+    explain_model_prediction(argument.video, keras.models.load_model(argument.model), argument.features, argument.segments, argument.print)
