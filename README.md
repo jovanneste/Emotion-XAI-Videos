@@ -32,8 +32,57 @@ $ cd emotionClassificationFromVideos/src/explainability/
 
 ## Deployment
 
-Command line deployment
+### Command line deployment
 
 ```bash
 $ python explain.py --video <video_path> --model <model_path> [--segments <int:number of segments>] [--features <int:number of features>] [--print <bool:show detailed outputs>]
+```
+
+### App
+
+The explainability parts of this project were used in a demo paper submitted to ACM SIGAR Conference on Research and Development in Information Retrieval 2023. Screenshots for this paper were taken from a small `flask` app created for this purpose. The app can be run using the following commands.
+
+```bash
+$ cd app/
+$ export FLASK_APP=run.py
+$ flask run
+```
+## Project structure
+
+Outline of project structure excluding the `data\` directory.
+
+```bash
+.
+├── README.md
+├── app
+│   ├── run.py
+│   ├── static
+│   │   ├── scripts.js
+│   │   └── styles.css
+│   └── templates
+│       └── index.html
+├── plan.md
+├── research
+├── src
+│   ├── README.md
+│   ├── activeLearningModel.py
+│   ├── annotateVideos.py
+│   ├── basicModel
+│   │   ├── downloadVideos.py
+│   │   ├── sampleVideos.py
+│   │   └── trainModel.py
+│   ├── crawlVideos.py
+│   ├── downloadVideos.py
+│   ├── evaluateModel.py
+│   ├── explainability
+│   │   ├── explain.py
+│   │   ├── lime_video.py
+│   │   ├── mask.py
+│   │   └── quantise_video.py
+│   ├── helperFunctions
+│   │   ├── splitVideos.py
+│   │   ├── videoTimeDist.py
+│   │   └── videoTimeDistribution.png
+│   └── manual.md
+└── timelog.md
 ```
