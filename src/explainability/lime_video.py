@@ -36,7 +36,8 @@ class VideoExplanation(object):
         segments = self.segments
         video = self.video
         values = list(self.local_exp.keys())
-        exp = self.local_exp[values[0]]
+        exp = self.local_exp[values[label]]
+        print(exp)
         mask = np.zeros(segments.shape, segments.dtype)
         image = cv2.imread('../../data/frames/frame'+str(prime_frame)+'.jpg')
         temp = image.copy()

@@ -63,11 +63,11 @@ def sortDict(d, key):
         return {k: v for k, v in sorted(d.items(), key=lambda item: item[1])}
 
 
-def maskFrames(video_path, n, model, verbose):
+def maskFrames(video_path, n, model, verbose, label):
     ranges, fps, frameSize = getFrames(video_path, n, verbose)
     data = load_sample(video_path)
     result = predict(data, model)
-    exciting_label = result[0]
+    label_result = result[label]
     differences = {}
     frames = getSortedFrames()
 
@@ -87,7 +87,7 @@ def maskFrames(video_path, n, model, verbose):
 
         data = load_sample(str(keyFrame) + '.mp4')
         result = predict(data, model)
-        differences.update({keyFrame:result[0]-exciting_label})
+        differences.update({keyFrame:result[label]-label_result})
 
 
     differences = sortDict(differences, False)
@@ -117,14 +117,14 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel
     pickle.dump(segments_and_prime_frame, file)
     file.close()
 
-    if visualise:
-        visualiseSuperPixels(segments, image)
-        # visualise super pixel regions
-        fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
-        ax = fig.add_subplot(1, 1, 1)
-        ax.imshow(mark_boundaries(image, segments))
-        plt.axis("off")
-        plt.show()
+    # if visualise:
+    #     visualiseSuperPixels(segments, image)
+    #     # visualise super pixel regions
+    #     fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
+    #     ax = fig.add_subplot(1, 1, 1)
+    #     ax.imshow(mark_boundaries(image, segments))
+    #     plt.axis("off")
+    #     plt.show()
 
 
     perturbed_pixels = []

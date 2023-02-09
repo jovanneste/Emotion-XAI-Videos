@@ -5,8 +5,9 @@ import argparse
 
 
 def explain_model_prediction(video_path, model, num_features, num_segments, verbose):
-    n=15
-    prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, n, model, verbose)
+    label = 0 #label to explain (0-exciting, 1-funny)
+    n = 15
+    prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, n, model, verbose, label)
     if verbose:
         print("Frames")
         print(prime_frame, lower_frame, upper_frame)
@@ -25,7 +26,8 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
 
     explainer = LimeVideoExplainer()
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
-    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], prime_frame_num, num_features)
+    print(explanation.top_labels[label])
+    temp, mask = explanation.get_image_and_mask(explanation.top_labels[label], prime_frame_num, num_features)
 
     if verbose:
         print("Creating LIME explainer...")
@@ -38,7 +40,7 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
 
     plt.imsave('output.jpg', mark_boundaries(prime_frame_img, mask))
 
-    for f in glob.glob(''):
+    for f in glob.glob():
         if f.endswith('mp4'):
             print(f)
             os.remove(f)
