@@ -50,7 +50,7 @@ if __name__=='__main__':
     parser.add_argument("-m", "--model", help = "Video classification model", required = True, default = "")
     parser.add_argument("-v", "--video", help = "Video to explain", required = True, default = "")
     parser.add_argument("-s", "--segments", help = "Number of segments to split key frame into", required = False, default = 50)
-    parser.add_argument("-f", "--features", help = "Number of features to display", required = False, default = 1)
+    parser.add_argument("-f", "--features", help = "Number of features to display", required = False, default = 3)
     parser.add_argument("-p", "--print", help = "Verbose output", required = False, default = False)
 
     argument = parser.parse_args()
@@ -77,7 +77,8 @@ if __name__=='__main__':
         status = True
 
     if not status:
-        print("Maybe you want to use -m or -v as arguments ?")
+        print("Model and video are required arguements")
+        sys.exit()
 
     # start by removing masked videos and pickle file from previous run
     for f in glob.glob('../../data/LIMEset/*'):
@@ -93,4 +94,4 @@ if __name__=='__main__':
 
 
     # parameters: video, model, features to show, pixel segments, verbose
-    explain_model_prediction(argument.video, , argument.features, argument.segments, argument.print)
+    explain_model_prediction(argument.video, model, argument.features, argument.segments, argument.print)
