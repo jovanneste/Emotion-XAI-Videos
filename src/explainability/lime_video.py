@@ -129,8 +129,6 @@ class LimeVideoExplainer(object):
 
     def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, segments):
         used_features = [i for i in range(np.max(segments))]
-
-        print("l", self.l)
         features = self.feature_extraction(neighbourhood_data, clip_model=True)
 
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
