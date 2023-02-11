@@ -36,8 +36,7 @@ class VideoExplanation(object):
         segments = self.segments
         video = self.video
         values = list(self.local_exp.keys())
-        exp = self.local_exp[values[label]]
-        print(exp)
+        exp = self.local_exp[values[0]]
         mask = np.zeros(segments.shape, segments.dtype)
         image = cv2.imread('../../data/frames/frame'+str(prime_frame)+'.jpg')
         temp = image.copy()
@@ -65,7 +64,8 @@ class VideoExplanation(object):
 
 
 class LimeVideoExplainer(object):
-    def __init__(self):
+    def __init__(self, l):
+        self.l = l
         def kernel(d):
             return np.sqrt(np.exp(-(d ** 2) / 0.25 ** 2))
         kernel_fn = partial(kernel)
@@ -97,7 +97,6 @@ class LimeVideoExplainer(object):
 
     def data_labels(self, classifier_fn, scale=0.4):
         data, labels, order = [], [], []
-        # might have to sort this
         files = glob.glob('../../data/LIMEset/*')
         for f in files:
             frames = []
@@ -131,6 +130,7 @@ class LimeVideoExplainer(object):
     def explain_instance_with_data(self, neighbourhood_data, neighbourhood_labels, distances, label, segments):
         used_features = [i for i in range(np.max(segments))]
 
+        print("l", self.l)
         features = self.feature_extraction(neighbourhood_data, clip_model=True)
 
         model_regressor = Ridge(alpha=1, fit_intercept=True, random_state=self.random_state)
@@ -139,8 +139,9 @@ class LimeVideoExplainer(object):
         prediction_score = model_regressor.score(features[:, used_features], neighbourhood_labels)
         local_pred = model_regressor.predict(features[0,used_features].reshape(1, -1))
 
+
         return (model_regressor.intercept_,
-                sorted(zip(used_features, model_regressor.coef_[0]),
+                sorted(zip(used_features, model_regressor.coef_[self.l]),
                 key=lambda x: np.abs(x[1]), reverse=True),
                 prediction_score, local_pred)
 
