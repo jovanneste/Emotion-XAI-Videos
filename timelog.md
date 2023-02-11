@@ -439,6 +439,8 @@
 * *3.5 hours* Work on app - home page work
 * *2 hours* Dissertation work
 
+## Week 15
+
 ### 06 Feb 2023
 
 * *1 hour* Dissertation work
@@ -448,3 +450,20 @@
 * *2 hours* Work on app - nicer css added
 * *3.5 hours* Show specific outputs
 * *0.5 hours* Meeting preparation
+
+### 08 Feb 2023
+
+* *0.5 hours* Meeting
+
+### 09 Feb 2023
+
+* *4 hours* Start demo paper
+* *0.5 hours* Create system design image
+
+### 10 Feb 2023
+
+* *3 hour* Dissertation work
+
+### 11 Feb 2023
+
+* *3 hour* Expand system to show explanations for funny 
