@@ -24,10 +24,9 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
     originl_video = '../../data/LIMEset/0.mp4'
     prime_frame_img = cv2.imread('../../data/frames/frame'+str(prime_frame_num)+'.jpg')[:,:,::-1]
 
-    explainer = LimeVideoExplainer()
+    explainer = LimeVideoExplainer(label)
     explanation = explainer.explain_instances(originl_video, model.predict, segments)
-    print(explanation.top_labels[label])
-    temp, mask = explanation.get_image_and_mask(explanation.top_labels[label], prime_frame_num, num_features)
+    temp, mask = explanation.get_image_and_mask(explanation.top_labels[0][label], prime_frame_num, num_features)
 
     if verbose:
         print("Creating LIME explainer...")
@@ -40,10 +39,10 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
 
     plt.imsave('output.jpg', mark_boundaries(prime_frame_img, mask))
 
-    for f in glob.glob():
-        if f.endswith('mp4'):
-            print(f)
-            os.remove(f)
+    # for f in glob.glob():
+    #     if f.endswith('mp4'):
+    #         print(f)
+    #         os.remove(f)
 
 
 if __name__=='__main__':
@@ -88,5 +87,10 @@ if __name__=='__main__':
     except:
         print('Removed')
 
+    model = keras.models.load_model(argument.model)
+    data = load_sample(argument.video)
+    print("Video result", predict(data, model))
+
+
     # parameters: video, model, features to show, pixel segments, verbose
-    explain_model_prediction(argument.video, keras.models.load_model(argument.model), argument.features, argument.segments, argument.print)
+    explain_model_prediction(argument.video, , argument.features, argument.segments, argument.print)
