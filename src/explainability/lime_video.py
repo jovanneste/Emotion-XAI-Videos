@@ -32,7 +32,7 @@ class VideoExplanation(object):
         self.score = {}
 
 
-    def get_image_and_mask(self, label, prime_frame, positive_only=True, negative_only=False, num_features=5, min_weight=-10):
+    def get_image_and_mask(self, label, prime_frame, num_features, positive_only=True, negative_only=False, min_weight=-10):
         segments = self.segments
         video = self.video
         values = list(self.local_exp.keys())
@@ -42,8 +42,12 @@ class VideoExplanation(object):
         temp = image.copy()
 
         if positive_only:
-            fs = [x[0] for x in exp
-                  if x[1] > 0 and x[1] > min_weight][:num_features]
+            try:
+                fs = [x[0] for x in exp if x[1] > -5 and x[1] > min_weight][:num_features]
+            except:
+                # no sampled instances made any impact
+                print("Using 1 feature only")
+                fs = [x[0] for x in exp if x[1] > -5 and x[1] > min_weight][:1]
         if negative_only:
             fs = [x[0] for x in exp
                   if x[1] < 0 and abs(x[1]) > min_weight][:num_features]
