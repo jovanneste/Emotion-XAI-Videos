@@ -117,14 +117,14 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel
     pickle.dump(segments_and_prime_frame, file)
     file.close()
 
-    if visualise:
-        visualiseSuperPixels(segments, image)
-        # visualise super pixel regions
-        fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
-        ax = fig.add_subplot(1, 1, 1)
-        ax.imshow(mark_boundaries(image, segments))
-        plt.axis("off")
-        plt.show()
+    # if visualise:
+    #     visualiseSuperPixels(segments, image)
+    #     # visualise super pixel regions
+    #     fig = plt.figure("Superpixels -- %d segments" % (pixel_segments))
+    #     ax = fig.add_subplot(1, 1, 1)
+    #     ax.imshow(mark_boundaries(image, segments))
+    #     plt.axis("off")
+    #     plt.show()
 
 
     perturbed_pixels = []
@@ -156,7 +156,7 @@ def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n,
 
     for pixels in perturbed_pixels:
         remove()
-        for i in range(lower_frame, upper_frame):
+        for i in range(int(lower_frame), int(upper_frame)):
             maskPixels(pixels, i, j)
 
         video = '../../data/LIMEset/' + str(j) + '.mp4'
