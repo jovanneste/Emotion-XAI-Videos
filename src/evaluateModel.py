@@ -72,6 +72,9 @@ def load_sample(video_path):
     video_samples = np.array(video_samples, dtype='float')
     video_samples = np.squeeze(video_samples, axis=-2)
     video_samples = np.expand_dims(video_samples, 0)
+    if(video_samples.shape!=(1, 10, 512)):
+        print("Video failed to load.")
+        sys.exit()
     return video_samples
 
 
