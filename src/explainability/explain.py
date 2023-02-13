@@ -5,7 +5,7 @@ import argparse
 
 
 def explain_model_prediction(video_path, model, num_features, num_segments, verbose):
-    label = 1 #label to explain (0-exciting, 1-funny)
+    label = 0 #label to explain (0-exciting, 1-funny)
     n = 15
     prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, n, model, verbose, label)
     if verbose:
@@ -50,7 +50,7 @@ if __name__=='__main__':
     parser.add_argument("-m", "--model", help = "Video classification model", required = True, default = "")
     parser.add_argument("-v", "--video", help = "Video to explain", required = True, default = "")
     parser.add_argument("-s", "--segments", help = "Number of segments to split key frame into", required = False, default = 50)
-    parser.add_argument("-f", "--features", help = "Number of features to display", required = False, default = 2)
+    parser.add_argument("-f", "--features", help = "Number of features to display", required = False, default = 3)
     parser.add_argument("-p", "--print", help = "Verbose output", required = False, default = False)
 
     argument = parser.parse_args()
@@ -94,4 +94,4 @@ if __name__=='__main__':
 
 
     # parameters: video, model, features to show, pixel segments, verbose
-    explain_model_prediction(argument.video, model, argument.features, argument.segments, argument.print)
+    explain_model_prediction(argument.video, model, int(argument.features), int(argument.segments), argument.print)
