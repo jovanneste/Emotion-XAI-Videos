@@ -462,8 +462,53 @@
 
 ### 10 Feb 2023
 
-* *3 hour* Dissertation work
+* *3 hours* Dissertation work
 
 ### 11 Feb 2023
 
-* *3 hour* Expand system to show explanations for funny 
+* *3 hours* Expand system to show explanations for funny 
+
+### 12 Feb 2023
+
+## Week 16
+
+### 13 Feb 2023
+
+* *3 hours* Work on demo paper 
+
+### 14 Feb 2023
+
+* *6 hours* Work on demo paper 
+
+### 15 Feb 2023
+
+* *1 hour* Meeting 
+
+### 16 Feb 2023
+
+### 17 Feb 2023
+
+* *3 hours* Work on demo paper 
+* *2 hours* Work on dissertation  
+
+### 18 Feb 2023
+
+### 19 Feb 2023
+
+## Week 17
+
+### 20 Feb 2023
+
+* *3 hours* Finish demo paper 
+
+### 20 Feb 2023
+
+* *2 hours* Work on dissertation  
+
+### 21 Feb 2023
+
+### 22 Feb 2023
+
+* *1 hour* Meeting preparation
+* *0.5 hours* Meeting
+* *1 hour* Meeting write-up
