@@ -49,6 +49,7 @@ def getFrames(video_path, n, verbose):
 
 
 def getRanges(frame_num, n):
+    print("Getting ranges", n)
     frames = {}
     for i in range(0, int(frame_num-10), 10):
         score = frameSimilarity(i, i+10)
