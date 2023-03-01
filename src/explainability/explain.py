@@ -37,7 +37,7 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
         plt.imshow(mark_boundaries(prime_frame_img, mask))
         plt.show()
 
-    plt.imsave('output.jpg', mark_boundaries(prime_frame_img, mask))
+    plt.imsave('exlpanation.jpg', mark_boundaries(prime_frame_img, mask))
 
     # for f in glob.glob():
     #     if f.endswith('mp4'):
@@ -50,7 +50,7 @@ if __name__=='__main__':
     parser.add_argument("-m", "--model", help = "Video classification model", required = True, default = "")
     parser.add_argument("-v", "--video", help = "Video to explain", required = True, default = "")
     parser.add_argument("-s", "--segments", help = "Number of segments to split key frame into", required = False, default = 50)
-    parser.add_argument("-f", "--features", help = "Number of features to display", required = False, default = 3)
+    parser.add_argument("-f", "--features", help = "Number of features to display", required = False, default = 2)
     parser.add_argument("-p", "--print", help = "Verbose output", required = False, default = False)
 
     argument = parser.parse_args()

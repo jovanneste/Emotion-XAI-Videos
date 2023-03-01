@@ -103,6 +103,7 @@ def maskFrames(video_path, n, model, verbose, label):
 
     if verbose:
         print("Ranges used: ", ranges)
+        print("Order: ", differences)
         print("Prime frame", prime_frame)
         plot(x, y, ranges)
 
@@ -116,6 +117,8 @@ def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel
     file = open('segments_and_prime_frame', 'wb')
     pickle.dump(segments_and_prime_frame, file)
     file.close()
+
+    print(perturbed_num)
 
     # if visualise:
     #     visualiseSuperPixels(segments, image)
@@ -152,7 +155,7 @@ def maskPixels(pixels, i, j):
 def createMaskedVideos(prime_frame, lower_frame, upper_frame, fps, frameSize, n, num_segments, verbose):
     j=0
     path = '../../data/frames/frame' + str(prime_frame) + ".jpg"
-    perturbed_pixels = createNeighbourhoodSet(path, 20, n, prime_frame, num_segments, verbose)
+    perturbed_pixels = createNeighbourhoodSet(path, 10, n, prime_frame, num_segments, verbose)
 
     for pixels in perturbed_pixels:
         remove()
