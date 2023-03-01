@@ -13,25 +13,24 @@
         <h1>Video classification explanation</h1>
         <div class="one">
           <p>
-            <label for="avatar">Select a video and a model</label>
+            <label for="avatar">Select a video </label>
             <input type="file" id="select1" name="avatar" accept="video/*">
-            <input type="file" id="ctrl" webkitdirectory directory multiple/>
 
             <!-- <button onclick="getOption()">Run</button> -->
             <br>
             <button class="button" onclick="getOption()" style="vertical-align:middle"><span>Run model with video</span></button>
             <label>Model predictions:</label>
-            <label>Exciting - 0.94</label>
-            <label>Funny - 0.10</label>
+            <label>Exciting - 0.99</label>
+            <label>Funny - 0.12</label>
             <!-- <br>
             <span class="output"></span>
              <br> -->
            <label for="fname">Key frame number:
-           <input type="number" id="features" name="features" min="1" max="10"></label>
+           <input type="number" id="features" name="features" min="1" max="20"></label>
            <label for="fname">Key frames to display:
-           <input type="number" id="frames" name="frames" min="1" max="10"></label>
+           <input type="number" id="frames" name="frames" min="1" max="20"></label>
            <label for="fname">Features to display:
-           <input type="number" id="features" name="features" min="1" max="10"></label>
+           <input type="number" id="features" name="features" min="1" max="20"></label>
 
            <button class="button" onclick="showFrames()" style="vertical-align:middle"><span>Show key frames</span></button>
          </p>
@@ -39,17 +38,25 @@
         </div>
         <div class="two">
           <p>
-            <label>Top frames</label>
+            <label>Top exciting frame</label>
             <br>
-          <label>Frame 530 (501-533)</label>
-          <img id="frame1" src={{ url_for('static', filename='frame530.jpg') }} alt="Frame" width="200" height="150">
+          <label>Frame 330 - 18%</label>
+          <img id="frame1" src={{ url_for('static', filename='brawnin.jpg') }} alt="Frame" width="200" height="150">
           <br>
-          <label>Frame 130 (116-140)</label>
-          <img id="frame2" src={{ url_for('static', filename='frame264.jpg') }} alt="Frame" width="200" height="150">
+          <label>Frame 490 - 0.8%</label>
+          <img id="frame2" src={{ url_for('static', filename='brawnin2.jpg') }} alt="Frame" width="200" height="150">
           <br>
-          <label>Frame 210 (199-243)</label>
-          <img id="frame3" src={{ url_for('static', filename='frame730.jpg') }} alt="Frame" width="200" height="150">
+<!--           <label>Frame 210</label>
+          <img id="frame3" src={{ url_for('static', filename='frame730.jpg') }} altcup="Frame" width="200" height="150">
+          <br> -->
+<!--           <label>Top funny frames</label>
           <br>
+          <label>Frame 120 - 12%</label>
+          <img id="frame3" src={{ url_for('static', filename='funny.jpg') }} alt="Frame" width="200" height="150">
+           <br> -->
+<!--             <label>Frame 200 - 2.9%</label>
+           <img id="frame4" src={{ url_for('static', filename='funnyframe2.jpg') }} alt="Frame" width="200" height="150">
+           <br> -->
           <!-- Frame x
           <br>
           <img id="frame3" src={{ url_for('static', filename='x.png') }} alt="Frame" width="250" height="200">
@@ -59,9 +66,17 @@
         </div>
         <div class="three">
           <p>
-             <label>Pixel regions</label>
+             <label>Exciting pixel regions</label>
             <br>
-          <img id="frameoutput" src={{ url_for('static', filename='output.jpg') }} style="float:right"  width="320" height="250"/>
+          <img id="frameoutput1" src={{ url_for('static', filename='brawnout.jpg') }} style="float:right"  width="300" height="200"/>
+          <br>
+
+          <br>
+
+
+<!--           <label>Funny pixel regions</label>
+         <br>
+       <img id="frameoutput2" src={{ url_for('static', filename='funny2.jpg') }} style="float:right"  width="300" height="250"/> -->
         </p>
         </div>
 
