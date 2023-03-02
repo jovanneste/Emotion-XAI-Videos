@@ -8,6 +8,6 @@
 
 ## Directories
 
-- basicModel: Mostly code from Jin's project - trains a model on videos from Pitt's dataset
+- basicModel: Mostly code from Jin's project - trains a model on videos from Pitts dataset
 - helperFunctions: Several helper functions to split and help understand the videos
-- explainability: All files relating to making the model more explainable to humans
+- explainability: All files relating to making the model explainability
