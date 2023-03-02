@@ -3,6 +3,7 @@ from mask import *
 import sys
 import argparse
 import cv2
+import scipy
 
 def explain_model_prediction(video_path, model, num_features, num_segments, verbose):
     label = 0 #label to explain (0-exciting, 1-funny)
@@ -62,8 +63,15 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
     masked_data = load_sample('masked.mp4')
     normal_data = load_sample('normal.mp4')
 
-    print(predict(masked_data, model))
-    print(predict(normal_data, model))
+    masked_result = predict(masked_data, model)
+    normal_result = predict(normal_data, model)
+
+    print("Relevance")
+    slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, masked_result)
+    print(r_value**2)
+
+    print("Exciting fidelity: " + str(normal_result[0]-masked_result[0]))
+    print("Funny fidelity: " + str(normal_result[1]-masked_result[1]))
 
 
 
