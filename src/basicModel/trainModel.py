@@ -27,7 +27,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from tensorflow.keras.layers.experimental import RandomFourierFeatures
 from scenedetect import detect, ContentDetector
-
+import h5py
 
 # train variables
 EPOCHS = 50
@@ -77,7 +77,8 @@ def run_model(train_data,avg_frames,n,ModelType,NUM_FEATURES=NUM_FEATURES,BATCH_
         batch_size=BATCH_SIZE,
         epochs=EPOCHS,
     )
-    model.save('../../data/model/predict_model')
+    print("Saving model...")
+    model.save('../../data/model/predict_model.h5')
     y_score = model.predict(x_test)
 
 
