@@ -4,7 +4,7 @@ Given a video classification model and a video, return an explanation for the pr
 
 ## Getting started
 
-### Prerequisites
+### Dependencies
 
 This project utilises several feature extraction methods and different machine learning frameworks to create the explanations. Additionally, `lime_base` is needed in order to build the explanation model. See [here](https://github.com/marcotcr/lime) for LIME documentation. The required libraries can be installed using `pip`:
 
