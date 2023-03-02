@@ -2,18 +2,19 @@ from lime_video import *
 from mask import *
 import sys
 import argparse
-
+import cv2
 
 def explain_model_prediction(video_path, model, num_features, num_segments, verbose):
     label = 0 #label to explain (0-exciting, 1-funny)
-    n = 15
+    n = 10
+    fake_data_insts = 5
     prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, n, model, verbose, label)
     if verbose:
         print("Frames")
         print(prime_frame, lower_frame, upper_frame)
         print("Creating masks...")
 
-    createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, 20, num_segments, verbose)
+    createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, fake_data_insts, num_segments, verbose)
 
     file = open('segments_and_prime_frame', 'rb')
     segments_and_prime_frame = pickle.load(file)
@@ -39,9 +40,37 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
 
     plt.imsave('exlpanation.jpg', mark_boundaries(prime_frame_img, mask))
 
+
+    print("Calculating fidelity")
+    masked_out = cv2.VideoWriter('masked.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
+    normal_out = cv2.VideoWriter('normal.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
+    mask = np.dstack([mask]*3)
+    mask = np.where((mask==0)|(mask==1), mask^1, mask)
+
+    frames = getSortedFrames()
+    for frame in frames:
+        if lower_frame <= prime_frame <= upper_frame-1:
+            img = cv2.imread('../../data/frames/frame' +str(frame)+ '.jpg')
+            normal_out.write(img)
+            i = (img * mask).clip(0, 255).astype(np.uint8)
+            masked_out.write(i)
+
+    normal_out.release()
+    masked_out.release()
+
+
+    masked_data = load_sample('masked.mp4')
+    normal_data = load_sample('normal.mp4')
+
+    print(predict(masked_data, model))
+    print(predict(normal_data, model))
+
+
+
     # for f in glob.glob():
     #     if f.endswith('mp4'):
     #         print(f)
+
     #         os.remove(f)
 
 
