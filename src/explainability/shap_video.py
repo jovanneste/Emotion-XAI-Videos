@@ -14,7 +14,7 @@ BACKGROUND_SET_NUM = 1
 FEATURES = 5
 
 model = tf.keras.models.load_model('predict_model')
-to_explain = load_sample('vivo_minions_ad.mp4')
+to_explain = load_sample('421.mp4')
 
 print("Creating background set for expectations...")
 background = []

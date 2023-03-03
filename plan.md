@@ -82,4 +82,9 @@ Test data set would contain:
 ## Plan for App
 
 Small flask app with pre computed examples to show in demo paper
-Use bootstrap with github 
+Use bootstrap with github
+
+### 01/03/2023
+
+- Implement SHAP and random for baseline
+- Calculate fidelity and relevance scores
