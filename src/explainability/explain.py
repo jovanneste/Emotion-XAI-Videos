@@ -4,11 +4,12 @@ import sys
 import argparse
 import cv2
 import scipy
+import random
 
 def explain_model_prediction(video_path, model, num_features, num_segments, verbose):
     label = 0 #label to explain (0-exciting, 1-funny)
     n = 10
-    fake_data_insts = 5
+    fake_data_insts = 10
     prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, n, model, verbose, label)
     if verbose:
         print("Frames")
@@ -42,18 +43,18 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
     plt.imsave('exlpanation.jpg', mark_boundaries(prime_frame_img, mask))
 
 
-    print("Calculating fidelity")
+    print("Calculating LIME fidelity")
     masked_out = cv2.VideoWriter('masked.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
     normal_out = cv2.VideoWriter('normal.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
-    mask = np.dstack([mask]*3)
-    mask = np.where((mask==0)|(mask==1), mask^1, mask)
+    mask_3d = np.dstack([mask]*3)
+    mask_lime = np.where((mask_3d==0)|(mask_3d==1), mask_3d^1, mask_3d)
 
     frames = getSortedFrames()
     for frame in frames:
         if lower_frame <= prime_frame <= upper_frame-1:
             img = cv2.imread('../../data/frames/frame' +str(frame)+ '.jpg')
             normal_out.write(img)
-            i = (img * mask).clip(0, 255).astype(np.uint8)
+            i = (img * mask_lime).clip(0, 255).astype(np.uint8)
             masked_out.write(i)
 
     normal_out.release()
@@ -75,11 +76,43 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
 
 
 
-    # for f in glob.glob():
-    #     if f.endswith('mp4'):
-    #         print(f)
+    #---------------------------------------------------------------------------
 
-    #         os.remove(f)
+    print("Calculating random fidelity")
+
+    feature_ids = np.unique(segments)
+    random_features = random.sample(feature_ids, 3)
+    segments_3d = np.dstack([segments]*3)
+
+    mask_random = np.where((segments_3d==random_features[0])|(segments_3d==random_features[1]|(segments_3d==random_features[2])), 1, segments_3d)
+    mask_random = np.where((mask_random!=1), 0, mask_random)
+
+    print(mask_random)
+
+    random_out = cv2.VideoWriter('random.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
+
+    frames = getSortedFrames()
+    for frame in frames:
+        if lower_frame <= prime_frame <= upper_frame-1:
+            img = cv2.imread('../../data/frames/frame' +str(frame)+ '.jpg')
+            i = (img * mask_random).clip(0, 255).astype(np.uint8)
+            random_out.write(i)
+
+
+    random_out.release()
+
+
+    random_data = load_sample('masked.mp4')
+
+    random_result = predict(random_data, model)
+
+    print("Relevance")
+    slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, random_result)
+    print(r_value**2)
+
+    print("Exciting fidelity: " + str(normal_result[0]-random_result[0]))
+    print("Funny fidelity: " + str(normal_result[1]-random_result[1]))
+
 
 
 if __name__=='__main__':
