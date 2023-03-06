@@ -9,7 +9,7 @@ import random
 def explain_model_prediction(video_path, model, num_features, num_segments, verbose):
     label = 0 #label to explain (0-exciting, 1-funny)
     n = 10
-    fake_data_insts = 10
+    fake_data_insts = 20
     prime_frame, lower_frame, upper_frame, frameSize, fps = maskFrames(video_path, n, model, verbose, label)
     if verbose:
         print("Frames")
@@ -17,6 +17,7 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
         print("Creating masks...")
 
     createMaskedVideos(prime_frame, lower_frame, upper_frame-1, fps, frameSize, fake_data_insts, num_segments, verbose)
+    num_frames = upper_frame-lower_frame
 
     file = open('segments_and_prime_frame', 'rb')
     segments_and_prime_frame = pickle.load(file)
@@ -71,23 +72,19 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
     slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, masked_result)
     print(r_value**2)
 
-    print("Exciting fidelity: " + str(normal_result[0]-masked_result[0]))
-    print("Funny fidelity: " + str(normal_result[1]-masked_result[1]))
-
-
+    print("Exciting fidelity: " + str((normal_result[0]-masked_result[0])))
+    print("Funny fidelity: " + str((normal_result[1]-masked_result[1])))
 
     #---------------------------------------------------------------------------
 
     print("Calculating random fidelity")
 
-    feature_ids = np.unique(segments)
+    feature_ids = list(np.unique(segments))
     random_features = random.sample(feature_ids, 3)
     segments_3d = np.dstack([segments]*3)
 
     mask_random = np.where((segments_3d==random_features[0])|(segments_3d==random_features[1]|(segments_3d==random_features[2])), 1, segments_3d)
     mask_random = np.where((mask_random!=1), 0, mask_random)
-
-    print(mask_random)
 
     random_out = cv2.VideoWriter('random.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
 

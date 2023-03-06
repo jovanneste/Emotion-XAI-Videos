@@ -113,6 +113,7 @@ def maskFrames(video_path, n, model, verbose, label):
 def createNeighbourhoodSet(image_path, blocks, perturbed_num, prime_frame, pixel_segments, visualise):
     image = img_as_float(io.imread(image_path))
     segments = slic(image, n_segments=pixel_segments, sigma=5, start_label=1)
+    plt.imshow(mark_boundaries(image, segments))
     segments_and_prime_frame = [segments, prime_frame]
     file = open('segments_and_prime_frame', 'wb')
     pickle.dump(segments_and_prime_frame, file)
