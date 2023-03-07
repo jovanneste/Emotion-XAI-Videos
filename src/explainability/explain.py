@@ -68,7 +68,7 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
     masked_result = predict(masked_data, model)
     normal_result = predict(normal_data, model)
 
-    print("Relevance")
+    print("Stability")
     slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, masked_result)
     print(r_value**2)
 
@@ -103,7 +103,7 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
 
     random_result = predict(random_data, model)
 
-    print("Relevance")
+    print("Stability")
     slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, random_result)
     print(r_value**2)
 
