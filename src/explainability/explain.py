@@ -6,7 +6,7 @@ import cv2
 import scipy
 import random
 
-def explain_model_prediction(video_path, model, num_features, num_segments, verbose):
+def explain_model_prediction(video_path, model, num_features, num_segments, verbose, result):
     label = 0 #label to explain (0-exciting, 1-funny)
     n = 10
     fake_data_insts = 20
@@ -44,7 +44,6 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
     plt.imsave('exlpanation.jpg', mark_boundaries(prime_frame_img, mask))
 
 
-    print("Calculating LIME fidelity")
     masked_out = cv2.VideoWriter('masked.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
     normal_out = cv2.VideoWriter('normal.mp4', cv2.VideoWriter_fourcc('m','p','4','v'), fps, frameSize)
     mask_3d = np.dstack([mask]*3)
@@ -68,16 +67,21 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
     masked_result = predict(masked_data, model)
     normal_result = predict(normal_data, model)
 
-    print("Stability")
-    slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, masked_result)
-    print(r_value**2)
 
+    slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, masked_result)
+
+
+    print()
+    print("Model prediction:", result)
+    print("Explanation for label " + str(label) + " complete - saved as explanation.jpg")
+    print("Stability", r_value**2)
     print("Exciting fidelity: " + str((normal_result[0]-masked_result[0])))
     print("Funny fidelity: " + str((normal_result[1]-masked_result[1])))
+    # print(scipy.stats.pearsonr(video_result, shap_result))
 
     #---------------------------------------------------------------------------
 
-    print("Calculating random fidelity")
+    # print("Calculating random fidelity")
 
     feature_ids = list(np.unique(segments))
     random_features = random.sample(feature_ids, 3)
@@ -103,12 +107,12 @@ def explain_model_prediction(video_path, model, num_features, num_segments, verb
 
     random_result = predict(random_data, model)
 
-    print("Stability")
-    slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, random_result)
-    print(r_value**2)
-
-    print("Exciting fidelity: " + str(normal_result[0]-random_result[0]))
-    print("Funny fidelity: " + str(normal_result[1]-random_result[1]))
+    # print("Stability")
+    # slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(normal_result, random_result)
+    # print(r_value**2)
+    #
+    # print("Exciting fidelity: " + str(normal_result[0]-random_result[0]))
+    # print("Funny fidelity: " + str(normal_result[1]-random_result[1]))
 
 
 
@@ -157,8 +161,8 @@ if __name__=='__main__':
 
     model = keras.models.load_model(argument.model)
     data = load_sample(argument.video)
-    print("Video result", predict(data, model))
+    result = predict(data, model)
 
 
     # parameters: video, model, features to show, pixel segments, verbose
-    explain_model_prediction(argument.video, model, int(argument.features), int(argument.segments), argument.print)
+    explain_model_prediction(argument.video, model, int(argument.features), int(argument.segments), argument.print, result)
