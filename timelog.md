@@ -512,3 +512,113 @@
 * *1 hour* Meeting preparation
 * *0.5 hours* Meeting
 * *1 hour* Meeting write-up
+
+### 23 Feb 2023
+
+### 24 Feb 2023
+
+### 25 Feb 2023
+
+### 26 Feb 2023
+
+## Week 18
+
+### 27 Feb 2023
+
+* *3 hours* Evaluation reseach 
+* *2 hours* Work on dissertation  - background section 
+
+### 28 Feb 2023
+
+* *4 hours* Implement SHAP
+* *4 hours* Fidelity and stability research 
+
+### 01 Mar 2023
+
+* *1 hour* Meeting preparation
+* *0.5 hours* Meeting
+* *1 hour* Meeting write-up
+
+### 02 Mar 2023
+
+* *3 hours* Work on fideleity and stability scores 
+* *2 hours* Work on dissertation  - background section 
+
+### 03 Mar 2023
+
+* *3 hours* New examples 
+* *2 hours* Work on dissertation  - implementation section 
+
+### 04 Mar 2023
+
+* *2 hours* Work on dissertation  - implementation section 
+
+### 05 Mar 2023
+
+* *6 hours* Work on dissertation  - implementationa and design sections
+
+## Week 19
+
+### 06 Mar 2023
+
+* *2 hours* Work on dissertation  - design section 
+
+### 07 Mar 2023
+
+* *4 hours* Fidelity and stability calculations  
+
+### 08 Mar 2023
+
+* *1 hour* Meeting preparation
+* *0.5 hours* Meeting
+
+### 09 Mar 2023
+
+* *4 hours* Work on dissertation  - evaluation section 
+
+### 10 Mar 2023
+
+* *8 hours* Work on dissertation  - introduction and implemntation sections
+
+### 11 Mar 2023
+
+### 12 Mar 2023
+
+## Week 20
+
+### 13 Mar 2023
+
+* *8 hours* Work on dissertation  - evaluation section
+
+### 14 Mar 2023
+
+* *2 hours* Video presentation slides
+
+### 15 Mar 2023
+
+* *6 hours* Work on dissertation  - evaluation and implementation sections
+
+
+### 16 Mar 2023
+
+* *8 hours* Work on dissertation  - design and implementation sections
+
+### 17 Mar 2023
+
+* *2 hours* Work on dissertation  - Implementation sections
+
+### 18 Mar 2023
+
+* *2 hours* Work on dissertation  - Implementation sections
+
+### 19 Mar 2023
+
+## Week 21
+
+### 20 Mar 2023
+
+* *8 hours* Work on dissertation  - background and introduction sections 
+
+### 21 Mar 2023
+
+* *2 hours* Work on dissertation  - conclusion section
