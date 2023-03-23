@@ -610,6 +610,7 @@
 ### 18 Mar 2023
 
 * *2 hours* Work on dissertation  - Implementation sections
+* *2 hours* Work on dissertation  - Look over supervisor comments 
 
 ### 19 Mar 2023
 
@@ -622,3 +623,16 @@
 ### 21 Mar 2023
 
 * *2 hours* Work on dissertation  - conclusion section
+
+### 22 Mar 2023
+
+* *6 hours* Work on dissertation  - bit of everything 
+
+### 23 Mar 2023
+
+* *6 hours* Work on video presentation 
+
+### 23 Mar 2023
+
+* *2 hours* Finishing touches 
+* *0.5 hours* Sumbit :)
