@@ -21,6 +21,10 @@ $ pip install shap
 
 This project contains a simple video classification network using during project development. The model was trained using [Pitts dataset](https://people.cs.pitt.edu/~kovashka/ads/) to classify advertisement videos as exciting or not and funny or not. There are further instructions on setting up this model in the `basicModel/` directory if needed. This model was aggregated with videos from the [internet archive dataset](https://archive.org/detailstelevision) using active learning. The source code and further details can be found in `activeLearningModel.py`.
 
+### Data
+
+This repo omits the *data/* directory. To train the model, Pitts data should be downloaded and stored in this directory alongside the annotations: *video_Exciting_clean.json* and *video_Funny_clean.json*.
+
 
 ### Installing
 
